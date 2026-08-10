@@ -35,7 +35,8 @@ back. That loop is AI mastery; the model brand is only one implementation.
 
 ## 1) Open the campus
 
-**Download:** [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.1-mobile/v4-PORTFOLIO.html.zip)
+**Latest:** `v4.2-mobile` · **431 lessons**  
+**Download:** [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip)
 
 ```bash
 open university/v4-PORTFOLIO.html

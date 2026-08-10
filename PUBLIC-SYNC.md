@@ -1,9 +1,10 @@
 # Public sync
 
-**Campus:** v4.1-mobile · 425 lessons · Aurora portfolio  
-**Curriculum packs:** 25 deep markdown modules  
+**Campus:** v4.2-mobile · 431 lessons · Aurora portfolio (~3.6 MB HTML)  
+**Release assets:** `v4-PORTFOLIO.html.zip` · `AI-LAB-COMPLETE-BROWSER-PACK.zip`  
+**Curriculum packs:** deep markdown modules under `curriculum/`  
 **Labs:** phase1-golden-slice (zero-key)  
-**Last god-mode polish:** 2026-08-06  
+**Last public-doc sync:** 2026-08-10  
 **License:** MIT (see LICENSE + NOTICE.md)  
 **FAQ:** docs/FAQ.md  
 

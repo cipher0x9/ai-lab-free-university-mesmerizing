@@ -1,7 +1,7 @@
 # AI Lab Free University — Curriculum Index
 
 **CYPHER0X9 · cipher0x9/ai-lab-free-university · MIT · offline-first · RTMA**  
-**Campus HTML:** `../university/v4-PORTFOLIO.html` (425 lessons)  
+**Campus HTML:** `../university/v4-PORTFOLIO.html` (431 lessons)  
 **Runnable labs:** `../phase1-golden-slice/` (zero-key Phase 1)
 
 Self-contained technical packs. All links are **relative** for GitHub and offline clones.

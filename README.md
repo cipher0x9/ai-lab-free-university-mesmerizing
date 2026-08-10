@@ -146,7 +146,7 @@ bash scripts/verify_slice.sh   # optional
 Voice / collaboration / Contact Center · multi-vendor · LICC  
 
 - https://github.com/cipher0x9/uc-lab-free-university  
-- https://github.com/cipher0x9/uc-lab-free-university/releases/download/v17.1-mobile/v17-UNIVERSITY.html.zip  
+- https://github.com/cipher0x9/uc-lab-free-university/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip  
 
 ---
 
@@ -175,7 +175,7 @@ Hub: [linktr.ee/cyphermonkey](https://linktr.ee/cyphermonkey)
 
 ## 🌈 Next-level engineering runway
 
-The original **425 lessons remain intact** and now carry a Builder Lens, migration
+The original **425 lessons remain intact** (431 lessons in today's campus) and now carry a Builder Lens, migration
 ladder, extended RTMA card, teach-back check, and review cadence:
 **1 hour → 24 hours → 7 days → 30 days → 90 days**.
 

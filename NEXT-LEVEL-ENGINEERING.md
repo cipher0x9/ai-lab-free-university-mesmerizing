@@ -4,7 +4,7 @@
 **Spine:** learn while building, prove as you go.  
 **Evidence:** RTMA — Run · Trace · Metric · Artifact.
 
-This is the bridge from the 425-lesson campus to a 90-day engineering practice.
+This is the bridge from the 431-lesson campus to a 90-day engineering practice.
 It is vendor-neutral, offline-readable, and designed to produce a portfolio of
 reproducible evidence rather than a folder of screenshots.
 
