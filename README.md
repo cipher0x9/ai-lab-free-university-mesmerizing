@@ -61,6 +61,21 @@ model or frontier API only when the next experiment needs it.
 | **[Next-Level Engineering](./NEXT-LEVEL-ENGINEERING.md)** | Production RAG, bounded agents, eval harnesses, voice budgets, and migration gates |
 | **Zero-key labs 06–08** | RAG ablation, visible agent correction, and stage-by-stage voice latency evidence |
 
+<p align="center">
+  <img src="./docs/assets/preview.png" alt="AI Lab Free University - aurora campus with constellation chart" width="100%"/>
+</p>
+
+---
+
+## ✨ Latest build — v4.2 mesmerizing edition
+
+- **Campus Constellation** — 18-division animated chart; click any bar to filter the whole campus
+- **Live progress ring** in the sidebar, synced with your studied lessons
+- **9 visual themes** with a swatch gallery — Aurora · Night · Day · Paper · Rose · Ember · Mint · Amber · Ocean
+- **Export center** — HTML · PDF · Markdown · progress JSON · resource CSV, 100% offline
+- **Keyboard-first** — ⌘K search · ⌘B sidebar · ⌘D theme · ⌘E export · ←/→ switch views
+- One heavy single file: `university/v4-PORTFOLIO.html` — 431 lessons · 1056 resource links · zero CDN
+
 ---
 
 ## Why this exists
