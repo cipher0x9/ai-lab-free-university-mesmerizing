@@ -12,8 +12,8 @@ Free for learning · Educational only · MIT · no warranty
 
 | What | Size (approx) | Link |
 |------|----------------|------|
-| **Campus zip** | **~560 KB** zip → ~3.6 MB HTML | https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip |
-| Release page | — | https://github.com/cipher0x9/ai-lab-free-university/releases/tag/v4.2-mobile |
+| **Campus zip** | **~560 KB** zip → ~3.6 MB HTML | https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip |
+| Release page | — | https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/tag/v4.2-mobile |
 | HTML in repo | ~3.6 MB | [`university/v4-PORTFOLIO.html`](./university/v4-PORTFOLIO.html) |
 
 **Open:** download → unzip → open `v4-PORTFOLIO.html` in **Chrome / Safari / Edge / Firefox** (full browser).  
@@ -24,7 +24,7 @@ Built-in **export center** can save study packs as HTML / PDF / Markdown / JSON 
 
 | What | Size | Link |
 |------|------|------|
-| Complete browser pack (v4 + v3 + v1) | ~725 KB | https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip |
+| Complete browser pack (v4 + v3 + v1) | ~725 KB | https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip |
 
 ---
 
@@ -42,7 +42,7 @@ Full steps: [HOW-TO-GET.md](./HOW-TO-GET.md) · [START-HERE.md](./START-HERE.md)
 ## Clone + optional labs
 
 ```bash
-git clone https://github.com/cipher0x9/ai-lab-free-university.git
+git clone https://github.com/cipher0x9/ai-lab-free-university-mesmerizing.git
 cd ai-lab-free-university
 open university/v4-PORTFOLIO.html
 bash scripts/verify_slice.sh   # optional · Python 3 · no API keys for Phase 1
@@ -54,8 +54,8 @@ bash scripts/verify_slice.sh   # optional · Python 3 · no API keys for Phase 1
 
 | What | Link |
 |------|------|
-| 🌿 UC Lab repo | https://github.com/cipher0x9/uc-lab-free-university |
-| 🌿 UC campus zip | https://github.com/cipher0x9/uc-lab-free-university/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip |
+| 🌿 UC Lab repo | https://github.com/cipher0x9/uc-lab-free-university-mesmerizing |
+| 🌿 UC campus zip | https://github.com/cipher0x9/uc-lab-free-university-mesmerizing/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip |
 | 🎓 Ardham Shastra repo | https://github.com/cipher0x9/ardham-shastra |
 | 🎓 Ardham campus zip | https://github.com/cipher0x9/ardham-shastra/releases/download/v5-mastery/v1-ARDHAM-SHASTRA.html.zip |
 

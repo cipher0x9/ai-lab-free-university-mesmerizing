@@ -8,15 +8,15 @@
 
 ## Recommended ⭐
 
-1. https://github.com/cipher0x9/ai-lab-free-university/releases/tag/v4.2-mobile  
+1. https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/tag/v4.2-mobile  
 2. Download **`v4-PORTFOLIO.html.zip`**  
 3. Unzip → open **`v4-PORTFOLIO.html`** in **Chrome / Safari / Edge / Firefox**
 
 Direct:  
-https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip
+https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip
 
 Optional: **AI-LAB-COMPLETE-BROWSER-PACK.zip** (v4 + v3 + v1 HTML files)  
-https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip
+https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip
 
 ---
 
@@ -32,7 +32,7 @@ https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobil
 ## Clone + optional labs
 
 ```bash
-git clone https://github.com/cipher0x9/ai-lab-free-university.git
+git clone https://github.com/cipher0x9/ai-lab-free-university-mesmerizing.git
 cd ai-lab-free-university
 open university/v4-PORTFOLIO.html
 bash scripts/verify_slice.sh
@@ -42,8 +42,8 @@ bash scripts/verify_slice.sh
 
 ## Sibling campuses
 
-🌿 UC Lab: https://github.com/cipher0x9/uc-lab-free-university  
-Campus zip: https://github.com/cipher0x9/uc-lab-free-university/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip  
+🌿 UC Lab: https://github.com/cipher0x9/uc-lab-free-university-mesmerizing  
+Campus zip: https://github.com/cipher0x9/uc-lab-free-university-mesmerizing/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip  
 
 🎓 Ardham Shastra: https://github.com/cipher0x9/ardham-shastra  
 Campus zip: https://github.com/cipher0x9/ardham-shastra/releases/download/v5-mastery/v1-ARDHAM-SHASTRA.html.zip  
