@@ -68,6 +68,6 @@ Measure **each stage** (lab 08). Never report only "end-to-end vibes."
 
 ## 7) Sibling
 
-Deep SIP/SBC/CC: [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university)
+Deep SIP/SBC/CC: [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing)
 
 **Educational only · MIT**

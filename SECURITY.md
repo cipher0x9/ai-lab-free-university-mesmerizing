@@ -30,8 +30,8 @@ Do not commit model blobs (`.gguf`, large bin files). Document pull commands ins
 | | |
 |--|--|
 | Profile | https://github.com/cipher0x9 |
-| This repo | https://github.com/cipher0x9/ai-lab-free-university |
-| Sibling UC | https://github.com/cipher0x9/uc-lab-free-university |
+| This repo | https://github.com/cipher0x9/ai-lab-free-university-mesmerizing |
+| Sibling UC | https://github.com/cipher0x9/uc-lab-free-university-mesmerizing |
 | Hub | https://linktr.ee/cyphermonkey |
 
 ## Agent and RAG threat boundary

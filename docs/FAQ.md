@@ -8,7 +8,7 @@ A free, offline AI campus: browser HTML lessons, mentor schools, deep curriculum
 
 ## How do I start in 60 seconds?
 
-Download [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip), unzip, open `v4-PORTFOLIO.html` in a full browser.
+Download [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip), unzip, open `v4-PORTFOLIO.html` in a full browser.
 
 Latest tag: **`v4.2-mobile`** · **431 lessons** · ~3.6 MB HTML.
 
@@ -38,7 +38,7 @@ No. Students, career-changers, founders, teachers, and domain experts are first-
 
 ## Sibling campuses?
 
-- 🌿 [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university) · zip: [v20.2-resources](https://github.com/cipher0x9/uc-lab-free-university/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip)
+- 🌿 [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing) · zip: [v20.2-resources](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip)
 - 🎓 [Ardham Shastra](https://github.com/cipher0x9/ardham-shastra) · zip: [v5-mastery](https://github.com/cipher0x9/ardham-shastra/releases/download/v5-mastery/v1-ARDHAM-SHASTRA.html.zip)
 
 ## Safety?

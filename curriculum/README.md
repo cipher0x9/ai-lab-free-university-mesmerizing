@@ -1,6 +1,6 @@
 # AI Lab Free University — Curriculum Index
 
-**CYPHER0X9 · cipher0x9/ai-lab-free-university · MIT · offline-first · RTMA**  
+**CYPHER0X9 · cipher0x9/ai-lab-free-university-mesmerizing · MIT · offline-first · RTMA**  
 **Campus HTML:** `../university/v4-PORTFOLIO.html` (431 lessons)  
 **Runnable labs:** `../phase1-golden-slice/` (zero-key Phase 1)
 
@@ -60,7 +60,7 @@ ML foundations → LLM systems → RAG/agents → evals/safety → ops → caree
 
 ## Siblings
 
-- 🌿 [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university)  
+- 🌿 [UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing)  
 - 🎓 [Ardham Shastra](https://github.com/cipher0x9/ardham-shastra)  
 
 FAQ: [../docs/FAQ.md](../docs/FAQ.md) · Field guide: [../NEXT-LEVEL-ENGINEERING.md](../NEXT-LEVEL-ENGINEERING.md)

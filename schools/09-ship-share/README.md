@@ -21,7 +21,7 @@ Learn how to **share learning work** without leaking secrets or confusing friend
 - [SECURITY.md](../../SECURITY.md)  
 - [HOW-TO-GET.md](../../HOW-TO-GET.md)  
 - [SIBLINGS.md](../../SIBLINGS.md)  
-- Sibling UC Lab: https://github.com/cipher0x9/uc-lab-free-university  
+- Sibling UC Lab: https://github.com/cipher0x9/uc-lab-free-university-mesmerizing  
 
 ## RTMA check
 

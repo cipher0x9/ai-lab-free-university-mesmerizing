@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip"><img src="https://img.shields.io/badge/⬇_Download-Campus_zip-6366F1?style=for-the-badge&labelColor=0B1220" alt="Download"/></a>
-  <a href="https://github.com/cipher0x9/uc-lab-free-university"><img src="https://img.shields.io/badge/🌿_Sibling-UC_Lab_Free-0F9B8E?style=for-the-badge&labelColor=0B1220" alt="UC Lab"/></a>
+  <a href="https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip"><img src="https://img.shields.io/badge/⬇_Download-Campus_zip-6366F1?style=for-the-badge&labelColor=0B1220" alt="Download"/></a>
+  <a href="https://github.com/cipher0x9/uc-lab-free-university-mesmerizing"><img src="https://img.shields.io/badge/🌿_Sibling-UC_Lab_Free-0F9B8E?style=for-the-badge&labelColor=0B1220" alt="UC Lab"/></a>
   <a href="https://linktr.ee/cyphermonkey"><img src="https://img.shields.io/badge/🔗_Hub-Linktree-E8820C?style=for-the-badge&labelColor=0B1220" alt="Linktree"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-159947?style=for-the-badge&labelColor=0B1220" alt="MIT"/></a>
 </p>
@@ -72,7 +72,7 @@ I got tired of feeling lost between tools, jokes I did not understand, and advic
 So I built a free campus for people like me: curious, practical, evidence-first — not gatekept.
 
 Sibling free campuses:  
-🌿 **[UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university)** · 🎓 **[Ardham Shastra](https://github.com/cipher0x9/ardham-shastra)**
+🌿 **[UC Lab Free University](https://github.com/cipher0x9/uc-lab-free-university-mesmerizing)** · 🎓 **[Ardham Shastra](https://github.com/cipher0x9/ardham-shastra)**
 
 If this helps even one person walk from confusion to calm practice, it was worth sharing.
 
@@ -84,7 +84,7 @@ If this helps even one person walk from confusion to calm practice, it was worth
 
 ### ⭐ Download the campus zip
 
-**→ [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip)**
+**→ [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip)**
 
 1. Download  
 2. Unzip  
@@ -93,7 +93,7 @@ If this helps even one person walk from confusion to calm practice, it was worth
 **Default theme: Aurora Dream** · Offline · No account · No API keys to read the campus  
 
 Optional multi-campus pack:  
-**[AI-LAB-COMPLETE-BROWSER-PACK.zip](https://github.com/cipher0x9/ai-lab-free-university/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip)**  
+**[AI-LAB-COMPLETE-BROWSER-PACK.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip)**  
 (includes v4 portfolio + v3 lifetime + v1 slice)
 
 ### How to open
@@ -133,7 +133,7 @@ Optional multi-campus pack:
 ## Optional labs
 
 ```bash
-git clone https://github.com/cipher0x9/ai-lab-free-university.git
+git clone https://github.com/cipher0x9/ai-lab-free-university-mesmerizing.git
 cd ai-lab-free-university
 open university/v4-PORTFOLIO.html
 bash scripts/verify_slice.sh   # optional
@@ -145,8 +145,8 @@ bash scripts/verify_slice.sh   # optional
 
 Voice / collaboration / Contact Center · multi-vendor · LICC  
 
-- https://github.com/cipher0x9/uc-lab-free-university  
-- https://github.com/cipher0x9/uc-lab-free-university/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip  
+- https://github.com/cipher0x9/uc-lab-free-university-mesmerizing  
+- https://github.com/cipher0x9/uc-lab-free-university-mesmerizing/releases/download/v20.2-resources/v17-UNIVERSITY.html.zip  
 
 ---
 
