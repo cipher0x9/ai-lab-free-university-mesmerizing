@@ -192,11 +192,7 @@ html[data-theme=warm] pre,html[data-theme=forest] pre{background:#1a1520;color:#
     <section class="section" id="slice" data-search="golden slice vertical path verify">
       <h2><span class="dot" style="background:var(--a3)"></span> Golden vertical slice</h2>
       <p class="lead"><strong>local hello → tool call → eval of 10 questions → GREEN pack</strong></p>
-      <pre>cd AI-LAB-FREE-SHARE
-bash scripts/verify_slice.sh
-
-# or step by step
-cd phase1-golden-slice
+      <pre># step by step
 python3 lab/01_local_hello.py
 python3 lab/02_tool_call.py
 python3 lab/03_run_eval.py</pre>
@@ -220,7 +216,7 @@ python3 lab/03_run_eval.py</pre>
         <ul>
           <li>Probe <code class="mono">http://127.0.0.1:11434</code></li>
           <li>Generate a short RTMA explanation</li>
-          <li>Artifact under <code class="mono">phase1-golden-slice/artifacts/</code></li>
+          <li>Artifact under <code class="mono">artifacts/</code></li>
         </ul>
       </div>
       <div class="card" style="margin-bottom:12px">
@@ -339,7 +335,7 @@ python3 lab/03_run_eval.py</pre>
   });
 
   const items=[
-    'I ran verify_slice.sh (or labs 01–03)',
+    'I ran labs 01–03',
     'I opened at least one artifacts/*.json',
     'I opened reports/golden10-report.md',
     'I can explain Run without notes',
