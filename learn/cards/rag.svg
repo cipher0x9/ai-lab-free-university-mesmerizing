@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 910" width="900" height="910" role="img">
+<title>Study card: Retrieval-augmented generation</title>
+<desc>RAG retrieves passages from a corpus and asks the model to answer with those passages in view (Lewis et al., 2020).</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#eaf2fc"/>
+<stop offset="1" stop-color="#d5e4f8"/>
+</linearGradient>
+</defs>
+<rect width="900" height="910" rx="40" fill="url(#bg)"/>
+<rect x="36" y="36" width="828" height="838" rx="32" fill="#fffdf8"/>
+<rect x="36" y="36" width="14" height="838" fill="#163a6b"/>
+<text x="72" y="92" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#163a6b">STUDY CARD 04 · THE CORPUS</text>
+<text x="72" y="150" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">Retrieval-augmented</text>
+<text x="72" y="208" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">generation</text>
+<text x="72" y="278" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">Retrieve first. Generate from what came</text>
+<text x="72" y="312" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">back. Point at it.</text>
+<circle cx="96" cy="408" r="18" fill="#163a6b"/><text x="96" y="414" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text>
+<text x="132" y="404" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Ingest, chunk, embed, and index before any</text>
+<text x="132" y="434" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">question is asked.</text>
+<circle cx="96" cy="494" r="18" fill="#163a6b"/><text x="96" y="500" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text>
+<text x="132" y="490" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Embed the query with the same model that built</text>
+<text x="132" y="520" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">the index.</text>
+<circle cx="96" cy="580" r="18" fill="#163a6b"/><text x="96" y="586" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text>
+<text x="132" y="576" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Rerank a short list; do not cross-encode the</text>
+<text x="132" y="606" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">whole corpus.</text>
+<circle cx="96" cy="666" r="18" fill="#163a6b"/><text x="96" y="672" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text>
+<text x="132" y="662" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Hybrid search keeps a lexical path beside the</text>
+<text x="132" y="692" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">vector path.</text>
+<circle cx="96" cy="752" r="18" fill="#163a6b"/><text x="96" y="758" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text>
+<text x="132" y="748" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">If the passages are silent, the honest answer</text>
+<text x="132" y="778" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">says so.</text>
+<line x1="72" y1="364" x2="828" y2="364" stroke="#163a6b" stroke-width="2" opacity="0.45"/>
+<text x="72" y="858" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#3a4858">AI Lab Free University · Fundamentals · vendor-neutral notes</text>
+</svg>

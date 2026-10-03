@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>RAG and agent-loop diagrams</title>
+<meta name="description" content="A retrieval-augmented generation pipeline and an agent loop with a stop condition.">
+<style>
+
+:root {
+  --ink: #1b2430;
+  --muted: #3a4858;
+  --paper: #f4f0e7;
+  --card: #fffdf8;
+  --line: #e3d6c6;
+  --link: #143e70;
+  --good-bg: #e5f6ea;
+  --good-ink: #14532d;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --shadow: 0 12px 32px rgba(72, 52, 28, 0.08);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --max: 46rem;
+  --wide: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at -10% -10%, #efe4f8 0%, transparent 55%),
+    radial-gradient(900px 480px at 110% -8%, #d7f1ea 0%, transparent 52%),
+    radial-gradient(800px 420px at 50% 120%, #fde6d2 0%, transparent 50%),
+    var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+a { color: var(--link); text-underline-offset: 0.16em; }
+a:hover { color: #0c2c52; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+.skip {
+  position: absolute; left: 1rem; top: -4rem;
+  background: #143e70; color: #fff; padding: 0.6rem 0.9rem; border-radius: 8px;
+  z-index: 5;
+}
+.skip:focus { top: 0.6rem; color: #fff; }
+.wrap { width: min(var(--wide), calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; padding: 0.85rem 0 0.4rem;
+}
+.brand {
+  font-family: var(--sans); font-weight: 700; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); font-size: 1rem;
+}
+.brand span { color: #5b4b8a; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.top nav a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  color: var(--ink); min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0.15rem 0.7rem; border-radius: 999px;
+}
+.top nav a[aria-current="page"] { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ribbon { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.2rem 0 1rem; }
+.ribbon i { display: block; flex: 1; }
+.kicker {
+  font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #5c3d78; margin: 0 0 0.4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3.15rem); margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 0.55rem; }
+h3 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+p { margin: 0.55rem 0; }
+.lede { font-size: 1.28rem; max-width: 40rem; color: var(--ink); }
+.muted { color: var(--muted); }
+.panel, .card, article.term, .qcard, .step, .sheet section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.panel { padding: 1.15rem 1.2rem 1.2rem; }
+.grid { display: grid; gap: 0.9rem; }
+.grid.links { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+a.tile {
+  display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 1rem 1.05rem; min-height: 8.5rem;
+  box-shadow: var(--shadow);
+}
+a.tile:hover { border-color: #c9b8a4; }
+a.tile strong { font-size: 1.2rem; }
+a.tile span { color: var(--muted); font-size: 1rem; }
+a.tile img { width: 100%; height: 168px; object-fit: cover; object-position: top center; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+a.btn.ghost, button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+[hidden] { display: none !important; }
+.diagram { margin: 0.6rem 0 1rem; }
+.diagram svg { width: min(100%, 640px); height: auto; display: block; }
+.meta {
+  font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #5c3d78;
+}
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; background: #f7f1e6; }
+.narrow { max-width: var(--max); }
+.stack > * + * { margin-top: 1rem; }
+.concept { display: grid; gap: 1rem; margin: 2.2rem 0; }
+@media (min-width: 900px) {
+  .concept { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .concept figure { position: sticky; top: 0.6rem; }
+}
+.concept .body { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.15rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.92rem; margin-top: 0.4rem; }
+ol, ul { padding-left: 1.2rem; }
+li { margin: 0.28rem 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; list-style: none; }
+.toc a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 0.75rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+.call { border-left: 6px solid #7c6aa5; }
+.sources { font-size: 1.02rem; }
+footer.site {
+  margin: 2.5rem 0 2rem; color: var(--muted); font-size: 0.98rem;
+}
+.flow-svg { width: min(100%, 880px); height: auto; display: block; margin: 0.5rem auto; background: transparent; }
+.steps { display: grid; gap: 0.7rem; }
+.step { padding: 0.85rem 1rem; }
+.step b { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5c3d78; }
+.searchrow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; }
+label.field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--sans); font-size: 0.92rem; flex: 1; min-width: 16rem; }
+input[type="search"], select {
+  font: 1.05rem var(--serif); color: var(--ink); background: #fff;
+  border: 1px solid #cbbba8; border-radius: 12px; padding: 0.7rem 0.8rem; min-height: 44px; width: 100%;
+}
+.letters { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.4rem 0 0.2rem; }
+.letters a {
+  font-family: var(--sans); text-decoration: none; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 10px;
+}
+article.term { padding: 0.9rem 1rem 1rem; margin: 0.55rem 0; }
+article.term h3 { font-size: 1.2rem; }
+.letterhead { margin: 1.4rem 0 0.3rem; font-family: var(--sans); }
+button, .btn {
+  font-family: var(--sans); font-size: 1rem; min-height: 44px;
+  border-radius: 12px; border: 1px solid #143e70; background: #143e70; color: #fff;
+  padding: 0.45rem 0.95rem; cursor: pointer;
+}
+button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.choice {
+  display: flex; gap: 0.75rem; align-items: flex-start; text-align: left;
+  width: 100%; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.8rem 0.9rem; margin: 0.4rem 0; cursor: pointer;
+}
+.choice[aria-checked="true"] { border-color: #143e70; background: #f2f6fb; }
+.choice.right { border-color: #14532d; background: var(--good-bg); }
+.choice.wrong { border-color: #7f1d1d; background: var(--bad-bg); }
+.feedback { padding: 0.85rem 1rem; border-radius: 14px; margin-top: 0.6rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-ink); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.bar { height: 10px; background: #efe6da; border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #5b4b8a; width: 0; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.scorebig { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; letter-spacing: -0.03em; }
+.sheet { max-width: 52rem; }
+.sheet section { padding: 0.85rem 1rem; margin: 0.7rem 0; box-shadow: none; }
+.cols { display: grid; gap: 0.7rem; }
+@media (min-width: 800px) { .cols.two { grid-template-columns: 1fr 1fr; } }
+.tiny { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .top, .ribbon, .skip, .noprint, footer.site { display: none !important; }
+  .panel, .card, .sheet section, article.term, .step, a.tile { box-shadow: none; }
+  a { text-decoration: none; }
+  .sheet section, .step, article.term { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">AI Lab <span>Fundamentals</span></a>
+<nav aria-label="Guide"><a href="index.html">Home</a><a href="cards.html">Cards</a><a href="flows.html" aria-current="page">Flows</a><a href="quiz.html">Quiz</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat sheet</a></nav>
+</header>
+<div class="ribbon" aria-hidden="true"><i style="background:#3d2a6d"></i><i style="background:#6b3418"></i><i style="background:#0f4f48"></i><i style="background:#163a6b"></i><i style="background:#6d2340"></i><i style="background:#6b4a0a"></i><i style="background:#14532d"></i></div>
+<main id="content">
+
+<p class="kicker">Diagrams</p>
+<h1>Two flows to trace with a finger</h1>
+<p class="lede">Read the list first. Then follow the same steps in the picture. On a phone the list stays at full reading size. The picture scales with the screen.</p>
+<h2 id="rag">RAG pipeline</h2>
+<p>Retrieval-augmented generation prepares a corpus, then answers a question from what retrieval returned (Lewis et al., 2020). Use one embedding model at index time and at query time.</p>
+<ol class="steps"><li class="step"><b>Step 1</b><h3>Ingest</h3><p>Accept the document, its source, its date, and who may read it. Keep the original passage. A vector does not replace it.</p></li><li class="step"><b>Step 2</b><h3>Chunk</h3><p>Split the document into passages you can return on their own. Overlap the edges so a cut sentence survives in one chunk.</p></li><li class="step"><b>Step 3</b><h3>Embed</h3><p>Map each chunk with a single embedding model. Record that model’s name. Another model is another space.</p></li><li class="step"><b>Step 4</b><h3>Index</h3><p>Store the vector, the passage, and the filter fields. An exact scan is honest. Approximate search is a measured trade.</p></li><li class="step"><b>Step 5</b><h3>Retrieve</h3><p>Embed the query the same way and take the top k. A lexical ranker such as BM25 can run beside the vectors.</p></li><li class="step"><b>Step 6</b><h3>Rerank</h3><p>Rescore the short list, often with a cross-encoder. Spend that cost on dozens of hits, not on the whole corpus.</p></li><li class="step"><b>Step 7</b><h3>Generate</h3><p>Answer from the question and the passages you kept. If those passages are silent, say that they are silent.</p></li><li class="step"><b>Step 8</b><h3>Cite</h3><p>Point each material claim at a retrieved passage. A pointer still has to be checked against the words it names.</p></li></ol>
+<p class="noprint"><a href="flows/rag-pipeline.svg">Download the RAG diagram (SVG)</a></p>
+<div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 1438" width="640" height="1438" role="img">
+<title>RAG pipeline</title>
+<desc>Ingest, chunk, embed, index, retrieve, rerank, generate, and cite.</desc>
+<defs>
+<linearGradient id="rag-bg" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#eaf2fc"/>
+<stop offset="1" stop-color="#f6f1e8"/>
+</linearGradient>
+<marker id="rag-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#163a6b"/>
+</marker>
+</defs>
+<rect width="640" height="1438" rx="32" fill="url(#rag-bg)"/>
+<text x="36" y="58" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="2.5" fill="#163a6b">FLOW</text>
+<text x="36" y="100" font-family="Palatino, Georgia, serif" font-size="36" fill="#1b2430">RAG pipeline</text>
+<text x="36" y="136" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Same embedding model when you index and when you ask.</text>
+<rect x="36" y="168" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="208" r="20" fill="#163a6b"/><text x="78" y="214" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text><text x="112" y="214" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Ingest</text><text x="56" y="252" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Accept the document, its source, its date, and who may read it.</text><text x="56" y="278" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Keep the original passage. A vector does not replace it.</text><line x1="320" y1="300" x2="320" y2="318" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="318" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="358" r="20" fill="#163a6b"/><text x="78" y="364" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text><text x="112" y="364" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Chunk</text><text x="56" y="402" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Split the document into passages you can return on their own.</text><text x="56" y="428" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Overlap the edges so a cut sentence survives in one chunk.</text><line x1="320" y1="450" x2="320" y2="468" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="468" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="508" r="20" fill="#163a6b"/><text x="78" y="514" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text><text x="112" y="514" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Embed</text><text x="56" y="552" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Map each chunk with a single embedding model.</text><text x="56" y="578" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Record that model’s name. Another model is another space.</text><line x1="320" y1="600" x2="320" y2="618" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="618" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="658" r="20" fill="#163a6b"/><text x="78" y="664" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text><text x="112" y="664" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Index</text><text x="56" y="702" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Store the vector, the passage, and the filter fields.</text><text x="56" y="728" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">An exact scan is honest. Approximate search is a measured trade.</text><line x1="320" y1="750" x2="320" y2="768" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="768" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="808" r="20" fill="#163a6b"/><text x="78" y="814" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text><text x="112" y="814" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Retrieve</text><text x="56" y="852" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Embed the query the same way and take the top k.</text><text x="56" y="878" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">A lexical ranker such as BM25 can run beside the vectors.</text><line x1="320" y1="900" x2="320" y2="918" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="918" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="958" r="20" fill="#163a6b"/><text x="78" y="964" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">6</text><text x="112" y="964" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Rerank</text><text x="56" y="1002" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Rescore the short list, often with a cross-encoder.</text><text x="56" y="1028" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Spend that cost on dozens of hits, not on the whole corpus.</text><line x1="320" y1="1050" x2="320" y2="1068" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="1068" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="1108" r="20" fill="#163a6b"/><text x="78" y="1114" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">7</text><text x="112" y="1114" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Generate</text><text x="56" y="1152" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Answer from the question and the passages you kept.</text><text x="56" y="1178" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">If those passages are silent, say that they are silent.</text><line x1="320" y1="1200" x2="320" y2="1218" stroke="#163a6b" stroke-width="3" marker-end="url(#rag-arrow)"/><rect x="36" y="1218" width="568" height="132" rx="22" fill="#fffdf8" stroke="#163a6b" stroke-opacity="0.35"/><circle cx="78" cy="1258" r="20" fill="#163a6b"/><text x="78" y="1264" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">8</text><text x="112" y="1264" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Cite</text><text x="56" y="1302" font-family="Palatino, Georgia, serif" font-size="18" fill="#1b2430">Point each material claim at a retrieved passage.</text><text x="56" y="1328" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">A pointer still has to be checked against the words it names.</text>
+<text x="36" y="1402" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="14" fill="#3a4858">AI Lab Free University · Fundamentals</text>
+</svg>
+</div>
+<h2 id="agent">Agent loop</h2>
+<p>The loop is plan, act with tools, observe, reflect, and stop. ReAct (Yao et al., 2023) is one published way to interleave a reasoning note with an action. The host executes tools. The return arrow means the goal is not met yet and the budget is still open.</p>
+<ol class="steps"><li class="step"><b>Step 1</b><h3>Plan</h3><p>Name the goal, the constraint, and what done means.</p></li><li class="step"><b>Step 2</b><h3>Act with tools</h3><p>The model proposes a call. The host checks it, then runs it.</p></li><li class="step"><b>Step 3</b><h3>Observe</h3><p>Record the result, including errors and empty answers.</p></li><li class="step"><b>Step 4</b><h3>Reflect</h3><p>Compare the result with the goal. Keep the plan, revise it, or stop.</p></li></ol>
+<div class="panel">
+<p><strong>Stop condition.</strong> End the loop when the goal is met, a step or cost budget is spent, the same error repeats, or the next action needs a person. A loop that waits for the model to feel finished does not have a stop.</p>
+</div>
+<p class="noprint"><a href="flows/agent-loop.svg">Download the agent-loop diagram (SVG)</a></p>
+<div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1180" width="720" height="1180" role="img">
+<title>Agent loop</title>
+<desc>Plan, act with tools, observe, reflect, and stop. If the goal is not met, continue from the plan.</desc>
+<defs>
+<linearGradient id="agent-bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#fdeef3"/>
+<stop offset="1" stop-color="#f6f1e8"/>
+</linearGradient>
+<marker id="agent-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 1 L 8 5 L 0 9 z" fill="#6d2340"/>
+</marker>
+</defs>
+<rect width="720" height="1180" rx="32" fill="url(#agent-bg)"/>
+<text x="40" y="52" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="2.5" fill="#6d2340">FLOW</text>
+<text x="40" y="98" font-family="Palatino, Georgia, serif" font-size="36" fill="#1b2430">Agent loop</text>
+<text x="40" y="136" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">The model proposes. The host runs the tool. The loop has a stop.</text>
+<rect x="168" y="180" width="500" height="112" rx="22" fill="#fffdf8" stroke="#6d2340" stroke-opacity="0.35"/><circle cx="214" cy="236" r="22" fill="#6d2340"/><text x="214" y="242" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text><text x="252" y="228" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Plan</text><text x="252" y="260" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Name the goal and what done means.</text><rect x="168" y="330" width="500" height="112" rx="22" fill="#fffdf8" stroke="#6d2340" stroke-opacity="0.35"/><circle cx="214" cy="386" r="22" fill="#6d2340"/><text x="214" y="392" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text><text x="252" y="378" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Act with tools</text><text x="252" y="410" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">The host checks the call, then runs it.</text><rect x="168" y="480" width="500" height="112" rx="22" fill="#fffdf8" stroke="#6d2340" stroke-opacity="0.35"/><circle cx="214" cy="536" r="22" fill="#6d2340"/><text x="214" y="542" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text><text x="252" y="528" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Observe</text><text x="252" y="560" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Write down the result, including errors.</text><rect x="168" y="630" width="500" height="112" rx="22" fill="#fffdf8" stroke="#6d2340" stroke-opacity="0.35"/><circle cx="214" cy="686" r="22" fill="#6d2340"/><text x="214" y="692" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text><text x="252" y="678" font-family="Palatino, Georgia, serif" font-size="26" fill="#1b2430">Reflect</text><text x="252" y="710" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Does this meet the goal?</text><line x1="418" y1="292" x2="418" y2="330" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><line x1="418" y1="442" x2="418" y2="480" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><line x1="418" y1="592" x2="418" y2="630" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><line x1="418" y1="742" x2="418" y2="788" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><rect x="168" y="788" width="500" height="118" rx="22" fill="#fff6ea" stroke="#6d2340"/><text x="192" y="828" font-family="Palatino, Georgia, serif" font-size="24" fill="#1b2430">Stop condition</text><text x="192" y="860" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">Goal met, budget spent, error repeated,</text><text x="192" y="886" font-family="Palatino, Georgia, serif" font-size="18" fill="#3a4858">or a person must approve.</text><line x1="418" y1="906" x2="418" y2="948" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><rect x="168" y="948" width="500" height="78" rx="22" fill="#14532d"/><text x="418" y="994" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" fill="#ffffff">Stop</text><path d="M168 686 H92 V236 H168" fill="none" stroke="#6d2340" stroke-width="3" marker-end="url(#agent-arrow)"/><text x="28" y="470" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="14" fill="#6d2340" transform="rotate(-90 48 470)">Not done · continue</text>
+<text x="40" y="1128" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="14" fill="#3a4858">AI Lab Free University · Fundamentals</text>
+</svg>
+</div>
+
+</main>
+<footer class="site">
+<p>AI Lab Free University · Fundamentals study guide</p>
+<p>Educational notes on widely published ideas. Not a certification, a vendor manual, or a warranty.</p>
+<p>The quiz stores progress in this browser with localStorage. These pages do not send answers anywhere.</p>
+</footer>
+</div>
+</body>
+</html>

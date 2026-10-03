@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>AI engineering fundamentals</title>
+<meta name="description" content="Offline study guide to language models, tokens, embeddings, RAG, agents, tools, MCP, and evaluation.">
+<style>
+
+:root {
+  --ink: #1b2430;
+  --muted: #3a4858;
+  --paper: #f4f0e7;
+  --card: #fffdf8;
+  --line: #e3d6c6;
+  --link: #143e70;
+  --good-bg: #e5f6ea;
+  --good-ink: #14532d;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --shadow: 0 12px 32px rgba(72, 52, 28, 0.08);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --max: 46rem;
+  --wide: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at -10% -10%, #efe4f8 0%, transparent 55%),
+    radial-gradient(900px 480px at 110% -8%, #d7f1ea 0%, transparent 52%),
+    radial-gradient(800px 420px at 50% 120%, #fde6d2 0%, transparent 50%),
+    var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+a { color: var(--link); text-underline-offset: 0.16em; }
+a:hover { color: #0c2c52; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+.skip {
+  position: absolute; left: 1rem; top: -4rem;
+  background: #143e70; color: #fff; padding: 0.6rem 0.9rem; border-radius: 8px;
+  z-index: 5;
+}
+.skip:focus { top: 0.6rem; color: #fff; }
+.wrap { width: min(var(--wide), calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; padding: 0.85rem 0 0.4rem;
+}
+.brand {
+  font-family: var(--sans); font-weight: 700; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); font-size: 1rem;
+}
+.brand span { color: #5b4b8a; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.top nav a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  color: var(--ink); min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0.15rem 0.7rem; border-radius: 999px;
+}
+.top nav a[aria-current="page"] { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ribbon { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.2rem 0 1rem; }
+.ribbon i { display: block; flex: 1; }
+.kicker {
+  font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #5c3d78; margin: 0 0 0.4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3.15rem); margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 0.55rem; }
+h3 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+p { margin: 0.55rem 0; }
+.lede { font-size: 1.28rem; max-width: 40rem; color: var(--ink); }
+.muted { color: var(--muted); }
+.panel, .card, article.term, .qcard, .step, .sheet section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.panel { padding: 1.15rem 1.2rem 1.2rem; }
+.grid { display: grid; gap: 0.9rem; }
+.grid.links { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+a.tile {
+  display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 1rem 1.05rem; min-height: 8.5rem;
+  box-shadow: var(--shadow);
+}
+a.tile:hover { border-color: #c9b8a4; }
+a.tile strong { font-size: 1.2rem; }
+a.tile span { color: var(--muted); font-size: 1rem; }
+a.tile img { width: 100%; height: 168px; object-fit: cover; object-position: top center; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+a.btn.ghost, button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+[hidden] { display: none !important; }
+.diagram { margin: 0.6rem 0 1rem; }
+.diagram svg { width: min(100%, 640px); height: auto; display: block; }
+.meta {
+  font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #5c3d78;
+}
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; background: #f7f1e6; }
+.narrow { max-width: var(--max); }
+.stack > * + * { margin-top: 1rem; }
+.concept { display: grid; gap: 1rem; margin: 2.2rem 0; }
+@media (min-width: 900px) {
+  .concept { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .concept figure { position: sticky; top: 0.6rem; }
+}
+.concept .body { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.15rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.92rem; margin-top: 0.4rem; }
+ol, ul { padding-left: 1.2rem; }
+li { margin: 0.28rem 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; list-style: none; }
+.toc a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 0.75rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+.call { border-left: 6px solid #7c6aa5; }
+.sources { font-size: 1.02rem; }
+footer.site {
+  margin: 2.5rem 0 2rem; color: var(--muted); font-size: 0.98rem;
+}
+.flow-svg { width: min(100%, 880px); height: auto; display: block; margin: 0.5rem auto; background: transparent; }
+.steps { display: grid; gap: 0.7rem; }
+.step { padding: 0.85rem 1rem; }
+.step b { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5c3d78; }
+.searchrow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; }
+label.field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--sans); font-size: 0.92rem; flex: 1; min-width: 16rem; }
+input[type="search"], select {
+  font: 1.05rem var(--serif); color: var(--ink); background: #fff;
+  border: 1px solid #cbbba8; border-radius: 12px; padding: 0.7rem 0.8rem; min-height: 44px; width: 100%;
+}
+.letters { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.4rem 0 0.2rem; }
+.letters a {
+  font-family: var(--sans); text-decoration: none; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 10px;
+}
+article.term { padding: 0.9rem 1rem 1rem; margin: 0.55rem 0; }
+article.term h3 { font-size: 1.2rem; }
+.letterhead { margin: 1.4rem 0 0.3rem; font-family: var(--sans); }
+button, .btn {
+  font-family: var(--sans); font-size: 1rem; min-height: 44px;
+  border-radius: 12px; border: 1px solid #143e70; background: #143e70; color: #fff;
+  padding: 0.45rem 0.95rem; cursor: pointer;
+}
+button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.choice {
+  display: flex; gap: 0.75rem; align-items: flex-start; text-align: left;
+  width: 100%; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.8rem 0.9rem; margin: 0.4rem 0; cursor: pointer;
+}
+.choice[aria-checked="true"] { border-color: #143e70; background: #f2f6fb; }
+.choice.right { border-color: #14532d; background: var(--good-bg); }
+.choice.wrong { border-color: #7f1d1d; background: var(--bad-bg); }
+.feedback { padding: 0.85rem 1rem; border-radius: 14px; margin-top: 0.6rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-ink); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.bar { height: 10px; background: #efe6da; border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #5b4b8a; width: 0; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.scorebig { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; letter-spacing: -0.03em; }
+.sheet { max-width: 52rem; }
+.sheet section { padding: 0.85rem 1rem; margin: 0.7rem 0; box-shadow: none; }
+.cols { display: grid; gap: 0.7rem; }
+@media (min-width: 800px) { .cols.two { grid-template-columns: 1fr 1fr; } }
+.tiny { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .top, .ribbon, .skip, .noprint, footer.site { display: none !important; }
+  .panel, .card, .sheet section, article.term, .step, a.tile { box-shadow: none; }
+  a { text-decoration: none; }
+  .sheet section, .step, article.term { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">AI Lab <span>Fundamentals</span></a>
+<nav aria-label="Guide"><a href="index.html" aria-current="page">Home</a><a href="cards.html">Cards</a><a href="flows.html">Flows</a><a href="quiz.html">Quiz</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat sheet</a></nav>
+</header>
+<div class="ribbon" aria-hidden="true"><i style="background:#3d2a6d"></i><i style="background:#6b3418"></i><i style="background:#0f4f48"></i><i style="background:#163a6b"></i><i style="background:#6d2340"></i><i style="background:#6b4a0a"></i><i style="background:#14532d"></i></div>
+<main id="content">
+
+<p class="kicker">Offline study guide</p>
+<h1>AI engineering fundamentals</h1>
+<p class="lede">Seven ideas show up in almost every language-model system: the model, the tokens, the vectors, the retrieved passages, the action loop, the tool boundary, and the measurement.</p>
+<p>These pages are vendor-neutral. They describe mechanisms that are stable across products: transformers, subword tokenization, embedding geometry, retrieval-augmented generation, tool-using loops, and evaluation. When a number depends on a model card — context length, price, benchmark rank — go to that card. This guide does not invent those numbers.</p>
+<div class="grid links">
+<a class="tile" href="cards.html"><span class="meta">About 25 minutes</span><strong>Concept cards</strong><span>Seven ideas, each with a mechanism, an example, and a check.</span></a>
+<a class="tile" href="flows.html"><span class="meta">About 10 minutes</span><strong>Two flows</strong><span>A RAG pipeline and an agent loop, as a diagram and as a list.</span></a>
+<a class="tile" href="quiz.html"><span class="meta">About 20 minutes</span><strong>Quiz</strong><span>64 questions, explanations, a score, and progress kept on this device.</span></a>
+<a class="tile" href="glossary.html"><span class="meta">Look up as you go</span><strong>Glossary</strong><span>Searchable terms, from attention to WordPiece.</span></a>
+<a class="tile" href="cheatsheet.html"><span class="meta">One sitting</span><strong>Cheat sheet</strong><span>The same spine, packed for a second reading. A PDF sits beside it.</span></a>
+<a class="tile" href="pdf/ai-engineering-cheatsheet.pdf"><span class="meta">Printable</span><strong>PDF cheat sheet</strong><span>The print copy of the sheet, for a desk or a phone’s files app.</span></a>
+</div>
+<h2>A way through</h2>
+<div class="panel">
+<ol>
+<li>Read one concept card and do the check at the bottom before you open the next.</li>
+<li>Trace the RAG diagram with a ten-line handbook you invent, using example.com as the source.</li>
+<li>Trace the agent loop and write the stop condition before you name a second tool.</li>
+<li>Take the quiz. Read the explanation even when you were right.</li>
+<li>Keep the glossary search and the cheat sheet open while you reread the card you missed.</li>
+</ol>
+</div>
+<h2>The seven ideas</h2>
+<div class="grid links"><a class="tile" href="cards.html#llm">
+<img src="cards/llm.svg" alt="">
+<strong>Large language models</strong>
+<span>A large language model is a neural network, usually a transformer, trained to estimate which token comes next.</span>
+</a><a class="tile" href="cards.html#tokens">
+<img src="cards/tokens.svg" alt="">
+<strong>Tokens and tokenization</strong>
+<span>A token is the piece a particular model reads and writes. It may be a word, part of a word, punctuation, or bytes.</span>
+</a><a class="tile" href="cards.html#embeddings">
+<img src="cards/embeddings.svg" alt="">
+<strong>Embeddings and vector search</strong>
+<span>An embedding is a vector that places an input so a chosen kind of similarity becomes a geometric comparison.</span>
+</a><a class="tile" href="cards.html#rag">
+<img src="cards/rag.svg" alt="">
+<strong>Retrieval-augmented generation</strong>
+<span>RAG retrieves passages from a corpus and asks the model to answer with those passages in view (Lewis et al., 2020).</span>
+</a><a class="tile" href="cards.html#agents">
+<img src="cards/agents.svg" alt="">
+<strong>Agents</strong>
+<span>An agent is a loop: the model chooses an action, the program carries it out, the result comes back, and a stop rule ends the loop.</span>
+</a><a class="tile" href="cards.html#tools-mcp">
+<img src="cards/tools-mcp.svg" alt="">
+<strong>Tools and MCP</strong>
+<span>A tool is a named operation with a schema. The Model Context Protocol is an open way for an application to reach servers that offer tools, resources, and prompts.</span>
+</a><a class="tile" href="cards.html#evaluation">
+<img src="cards/evaluation.svg" alt="">
+<strong>Evaluation</strong>
+<span>Evaluation is a repeatable measurement of a system against a written task, a fixed set of examples, and a rubric.</span>
+</a></div>
+<h2>What sits next to what</h2>
+<div class="panel" style="overflow-x:auto">
+<table>
+<thead><tr><th>Idea</th><th>The unit it cares about</th><th>A failure you can name</th></tr></thead>
+<tbody>
+<tr><td>Language model</td><td>Next-token probabilities</td><td>Fluent text that no source supports</td></tr>
+<tr><td>Tokenizer</td><td>That model’s pieces</td><td>A context budget computed from word count</td></tr>
+<tr><td>Embedding</td><td>One model’s vector space</td><td>Neighbors from a different model’s index</td></tr>
+<tr><td>RAG</td><td>Retrieved passages</td><td>An answer with a citation that does not say it</td></tr>
+<tr><td>Agent</td><td>A loop with a stop</td><td>Steps that continue after the budget is gone</td></tr>
+<tr><td>Tool and MCP</td><td>A schema the host enforces</td><td>A tool result that grants itself a new permission</td></tr>
+<tr><td>Evaluation</td><td>A fixed set and a rubric</td><td>A score on the same items you just edited</td></tr>
+</tbody>
+</table>
+</div>
+<h2>Works named in this guide</h2>
+<div class="panel sources">
+<ul>
+<li>Vaswani et al., 2017. Attention Is All You Need.</li>
+<li>Sennrich, Haddow, and Birch, 2016. Neural Machine Translation of Rare Words with Subword Units.</li>
+<li>Kudo and Richardson, 2018. SentencePiece.</li>
+<li>Devlin, Chang, Lee, and Toutanova, 2019. BERT.</li>
+<li>Radford et al., 2019. Language Models are Unsupervised Multitask Learners.</li>
+<li>Bommasani et al., 2021. On the Opportunities and Risks of Foundation Models.</li>
+<li>Lewis et al., 2020. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.</li>
+<li>Karpukhin et al., 2020. Dense Passage Retrieval for Open-Domain Question Answering.</li>
+<li>Robertson and Zaragoza, 2009. The Probabilistic Relevance Framework: BM25 and Beyond.</li>
+<li>Malkov and Yashunin. Hierarchical Navigable Small World graphs. IEEE TPAMI, 2020.</li>
+<li>Jégou, Douze, and Schmid, 2011. Product Quantization for Nearest Neighbor Search.</li>
+<li>Holtzman, Buys, Du, Forbes, and Choi, 2020. The Curious Case of Neural Text Degeneration.</li>
+<li>Ouyang et al., 2022. Training language models to follow instructions with human feedback.</li>
+<li>Rafailov et al., 2023. Direct Preference Optimization.</li>
+<li>Yao et al., 2023. ReAct: Synergizing Reasoning and Acting in Language Models.</li>
+<li>Liu et al., 2023. Lost in the Middle: How Language Models Use Long Contexts.</li>
+<li>JSON-RPC Working Group. JSON-RPC 2.0 Specification. This is not an IETF RFC.</li>
+<li>JSON Schema, the vocabulary for describing JSON values.</li>
+<li>Model Context Protocol specification, at modelcontextprotocol.io.</li>
+<li>IETF RFC 3629. UTF-8, a transformation format of ISO 10646.</li>
+<li>OWASP Top 10 for Large Language Model Applications. Prompt injection.</li>
+</ul>
+</div>
+
+</main>
+<footer class="site">
+<p>AI Lab Free University · Fundamentals study guide</p>
+<p>Educational notes on widely published ideas. Not a certification, a vendor manual, or a warranty.</p>
+<p>The quiz stores progress in this browser with localStorage. These pages do not send answers anywhere.</p>
+</footer>
+</div>
+</body>
+</html>

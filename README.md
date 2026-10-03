@@ -117,6 +117,20 @@ Offline · No account · No API keys to read the campus
 | **Zips** | `zips/v2-UNIVERSITY.html.zip` · `zips/v1-SLICE.html.zip` |
 | **Grammar** | **RTMA** — Run · Trace · Metric · Artifact |
 | **Sibling** | 🌿 UC Lab · **LICC** proof twin |
+| **Fundamentals** | [learn/index.html](./learn/index.html) — concept cards, RAG and agent-loop diagrams, quiz, glossary, cheat sheet |
+
+### Fundamentals study guide
+
+Offline pages for the stable mechanics. Open them in any browser. They do not call a network API.
+
+| | |
+|--|--|
+| **Home** | [learn/index.html](./learn/index.html) |
+| **Concept cards** | [learn/cards.html](./learn/cards.html) — language models, tokens, embeddings, RAG, agents, tools and MCP, evaluation |
+| **Flows** | [learn/flows.html](./learn/flows.html) — RAG pipeline and agent loop |
+| **Quiz** | [learn/quiz.html](./learn/quiz.html) — 64 questions, explanations, score kept on this device |
+| **Glossary** | [learn/glossary.html](./learn/glossary.html) |
+| **Cheat sheet** | [learn/cheatsheet.html](./learn/cheatsheet.html) · [PDF](./learn/pdf/ai-engineering-cheatsheet.pdf) |
 
 ### RTMA
 

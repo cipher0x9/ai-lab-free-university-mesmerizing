@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 852" width="900" height="852" role="img">
+<title>Study card: Evaluation</title>
+<desc>Evaluation is a repeatable measurement of a system against a written task, a fixed set of examples, and a rubric.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#e8f6ec"/>
+<stop offset="1" stop-color="#cfe8d6"/>
+</linearGradient>
+</defs>
+<rect width="900" height="852" rx="40" fill="url(#bg)"/>
+<rect x="36" y="36" width="828" height="780" rx="32" fill="#fffdf8"/>
+<rect x="36" y="36" width="14" height="780" fill="#14532d"/>
+<text x="72" y="92" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#14532d">STUDY CARD 07 · THE MEASUREMENT</text>
+<text x="72" y="150" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">Evaluation</text>
+<text x="72" y="220" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">A score without a dataset, a rubric, and</text>
+<text x="72" y="254" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">a version is a demo.</text>
+<circle cx="96" cy="350" r="18" fill="#14532d"/><text x="96" y="356" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text>
+<text x="132" y="346" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Recall@k, precision@k, MRR, and nDCG grade the</text>
+<text x="132" y="376" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">ranking, not the prose.</text>
+<circle cx="96" cy="436" r="18" fill="#14532d"/><text x="96" y="442" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text>
+<text x="132" y="432" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Groundedness, exact match, and rubric scores</text>
+<text x="132" y="462" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">grade the answer.</text>
+<circle cx="96" cy="522" r="18" fill="#14532d"/><text x="96" y="528" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text>
+<text x="132" y="518" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Keep a golden set stable so a regression is</text>
+<text x="132" y="548" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">visible.</text>
+<circle cx="96" cy="608" r="18" fill="#14532d"/><text x="96" y="614" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text>
+<text x="132" y="604" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">An LLM judge needs a rubric and a check against</text>
+<text x="132" y="634" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">human grades.</text>
+<circle cx="96" cy="694" r="18" fill="#14532d"/><text x="96" y="700" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text>
+<text x="132" y="690" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Report latency, cost, and refusal behavior</text>
+<text x="132" y="720" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">beside quality.</text>
+<line x1="72" y1="306" x2="828" y2="306" stroke="#14532d" stroke-width="2" opacity="0.45"/>
+<text x="72" y="800" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#3a4858">AI Lab Free University · Fundamentals · vendor-neutral notes</text>
+</svg>

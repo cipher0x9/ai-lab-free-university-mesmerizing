@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Cheat sheet · AI engineering fundamentals</title>
+<meta name="description" content="A compact cheat sheet for language models, tokens, embeddings, RAG, agent loops, tools, MCP, and evaluation.">
+<style>
+
+:root {
+  --ink: #1b2430;
+  --muted: #3a4858;
+  --paper: #f4f0e7;
+  --card: #fffdf8;
+  --line: #e3d6c6;
+  --link: #143e70;
+  --good-bg: #e5f6ea;
+  --good-ink: #14532d;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --shadow: 0 12px 32px rgba(72, 52, 28, 0.08);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --max: 46rem;
+  --wide: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at -10% -10%, #efe4f8 0%, transparent 55%),
+    radial-gradient(900px 480px at 110% -8%, #d7f1ea 0%, transparent 52%),
+    radial-gradient(800px 420px at 50% 120%, #fde6d2 0%, transparent 50%),
+    var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+a { color: var(--link); text-underline-offset: 0.16em; }
+a:hover { color: #0c2c52; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+.skip {
+  position: absolute; left: 1rem; top: -4rem;
+  background: #143e70; color: #fff; padding: 0.6rem 0.9rem; border-radius: 8px;
+  z-index: 5;
+}
+.skip:focus { top: 0.6rem; color: #fff; }
+.wrap { width: min(var(--wide), calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; padding: 0.85rem 0 0.4rem;
+}
+.brand {
+  font-family: var(--sans); font-weight: 700; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); font-size: 1rem;
+}
+.brand span { color: #5b4b8a; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.top nav a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  color: var(--ink); min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0.15rem 0.7rem; border-radius: 999px;
+}
+.top nav a[aria-current="page"] { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ribbon { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.2rem 0 1rem; }
+.ribbon i { display: block; flex: 1; }
+.kicker {
+  font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #5c3d78; margin: 0 0 0.4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3.15rem); margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 0.55rem; }
+h3 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+p { margin: 0.55rem 0; }
+.lede { font-size: 1.28rem; max-width: 40rem; color: var(--ink); }
+.muted { color: var(--muted); }
+.panel, .card, article.term, .qcard, .step, .sheet section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.panel { padding: 1.15rem 1.2rem 1.2rem; }
+.grid { display: grid; gap: 0.9rem; }
+.grid.links { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+a.tile {
+  display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 1rem 1.05rem; min-height: 8.5rem;
+  box-shadow: var(--shadow);
+}
+a.tile:hover { border-color: #c9b8a4; }
+a.tile strong { font-size: 1.2rem; }
+a.tile span { color: var(--muted); font-size: 1rem; }
+a.tile img { width: 100%; height: 168px; object-fit: cover; object-position: top center; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+a.btn.ghost, button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+[hidden] { display: none !important; }
+.diagram { margin: 0.6rem 0 1rem; }
+.diagram svg { width: min(100%, 640px); height: auto; display: block; }
+.meta {
+  font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #5c3d78;
+}
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; background: #f7f1e6; }
+.narrow { max-width: var(--max); }
+.stack > * + * { margin-top: 1rem; }
+.concept { display: grid; gap: 1rem; margin: 2.2rem 0; }
+@media (min-width: 900px) {
+  .concept { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .concept figure { position: sticky; top: 0.6rem; }
+}
+.concept .body { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.15rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.92rem; margin-top: 0.4rem; }
+ol, ul { padding-left: 1.2rem; }
+li { margin: 0.28rem 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; list-style: none; }
+.toc a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 0.75rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+.call { border-left: 6px solid #7c6aa5; }
+.sources { font-size: 1.02rem; }
+footer.site {
+  margin: 2.5rem 0 2rem; color: var(--muted); font-size: 0.98rem;
+}
+.flow-svg { width: min(100%, 880px); height: auto; display: block; margin: 0.5rem auto; background: transparent; }
+.steps { display: grid; gap: 0.7rem; }
+.step { padding: 0.85rem 1rem; }
+.step b { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5c3d78; }
+.searchrow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; }
+label.field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--sans); font-size: 0.92rem; flex: 1; min-width: 16rem; }
+input[type="search"], select {
+  font: 1.05rem var(--serif); color: var(--ink); background: #fff;
+  border: 1px solid #cbbba8; border-radius: 12px; padding: 0.7rem 0.8rem; min-height: 44px; width: 100%;
+}
+.letters { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.4rem 0 0.2rem; }
+.letters a {
+  font-family: var(--sans); text-decoration: none; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 10px;
+}
+article.term { padding: 0.9rem 1rem 1rem; margin: 0.55rem 0; }
+article.term h3 { font-size: 1.2rem; }
+.letterhead { margin: 1.4rem 0 0.3rem; font-family: var(--sans); }
+button, .btn {
+  font-family: var(--sans); font-size: 1rem; min-height: 44px;
+  border-radius: 12px; border: 1px solid #143e70; background: #143e70; color: #fff;
+  padding: 0.45rem 0.95rem; cursor: pointer;
+}
+button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.choice {
+  display: flex; gap: 0.75rem; align-items: flex-start; text-align: left;
+  width: 100%; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.8rem 0.9rem; margin: 0.4rem 0; cursor: pointer;
+}
+.choice[aria-checked="true"] { border-color: #143e70; background: #f2f6fb; }
+.choice.right { border-color: #14532d; background: var(--good-bg); }
+.choice.wrong { border-color: #7f1d1d; background: var(--bad-bg); }
+.feedback { padding: 0.85rem 1rem; border-radius: 14px; margin-top: 0.6rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-ink); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.bar { height: 10px; background: #efe6da; border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #5b4b8a; width: 0; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.scorebig { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; letter-spacing: -0.03em; }
+.sheet { max-width: 52rem; }
+.sheet section { padding: 0.85rem 1rem; margin: 0.7rem 0; box-shadow: none; }
+.cols { display: grid; gap: 0.7rem; }
+@media (min-width: 800px) { .cols.two { grid-template-columns: 1fr 1fr; } }
+.tiny { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .top, .ribbon, .skip, .noprint, footer.site { display: none !important; }
+  .panel, .card, .sheet section, article.term, .step, a.tile { box-shadow: none; }
+  a { text-decoration: none; }
+  .sheet section, .step, article.term { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">AI Lab <span>Fundamentals</span></a>
+<nav aria-label="Guide"><a href="index.html">Home</a><a href="cards.html">Cards</a><a href="flows.html">Flows</a><a href="quiz.html">Quiz</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html" aria-current="page">Cheat sheet</a></nav>
+</header>
+<div class="ribbon" aria-hidden="true"><i style="background:#3d2a6d"></i><i style="background:#6b3418"></i><i style="background:#0f4f48"></i><i style="background:#163a6b"></i><i style="background:#6d2340"></i><i style="background:#6b4a0a"></i><i style="background:#14532d"></i></div>
+<main id="content">
+
+<p class="kicker noprint">Cheat sheet</p>
+<h1>AI engineering fundamentals</h1>
+<p>A one-sitting sheet. The long form is the concept cards. The PDF copy is <a href="pdf/ai-engineering-cheatsheet.pdf">ai-engineering-cheatsheet.pdf</a>.</p>
+<div class="sheet">
+<section>
+<h2>Language model</h2>
+<p>A transformer estimates the next token. Softmax turns logits into probabilities. Greedy decoding takes the most likely token. Sampling draws one after temperature, top-k, or top-p. Lower temperature sharpens the distribution. Instruction tuning and preference tuning (RLHF, DPO) update weights. A prompt does not. The context window is a token budget, not the parameter count.</p>
+</section>
+<section>
+<h2>Tokens</h2>
+<p>Count with the tokenizer that belongs to the model. BPE merges frequent pairs (Sennrich, Haddow, and Birch, 2016). WordPiece is tied to BERT. SentencePiece can skip a separate word splitter. Byte-level BPE consumes UTF-8 (RFC 3629). Special tokens count. Words, characters, and tokens are three different numbers.</p>
+</section>
+<section>
+<h2>Embeddings</h2>
+<p>Same model, same preprocessing, same metric. On unit-length vectors, cosine similarity and dot product rank alike. A bi-encoder stores document vectors ahead of time. A cross-encoder reranks a short list. HNSW and inverted-file indexes are approximate. Product quantization compresses vectors. Equal dimension does not make two models interchangeable.</p>
+</section>
+<section>
+<h2>RAG, eight steps</h2>
+<ol><li><strong>Ingest.</strong> Accept the document, its source, its date, and who may read it.</li><li><strong>Chunk.</strong> Split the document into passages you can return on their own.</li><li><strong>Embed.</strong> Map each chunk with a single embedding model.</li><li><strong>Index.</strong> Store the vector, the passage, and the filter fields.</li><li><strong>Retrieve.</strong> Embed the query the same way and take the top k.</li><li><strong>Rerank.</strong> Rescore the short list, often with a cross-encoder.</li><li><strong>Generate.</strong> Answer from the question and the passages you kept.</li><li><strong>Cite.</strong> Point each material claim at a retrieved passage.</li></ol>
+<p>Hybrid search runs BM25 beside the vectors. If the passages do not contain the answer, say so. A citation is a pointer you can still reject.</p>
+</section>
+<section>
+<h2>Agent loop</h2>
+<ol><li><strong>Plan.</strong> Name the goal, the constraint, and what done means.</li><li><strong>Act with tools.</strong> The model proposes a call. The host checks it, then runs it.</li><li><strong>Observe.</strong> Record the result, including errors and empty answers.</li><li><strong>Reflect.</strong> Compare the result with the goal. Keep the plan, revise it, or stop.</li></ol>
+<p><strong>Stop</strong> when the goal is met, the budget is spent, the same error repeats, or a person must approve. The return path is “not done,” and it is still inside the budget. The host runs tools.</p>
+</section>
+<section>
+<h2>Tools and MCP</h2>
+<p>A tool schema names the operation and the JSON shape of its arguments. The model returns a request. The host validates and runs it, or refuses. MCP carries that relationship in JSON-RPC 2.0, which is its own specification and not an IETF RFC. A host uses a client to reach a server. Servers expose tools, readable resources, and prompt templates. Connecting a server is a trust decision. A sentence inside a tool result does not grant a new tool.</p>
+</section>
+<section>
+<h2>Evaluation</h2>
+<ul>
+<li>Recall@k: fraction of known relevant items that appear in the top k.</li>
+<li>Precision@k: fraction of the k hits that are relevant.</li>
+<li>MRR: average of 1 / rank of the first relevant hit.</li>
+<li>nDCG: rewards relevant items placed earlier.</li>
+<li>Grade the answer separately: groundedness, exact match, or a written rubric.</li>
+<li>Freeze a golden set. Hold some items out of prompt tinkering.</li>
+<li>Calibrate an LLM judge against people. Record the judge’s model.</li>
+<li>Report latency, cost, refusals, and the previous version’s score.</li>
+</ul>
+</section>
+<section>
+<h2>Seven failures</h2>
+<ol>
+<li>A word count used as a token budget.</li>
+<li>Two embedding models mixed because the dimension matched.</li>
+<li>A citation whose passage does not say the claim.</li>
+<li>A long context treated as proof the middle was used.</li>
+<li>An agent loop with no step or cost cap.</li>
+<li>A tool result treated as permission to call a different tool.</li>
+<li>A score reported on the items you edited the prompt to pass.</li>
+</ol>
+</section>
+</div>
+
+</main>
+<footer class="site">
+<p>AI Lab Free University · Fundamentals study guide</p>
+<p>Educational notes on widely published ideas. Not a certification, a vendor manual, or a warranty.</p>
+<p>The quiz stores progress in this browser with localStorage. These pages do not send answers anywhere.</p>
+</footer>
+</div>
+</body>
+</html>

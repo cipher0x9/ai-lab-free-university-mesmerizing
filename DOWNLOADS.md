@@ -14,6 +14,7 @@ Free for learning · Educational only · MIT · no warranty
 | **Campus zip** | ~60 KB zip → ~650 KB HTML | https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/raw/main/zips/v2-UNIVERSITY.html.zip |
 | HTML in repo | ~650 KB | [`university/v2-UNIVERSITY.html`](./university/v2-UNIVERSITY.html) |
 | Starter slice | ~28 KB | [`university/v1-SLICE.html`](./university/v1-SLICE.html) · [`zips/v1-SLICE.html.zip`](./zips/v1-SLICE.html.zip) |
+| **Fundamentals guide** | HTML, SVG, PNG, PDF | [`learn/index.html`](./learn/index.html) · [cheat sheet PDF](./learn/pdf/ai-engineering-cheatsheet.pdf) |
 
 **Open:** download → unzip → open `v2-UNIVERSITY.html` in **Chrome / Safari / Edge / Firefox** (full browser).  
 Any section can be saved with your browser's **Print → Save as PDF**.
