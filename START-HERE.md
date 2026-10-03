@@ -29,17 +29,15 @@ back. That loop is AI mastery; the model brand is only one implementation.
 - Run evals before trusting a prompt, model, retrieval index, or release.
 - Preserve RTMA evidence so your learning can travel across jobs and countries.
 
-**Future horizon:** [FUTURE-OF-AI.md](./FUTURE-OF-AI.md) · **Engineering runway:** [NEXT-LEVEL-ENGINEERING.md](./NEXT-LEVEL-ENGINEERING.md)
-
 ---
 
 ## 1) Open the campus
 
-**Latest:** `v4.2-mobile` · **431 lessons**  
-**Download:** [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip)
+**Campus:** `v2-UNIVERSITY.html` · **247 sections**  
+**Download:** [v2-UNIVERSITY.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/raw/main/zips/v2-UNIVERSITY.html.zip)
 
 ```bash
-open university/v4-PORTFOLIO.html
+open university/v2-UNIVERSITY.html
 ```
 
 **Browser:** Chrome · Safari · Edge · Firefox (**full app**, not in-app).  
@@ -66,17 +64,7 @@ open university/v4-PORTFOLIO.html
 
 ---
 
-## 4) Optional Phase-1 labs
-
-```bash
-bash scripts/verify_slice.sh
-```
-
-Python 3 yes · API keys **no** for Phase 1.
-
----
-
-## 5) Safety
+## 4) Safety
 
 Educational · MIT · no warranty · no secrets in git · lab safely  
 
@@ -84,23 +72,15 @@ Educational · MIT · no warranty · no secrets in git · lab safely
 
 ---
 
-## 6) Become an engineer in 90 days
+## 5) Become an engineer in 90 days
 
-Run the core proof path one step at a time:
-
-```bash
-python3 phase1-golden-slice/lab/06_rag_ablation.py
-python3 phase1-golden-slice/lab/07_agent_loop.py
-python3 phase1-golden-slice/lab/08_voice_latency_budget.py
-```
-
-Then follow the [90-day field guide](./NEXT-LEVEL-ENGINEERING.md): local → cloud
-→ RAG/tools → bounded agents → evals → optional voice → capstone.
+Follow the campus schools in order: local → cloud → RAG/tools → bounded agents
+→ evals → optional voice → capstone.
 
 Review every hard idea at **1h, 24h, 7d, 30d, and 90d**. Mark studied only
 after you can teach it simply and reopen its RTMA artifact.
 
-## 7) Aim beyond the tutorial
+## 6) Aim beyond the tutorial
 
 Your next milestone is not “used an AI tool.” It is: **I can frame a task,
 choose a local or frontier model for a reason, connect only the tools it needs,
@@ -110,6 +90,4 @@ person.** That capability survives model releases, job titles, and geography.
 ## Also
 
 - [docs/FAQ.md](./docs/FAQ.md)
-- [curriculum/README.md](./curriculum/README.md)
 - [SIBLINGS.md](./SIBLINGS.md)
-- [CHANGELOG.md](./CHANGELOG.md)

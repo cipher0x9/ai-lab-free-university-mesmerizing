@@ -10,14 +10,14 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip"><img src="https://img.shields.io/badge/⬇_Download-Campus_zip-6366F1?style=for-the-badge&labelColor=0B1220" alt="Download"/></a>
+  <a href="https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/raw/main/zips/v2-UNIVERSITY.html.zip"><img src="https://img.shields.io/badge/⬇_Download-Campus_zip-6366F1?style=for-the-badge&labelColor=0B1220" alt="Download"/></a>
   <a href="https://github.com/cipher0x9/uc-lab-free-university-mesmerizing"><img src="https://img.shields.io/badge/🌿_Sibling-UC_Lab_Free-0F9B8E?style=for-the-badge&labelColor=0B1220" alt="UC Lab"/></a>
   <a href="https://linktr.ee/cyphermonkey"><img src="https://img.shields.io/badge/🔗_Hub-Linktree-E8820C?style=for-the-badge&labelColor=0B1220" alt="Linktree"/></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-159947?style=for-the-badge&labelColor=0B1220" alt="MIT"/></a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Lessons-431-38BDF8?style=flat-square&labelColor=0B1220" alt="431"/>
+  <img src="https://img.shields.io/badge/Sections-247-38BDF8?style=flat-square&labelColor=0B1220" alt="247"/>
   <img src="https://img.shields.io/badge/Proof-RTMA_·_Run_·_Trace_·_Metric_·_Artifact-F59E0B?style=flat-square&labelColor=0B1220" alt="RTMA"/>
   <img src="https://img.shields.io/badge/Open_in-Chrome_·_Safari_·_Edge_·_Firefox-22C55E?style=flat-square&labelColor=0B1220" alt="Browsers"/>
   <img src="https://img.shields.io/badge/Labs-Python_optional_·_no_API_keys-22C55E?style=flat-square&labelColor=0B1220" alt="Labs"/>
@@ -53,28 +53,17 @@ model or frontier API only when the next experiment needs it.
 | **Evals are engineering discipline** | Test quality, latency, cost, safety, and regressions on versioned fixtures. |
 | **Proof compounds** | Preserve every Run, Trace, Metric, and Artifact so another learner can reproduce it. |
 
-### Latest additions · August 2026
-
-| New layer | What it gives you |
-|---|---|
-| **[Future of AI 2026–2030](./FUTURE-OF-AI.md)** | Agentic, multimodal, local/frontier, MCP, safety, quantum preview, and next-mastery map |
-| **[Next-Level Engineering](./NEXT-LEVEL-ENGINEERING.md)** | Production RAG, bounded agents, eval harnesses, voice budgets, and migration gates |
-| **Zero-key labs 06–08** | RAG ablation, visible agent correction, and stage-by-stage voice latency evidence |
-
 <p align="center">
-  <img src="./docs/assets/preview.png" alt="AI Lab Free University - aurora campus with constellation chart" width="100%"/>
+  <img src="./docs/assets/preview.png" alt="AI Lab Free University - v2 offline campus" width="100%"/>
 </p>
 
 ---
 
-## ✨ Latest build — v4.2 mesmerizing edition
+## ✨ The campus
 
-- **Campus Constellation** — 18-division animated chart; click any bar to filter the whole campus
-- **Live progress ring** in the sidebar, synced with your studied lessons
-- **9 visual themes** with a swatch gallery — Aurora · Night · Day · Paper · Rose · Ember · Mint · Amber · Ocean
-- **Export center** — HTML · PDF · Markdown · progress JSON · resource CSV, 100% offline
-- **Keyboard-first** — ⌘K search · ⌘B sidebar · ⌘D theme · ⌘E export · ←/→ switch views
-- One heavy single file: `university/v4-PORTFOLIO.html` — 431 lessons · 1056 resource links · zero CDN
+- One offline single file: `university/v2-UNIVERSITY.html` — **247 sections** across mentor schools (orientation → mental models → local lab → cloud APIs → prompt systems → RAG → agents & tools → voice AI → evals & safety → ship → capstone) · zero CDN
+- Themes: Night · Cobalt · Aurora · Slate · Warm · Forest · Focus
+- Starter: `university/v1-SLICE.html` — the small Phase-1 golden slice
 
 ---
 
@@ -93,23 +82,19 @@ If this helps even one person walk from confusion to calm practice, it was worth
 
 ---
 
-**Public sync:** [PUBLIC-SYNC.md](./PUBLIC-SYNC.md) · **All download links:** [DOWNLOADS.md](./DOWNLOADS.md)
+**All download links:** [DOWNLOADS.md](./DOWNLOADS.md)
 
 ## Get it in 60 seconds
 
 ### ⭐ Download the campus zip
 
-**→ [v4-PORTFOLIO.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/v4-PORTFOLIO.html.zip)**
+**→ [v2-UNIVERSITY.html.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/raw/main/zips/v2-UNIVERSITY.html.zip)**
 
 1. Download  
 2. Unzip  
-3. Open **`v4-PORTFOLIO.html`** in **Chrome, Safari, Edge, or Firefox**
+3. Open **`v2-UNIVERSITY.html`** in **Chrome, Safari, Edge, or Firefox**
 
-**Default theme: Aurora Dream** · Offline · No account · No API keys to read the campus  
-
-Optional multi-campus pack:  
-**[AI-LAB-COMPLETE-BROWSER-PACK.zip](https://github.com/cipher0x9/ai-lab-free-university-mesmerizing/releases/download/v4.2-mobile/AI-LAB-COMPLETE-BROWSER-PACK.zip)**  
-(includes v4 portfolio + v3 lifetime + v1 slice)
+Offline · No account · No API keys to read the campus  
 
 ### How to open
 
@@ -127,10 +112,9 @@ Optional multi-campus pack:
 
 | | |
 |--|--|
-| **Main campus** | `university/v4-PORTFOLIO.html` — portfolio UI, themes, lessons, resource links |
-| **Also** | `v3-LIFETIME.html` · `v2-UNIVERSITY.html` · `v1-SLICE.html` |
-| **Runnable labs** | `phase1-golden-slice/` — Python 3, **no API keys** for Phase 1 |
-| **Schools** | `schools/` mentor markdown modules |
+| **Main campus** | `university/v2-UNIVERSITY.html` — 247 sections, themes, schools |
+| **Also** | `university/v1-SLICE.html` — Phase-1 golden slice |
+| **Zips** | `zips/v2-UNIVERSITY.html.zip` · `zips/v1-SLICE.html.zip` |
 | **Grammar** | **RTMA** — Run · Trace · Metric · Artifact |
 | **Sibling** | 🌿 UC Lab · **LICC** proof twin |
 
@@ -145,13 +129,12 @@ Optional multi-campus pack:
 
 ---
 
-## Optional labs
+## Clone
 
 ```bash
 git clone https://github.com/cipher0x9/ai-lab-free-university-mesmerizing.git
-cd ai-lab-free-university
-open university/v4-PORTFOLIO.html
-bash scripts/verify_slice.sh   # optional
+cd ai-lab-free-university-mesmerizing
+open university/v2-UNIVERSITY.html
 ```
 
 ---
@@ -172,7 +155,7 @@ Never commit API keys, customer data, or private chats
 No autonomous email/post without a human  
 Lab safely · pin official docs for production  
 
-**[HOW-TO-GET.md](./HOW-TO-GET.md)** · **[START-HERE.md](./START-HERE.md)** · **[docs/FAQ.md](./docs/FAQ.md)** · **[CHANGELOG.md](./CHANGELOG.md)** · **[SIBLINGS.md](./SIBLINGS.md)** · **[SECURITY.md](./SECURITY.md)**
+**[HOW-TO-GET.md](./HOW-TO-GET.md)** · **[START-HERE.md](./START-HERE.md)** · **[docs/FAQ.md](./docs/FAQ.md)** · **[SIBLINGS.md](./SIBLINGS.md)**
 
 ---
 
@@ -185,28 +168,3 @@ Hub: [linktr.ee/cyphermonkey](https://linktr.ee/cyphermonkey)
   <strong>Build calmly · Prove carefully · Share freely</strong><br/>
   <em>From outside the room — for everyone still walking in.</em>
 </p>
-
----
-
-## 🌈 Next-level engineering runway
-
-The original **425 lessons remain intact** (431 lessons in today's campus) and now carry a Builder Lens, migration
-ladder, extended RTMA card, teach-back check, and review cadence:
-**1 hour → 24 hours → 7 days → 30 days → 90 days**.
-
-```text
-local fixture → local model → cloud adapter → tools/RAG
-  → bounded agent → eval gate → human-approved release
-```
-
-New zero-key proof labs:
-
-- `06_rag_ablation.py` — compare retrieval variants and keep the misses
-- `07_agent_loop.py` — observe → act → correct → verify under a hard turn cap
-- `08_voice_latency_budget.py` — isolate STT/LLM/tools/TTS/transport p50 and p95
-
-Open the complete **[Next-Level Engineering Field Guide](./NEXT-LEVEL-ENGINEERING.md)**
-for provider migration, prompt systems, production RAG, agent loops, eval harnesses,
-voice AI, safety watchdogs, and the 90-day portfolio path.
-
-**Learn while building, prove as you go.**
