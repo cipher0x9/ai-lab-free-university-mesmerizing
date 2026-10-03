@@ -5,6 +5,7 @@ Welcome. Free offline AI campus — mentor structure, evidence-first, kind share
 | Want | Go |
 |------|-----|
 | **Download / open** | **[HOW-TO-GET.md](./HOW-TO-GET.md)** |
+| **Fundamentals** | **[learn/index.html](./learn/index.html)** — cards, diagrams, quiz, glossary, cheat sheet |
 | **Both universities** | **[SIBLINGS.md](./SIBLINGS.md)** |
 | **Hub** | https://linktr.ee/cyphermonkey |
 
