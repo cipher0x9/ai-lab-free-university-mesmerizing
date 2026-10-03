@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Quiz · AI engineering fundamentals</title>
+<meta name="description" content="64 offline questions on language models, tokens, embeddings, RAG, agents, tools, MCP, and evaluation.">
+<style>
+
+:root {
+  --ink: #1b2430;
+  --muted: #3a4858;
+  --paper: #f4f0e7;
+  --card: #fffdf8;
+  --line: #e3d6c6;
+  --link: #143e70;
+  --good-bg: #e5f6ea;
+  --good-ink: #14532d;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --shadow: 0 12px 32px rgba(72, 52, 28, 0.08);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --max: 46rem;
+  --wide: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at -10% -10%, #efe4f8 0%, transparent 55%),
+    radial-gradient(900px 480px at 110% -8%, #d7f1ea 0%, transparent 52%),
+    radial-gradient(800px 420px at 50% 120%, #fde6d2 0%, transparent 50%),
+    var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+a { color: var(--link); text-underline-offset: 0.16em; }
+a:hover { color: #0c2c52; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+.skip {
+  position: absolute; left: 1rem; top: -4rem;
+  background: #143e70; color: #fff; padding: 0.6rem 0.9rem; border-radius: 8px;
+  z-index: 5;
+}
+.skip:focus { top: 0.6rem; color: #fff; }
+.wrap { width: min(var(--wide), calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; padding: 0.85rem 0 0.4rem;
+}
+.brand {
+  font-family: var(--sans); font-weight: 700; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); font-size: 1rem;
+}
+.brand span { color: #5b4b8a; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.top nav a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  color: var(--ink); min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0.15rem 0.7rem; border-radius: 999px;
+}
+.top nav a[aria-current="page"] { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ribbon { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.2rem 0 1rem; }
+.ribbon i { display: block; flex: 1; }
+.kicker {
+  font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #5c3d78; margin: 0 0 0.4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3.15rem); margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 0.55rem; }
+h3 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+p { margin: 0.55rem 0; }
+.lede { font-size: 1.28rem; max-width: 40rem; color: var(--ink); }
+.muted { color: var(--muted); }
+.panel, .card, article.term, .qcard, .step, .sheet section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.panel { padding: 1.15rem 1.2rem 1.2rem; }
+.grid { display: grid; gap: 0.9rem; }
+.grid.links { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+a.tile {
+  display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 1rem 1.05rem; min-height: 8.5rem;
+  box-shadow: var(--shadow);
+}
+a.tile:hover { border-color: #c9b8a4; }
+a.tile strong { font-size: 1.2rem; }
+a.tile span { color: var(--muted); font-size: 1rem; }
+a.tile img { width: 100%; height: 168px; object-fit: cover; object-position: top center; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+a.btn.ghost, button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+[hidden] { display: none !important; }
+.diagram { margin: 0.6rem 0 1rem; }
+.diagram svg { width: min(100%, 640px); height: auto; display: block; }
+.meta {
+  font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #5c3d78;
+}
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; background: #f7f1e6; }
+.narrow { max-width: var(--max); }
+.stack > * + * { margin-top: 1rem; }
+.concept { display: grid; gap: 1rem; margin: 2.2rem 0; }
+@media (min-width: 900px) {
+  .concept { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .concept figure { position: sticky; top: 0.6rem; }
+}
+.concept .body { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.15rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.92rem; margin-top: 0.4rem; }
+ol, ul { padding-left: 1.2rem; }
+li { margin: 0.28rem 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; list-style: none; }
+.toc a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 0.75rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+.call { border-left: 6px solid #7c6aa5; }
+.sources { font-size: 1.02rem; }
+footer.site {
+  margin: 2.5rem 0 2rem; color: var(--muted); font-size: 0.98rem;
+}
+.flow-svg { width: min(100%, 880px); height: auto; display: block; margin: 0.5rem auto; background: transparent; }
+.steps { display: grid; gap: 0.7rem; }
+.step { padding: 0.85rem 1rem; }
+.step b { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5c3d78; }
+.searchrow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; }
+label.field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--sans); font-size: 0.92rem; flex: 1; min-width: 16rem; }
+input[type="search"], select {
+  font: 1.05rem var(--serif); color: var(--ink); background: #fff;
+  border: 1px solid #cbbba8; border-radius: 12px; padding: 0.7rem 0.8rem; min-height: 44px; width: 100%;
+}
+.letters { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.4rem 0 0.2rem; }
+.letters a {
+  font-family: var(--sans); text-decoration: none; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 10px;
+}
+article.term { padding: 0.9rem 1rem 1rem; margin: 0.55rem 0; }
+article.term h3 { font-size: 1.2rem; }
+.letterhead { margin: 1.4rem 0 0.3rem; font-family: var(--sans); }
+button, .btn {
+  font-family: var(--sans); font-size: 1rem; min-height: 44px;
+  border-radius: 12px; border: 1px solid #143e70; background: #143e70; color: #fff;
+  padding: 0.45rem 0.95rem; cursor: pointer;
+}
+button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.choice {
+  display: flex; gap: 0.75rem; align-items: flex-start; text-align: left;
+  width: 100%; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.8rem 0.9rem; margin: 0.4rem 0; cursor: pointer;
+}
+.choice[aria-checked="true"] { border-color: #143e70; background: #f2f6fb; }
+.choice.right { border-color: #14532d; background: var(--good-bg); }
+.choice.wrong { border-color: #7f1d1d; background: var(--bad-bg); }
+.feedback { padding: 0.85rem 1rem; border-radius: 14px; margin-top: 0.6rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-ink); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.bar { height: 10px; background: #efe6da; border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #5b4b8a; width: 0; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.scorebig { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; letter-spacing: -0.03em; }
+.sheet { max-width: 52rem; }
+.sheet section { padding: 0.85rem 1rem; margin: 0.7rem 0; box-shadow: none; }
+.cols { display: grid; gap: 0.7rem; }
+@media (min-width: 800px) { .cols.two { grid-template-columns: 1fr 1fr; } }
+.tiny { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .top, .ribbon, .skip, .noprint, footer.site { display: none !important; }
+  .panel, .card, .sheet section, article.term, .step, a.tile { box-shadow: none; }
+  a { text-decoration: none; }
+  .sheet section, .step, article.term { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">AI Lab <span>Fundamentals</span></a>
+<nav aria-label="Guide"><a href="index.html">Home</a><a href="cards.html">Cards</a><a href="flows.html">Flows</a><a href="quiz.html" aria-current="page">Quiz</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat sheet</a></nav>
+</header>
+<div class="ribbon" aria-hidden="true"><i style="background:#3d2a6d"></i><i style="background:#6b3418"></i><i style="background:#0f4f48"></i><i style="background:#163a6b"></i><i style="background:#6d2340"></i><i style="background:#6b4a0a"></i><i style="background:#14532d"></i></div>
+<main id="content">
+
+<div id="start" class="panel">
+<p class="kicker">Quiz</p>
+<h1>Check the seven ideas</h1>
+<p>64 questions. One point each. After you check an answer, the explanation stays on the screen. Your best finished score and any unfinished attempt stay in localStorage under the key <code>ai-lab-fundamentals-quiz-v1</code>.</p>
+<label class="field">Topic
+<select id="topic"></select>
+</label>
+<p id="best"></p>
+<div class="rowbtns">
+<button id="startbtn" type="button">Start</button>
+<button id="continuebtn" type="button" class="ghost">Continue</button>
+<button id="clearbtn" type="button" class="ghost">Clear saved progress</button>
+</div>
+<p id="savemsg" class="tiny"></p>
+</div>
+<div id="run" class="panel" hidden>
+<p id="progresslabel" class="tiny"></p>
+<div class="bar" aria-hidden="true"><span id="bar"></span></div>
+<p id="qtopic" class="kicker"></p>
+<h2 id="qtext"></h2>
+<div id="choices" role="group" aria-label="Answer choices"></div>
+<div id="feedback" class="feedback" hidden aria-live="polite"></div>
+<div class="rowbtns">
+<button id="checkbtn" type="button">Check answer</button>
+<button id="nextbtn" type="button" class="ghost">Next question</button>
+</div>
+<p class="tiny">Keys 1–4 choose an answer. Enter checks it, then moves on.</p>
+</div>
+<div id="end" class="panel" hidden>
+<p class="kicker">Score</p>
+<h2>This attempt</h2>
+<p class="scorebig" id="scorebig"></p>
+<p id="scorepct"></p>
+<div id="breakdown"></div>
+<div id="missed"></div>
+<div class="rowbtns">
+<button id="again" type="button">Back to the start</button>
+<a class="btn ghost" href="cards.html">Review the cards</a>
+<a class="btn ghost" href="glossary.html">Open the glossary</a>
+</div>
+<p id="savemsg2" class="tiny"></p>
+</div>
+<noscript><p class="panel">Scoring uses the script in this file. With scripts disabled, read the cards, the flows, the glossary, and the cheat sheet.</p></noscript>
+<script>
+
+(function () {
+  var KEY = "ai-lab-fundamentals-quiz-v1";
+  var QUESTIONS = [{"id": "llm-01", "topic": "LLMs", "q": "At each generation step, a typical decoder-only language model directly produces which of these?", "choices": ["A stored database row", "A probability distribution over the next token", "A guaranteed citation of a web page", "An embedding of the entire training corpus"], "answer": 1, "why": "The model assigns a logit to each vocabulary token. Softmax turns those logits into probabilities. Decoding then picks or samples one token. A citation or a database row is a property of the surrounding system, if it exists at all."}, {"id": "llm-02", "topic": "LLMs", "q": "Which paper introduced the transformer architecture that most large language models use?", "choices": ["Lewis et al., 2020", "Vaswani et al., 2017", "Robertson and Zaragoza, 2009", "Holtzman et al., 2020"], "answer": 1, "why": "“Attention Is All You Need” (Vaswani et al., 2017) introduced the transformer. Lewis et al. named retrieval-augmented generation, Robertson and Zaragoza surveyed BM25, and Holtzman et al. studied nucleus sampling."}, {"id": "llm-03", "topic": "LLMs", "q": "Which statement about parameters and the context window is accurate?", "choices": ["They are two names for the same limit.", "Parameters are learned weights. The context window is a token budget for one request.", "The context window is the number of training documents.", "Parameters are the tokens inside the current prompt."], "answer": 1, "why": "Parameter count measures the stored weights. The context window measures how many tokens this call can see. Mixing the two leads to bad capacity plans."}, {"id": "llm-04", "topic": "LLMs", "q": "How does instruction tuning differ from prompting?", "choices": ["Instruction tuning updates weights on instruction-response examples. Prompting leaves the weights fixed.", "Prompting permanently updates the weights.", "They are two names for the same training stage.", "Instruction tuning only changes the sampling temperature."], "answer": 0, "why": "Prompting adds tokens to a request. Instruction tuning is a training job. After it finishes, the weights are different even when the prompt is empty."}, {"id": "llm-05", "topic": "LLMs", "q": "As the sampling temperature approaches 0, next-token choice approaches which rule?", "choices": ["A uniform draw over the whole vocabulary", "Greedy decoding, the single most likely token", "A longer context window", "BM25 ranking of documents"], "answer": 1, "why": "Temperature divides logits before softmax. A lower temperature makes the distribution sharper. In the limit, the largest logit wins, which is greedy decoding."}, {"id": "llm-06", "topic": "LLMs", "q": "Which method updates a model from chosen and rejected responses without a separate reinforcement-learning loop?", "choices": ["BM25", "HNSW", "Direct preference optimization (Rafailov et al., 2023)", "Product quantization"], "answer": 2, "why": "DPO is a preference-tuning method. BM25, HNSW, and product quantization are retrieval or indexing techniques, not training objectives for preferences."}, {"id": "llm-07", "topic": "LLMs", "q": "A fluent, confident answer is evidence that the claim is true. Which judgment matches the mechanics?", "choices": ["Yes. Fluency means a source was checked.", "No. Fluency means the tokens were likely under the model and the decoder, not that anyone verified them.", "Yes, whenever the temperature is below 1.", "Only when the context window is longer than the training set."], "answer": 1, "why": "The decoder samples likely tokens. Truth is a relationship between a claim and a source or the world. The two can come apart, which is the practical meaning of hallucination in factual tasks."}, {"id": "llm-08", "topic": "LLMs", "q": "In the InstructGPT recipe (Ouyang et al., 2022), human feedback enters as which kind of signal?", "choices": ["A larger vocabulary file", "Comparisons that train a reward signal used to shape the model", "A BM25 index of the prompts", "A product-quantization codebook"], "answer": 1, "why": "Reinforcement learning from human feedback uses people’s preferences between responses. It is not a tokenizer change and not a retrieval index."}, {"id": "tok-01", "topic": "Tokens", "q": "Which definition of a token is safe to teach?", "choices": ["A token is always one English word.", "A token is the unit a particular model’s tokenizer reads and writes.", "A token is always one sentence.", "A token is a 768-dimensional vector."], "answer": 1, "why": "Words, characters, and tokens are different counts. The tokenizer and the vocabulary decide the pieces. Two models can split one sentence differently."}, {"id": "tok-02", "topic": "Tokens", "q": "Byte-pair encoding, as published by Sennrich, Haddow, and Birch (2016), builds its vocabulary by doing what?", "choices": ["Merging the most frequent adjacent pair of symbols, repeatedly", "Clustering document embeddings", "Training a cross-encoder on query-passage pairs", "Sorting documents by length"], "answer": 0, "why": "BPE starts from small symbols and merges frequent pairs. That is a vocabulary-learning procedure, not a search index."}, {"id": "tok-03", "topic": "Tokens", "q": "Why can the same sentence have two token counts?", "choices": ["Every model is required to share one vocabulary, so this cannot happen.", "Tokenizers and vocabularies differ, so the splits differ.", "Temperature changes how the prompt is split.", "The context window retokenizes the prompt after each word."], "answer": 1, "why": "Count tokens with the tokenizer that belongs to the model you will call, on the exact string you will send. A word count will not save you."}, {"id": "tok-04", "topic": "Tokens", "q": "Which statement about special tokens is accurate?", "choices": ["They are free and never count toward the context window.", "They are vocabulary entries with a control role, and they count as tokens.", "They exist only in BM25 indexes.", "They replace the need for a stop condition."], "answer": 1, "why": "Markers for boundaries or roles still occupy the sequence. Budget for them when you pack a prompt."}, {"id": "tok-05", "topic": "Tokens", "q": "Which toolkit is known for learning subwords on raw text, with a unigram option, without requiring a separate word splitter?", "choices": ["BM25", "SentencePiece (Kudo and Richardson, 2018)", "HNSW", "nDCG"], "answer": 1, "why": "SentencePiece is a tokenizer toolkit. The other names are a ranker, a vector index, and a ranking metric."}, {"id": "tok-06", "topic": "Tokens", "q": "WordPiece is the subword method most closely associated with which system?", "choices": ["BERT (Devlin et al., 2019)", "The BM25 ranking function", "Product quantization", "JSON-RPC 2.0"], "answer": 0, "why": "BERT’s vocabulary is built with WordPiece. Continuation pieces are marked so a word can be rebuilt from parts."}, {"id": "tok-07", "topic": "Tokens", "q": "You need a token budget for a prompt. What should you count with?", "choices": ["The tokenizer paired with that model, on the exact string", "Another model’s tokenizer, because counts are standardized by law", "Characters divided by four, which is exact for every model", "The number of lines in the source file"], "answer": 0, "why": "Rules of thumb drift by language, code, and model. The paired tokenizer is the measurement. Publish the count you measured, not a guessed ratio."}, {"id": "tok-08", "topic": "Tokens", "q": "Detokenization is which operation?", "choices": ["Deleting an index", "Mapping tokens back to text", "L2-normalizing a vector", "Ending an agent loop"], "answer": 1, "why": "Tokenization maps text to ids. Detokenization maps ids back to text. Whitespace handling means the round trip is not always identical to the original keystrokes."}, {"id": "tok-09", "topic": "Tokens", "q": "UTF-8 is relevant to tokenization because many tokenizers start from encoded text. Where is UTF-8 specified?", "choices": ["It is an informal convention with no specification.", "RFC 3629", "The BM25 paper", "The HNSW paper"], "answer": 1, "why": "RFC 3629 defines UTF-8. Byte-level tokenizers consume those bytes. Two Unicode strings that look alike can still encode differently and tokenize differently."}, {"id": "emb-01", "topic": "Embeddings", "q": "For vectors that have already been L2-normalized, ranking by cosine similarity matches ranking by what?", "choices": ["Euclidean distance, for every index", "Dot product", "BM25 score", "Character edit distance"], "answer": 1, "why": "On unit-length vectors, cosine similarity and the dot product put neighbors in the same order. Euclidean distance is a different geometry. BM25 is not a vector metric."}, {"id": "emb-02", "topic": "Embeddings", "q": "Why can a bi-encoder search a large corpus at query time?", "choices": ["It jointly rescores every document with the query in one cross-attention pass.", "Document vectors are computed and stored before the query arrives, so only the query needs a new embedding.", "It does not use vectors.", "The similarity metric is optional."], "answer": 1, "why": "Separate encoders make offline indexing possible. A cross-encoder scores a pair together and is reserved for a short list."}, {"id": "emb-03", "topic": "Embeddings", "q": "HNSW (Malkov and Yashunin) is best described as which object?", "choices": ["A guaranteed exact scan of every vector", "A graph index for approximate nearest neighbor search", "A subword tokenizer", "A preference-tuning loss"], "answer": 1, "why": "HNSW searches a navigable small-world graph. It is approximate: you measure recall against an exact scan instead of assuming perfection."}, {"id": "emb-04", "topic": "Embeddings", "q": "You switched embedding models. The new model uses the same vector dimension. What should you do with the old index?", "choices": ["Query it as-is. Equal dimension means equal space.", "Rebuild it. Vectors from different models are not in the same space.", "Divide every old vector by the temperature.", "Reuse it only for BM25 queries."], "answer": 1, "why": "Dimension is the length of the list, not a shared coordinate system. Mixing models returns neighbors that do not mean what you think."}, {"id": "emb-05", "topic": "Embeddings", "q": "Product quantization (Jégou, Douze, and Schmid, 2011) is used in vector search mainly to do what?", "choices": ["Compress vectors so search can use less memory and less exact arithmetic", "Merge BPE pairs", "Set the sampling temperature", "Attach citations to generated sentences"], "answer": 0, "why": "The vector is split into subspaces and each subspace is replaced by the id of a nearby centroid. That is compression for search, with an accuracy tradeoff."}, {"id": "emb-06", "topic": "Embeddings", "q": "Which agreement is required between index build and query?", "choices": ["Any similarity metric can read any index.", "Use the metric the index was built for, with the same preprocessing.", "A cosine query can read a BM25 postings list directly.", "Temperature selects the metric automatically."], "answer": 1, "why": "Cosine, dot product, and Euclidean search find different neighbors. Preprocessing such as normalization has to match as well."}, {"id": "emb-07", "topic": "Embeddings", "q": "Dense retrieval differs from BM25 in that dense retrieval does what?", "choices": ["Ranks by learned vector similarity rather than by term statistics", "Ignores the query text", "Cannot return the original passage", "Is defined as greedy decoding"], "answer": 0, "why": "BM25 scores term frequency, inverse document frequency, and length. Dense retrieval scores geometry in an embedding space. They miss different queries."}, {"id": "emb-08", "topic": "Embeddings", "q": "Two chunks with a high embedding similarity are guaranteed to be which of these?", "choices": ["Factually correct and up to date", "Close under the embedding model’s training objective", "Automatically cited in the answer", "Safe to show to every user"], "answer": 1, "why": "The geometry reflects the embedding objective. Freshness, truth, and permission are properties you store and filter separately."}, {"id": "rag-01", "topic": "RAG", "q": "Retrieval-augmented generation, as named by Lewis et al. (2020), means which pattern?", "choices": ["Fine-tuning a new model on every user question", "Conditioning generation on passages retrieved from a corpus", "Raising temperature until the answer changes", "Replacing the tokenizer with BM25"], "answer": 1, "why": "RAG fetches text and puts it in the model’s context. It does not, by itself, update weights. The model can still fail to use the text."}, {"id": "rag-02", "topic": "RAG", "q": "Which order matches a sound index build?", "choices": ["Generate, cite, then ingest documents", "Ingest, chunk, embed, then index", "Retrieve, and only then invent the source documents", "Rerank the corpus before any documents exist"], "answer": 1, "why": "You prepare the corpus first. Retrieval, reranking, generation, and citation happen when a question arrives."}, {"id": "rag-03", "topic": "RAG", "q": "The query vector must be produced how?", "choices": ["With the same embedding model and preprocessing used for the chunks", "With any model that has the same dimension", "By the chat model’s tokenizer alone, with no embedding model", "By BM25, which outputs the vectors"], "answer": 0, "why": "The index and the query have to live in one space. A newer embedding model is a reason to rebuild, not a drop-in replacement."}, {"id": "rag-04", "topic": "RAG", "q": "A cross-encoder reranker is typically which of these?", "choices": ["A cheaper replacement for indexing the corpus", "A slower, often more accurate scorer for a short candidate list", "A subword tokenizer", "A stop condition for an agent"], "answer": 1, "why": "Joint scoring of query and passage is expensive per pair. Run it on the dozens of hits retrieval already found, not on every chunk in the library."}, {"id": "rag-05", "topic": "RAG", "q": "Hybrid search means which combination?", "choices": ["Lexical ranking such as BM25 together with dense vector retrieval", "Two temperatures averaged in one decoder", "Two context windows inside one token", "RLHF training on BPE merges"], "answer": 0, "why": "The lexical path catches exact strings. The dense path catches paraphrases. Fusing them is a design choice you evaluate, not a default that is always better."}, {"id": "rag-06", "topic": "RAG", "q": "The retrieved passages do not contain the answer. What is the grounded behavior?", "choices": ["Invent a precise answer and cite a random chunk.", "Say that the retrieved corpus does not support an answer.", "Increase top-k without a limit until the model guesses.", "Switch tokenizers in the middle of the sentence."], "answer": 1, "why": "RAG’s claim is that the answer is conditioned on retrieved text. If the text is silent, the honest output says so. A citation to an unrelated chunk is worse than silence."}, {"id": "rag-07", "topic": "RAG", "q": "A citation attached to a RAG answer should do which job?", "choices": ["Point at the retrieved passage that is supposed to support the claim, and remain checkable", "Replace the need for anyone to read the source", "Always identify a page from pretraining, which cannot be opened", "Be omitted, because citations are vectors"], "answer": 0, "why": "The pointer lets a person or a grader open the passage. Support is a judgment about that passage and the claim. The pointer alone is not the judgment."}, {"id": "rag-08", "topic": "RAG", "q": "Chunk overlap is used for which reason?", "choices": ["It proves the answer is true.", "A boundary sentence still appears whole in at least one chunk.", "It sets the sampling temperature.", "It implements JSON-RPC."], "answer": 1, "why": "Overlap is a hedge against unlucky cuts. It costs extra tokens. It is not a factuality method."}, {"id": "rag-09", "topic": "RAG", "q": "“Lost in the middle” (Liu et al., 2023) is a warning about what?", "choices": ["In models that were studied, relevant text in the middle of a long context was used less reliably than text at the ends.", "The specification deletes the middle token of every prompt.", "BM25 cannot score any document longer than a page.", "HNSW forbids result lists longer than 10."], "answer": 0, "why": "The paper is evidence about tested models, not a law you should pretend is universal. It is still a reason to keep retrieved context short and ordered with care."}, {"id": "rag-10", "topic": "RAG", "q": "Why do metadata filters belong in a retrieval design?", "choices": ["They can keep out-of-date, off-topic, or forbidden passages from ever reaching the model.", "They replace the need for evaluation.", "They change the tokenizer vocabulary.", "They force temperature to 0."], "answer": 0, "why": "A high vector score does not grant permission. Filter on source, time, and access before the passage enters the prompt."}, {"id": "agt-01", "topic": "Agents", "q": "In the engineering sense used in this guide, an agent is which object?", "choices": ["Any single completion, if the prose is long", "A loop that selects actions, observes results, and ends under an explicit stop condition", "A vector index", "A subword vocabulary"], "answer": 1, "why": "The distinctive piece is the loop and the stop, not the brand name on the model. One completion with no later observation is not that loop."}, {"id": "agt-02", "topic": "Agents", "q": "ReAct (Yao et al., 2023) is a pattern that does what?", "choices": ["Interleaves reasoning notes with actions in an environment", "Compresses vectors with product quantization", "Defines the BM25 formula", "Replaces softmax"], "answer": 0, "why": "ReAct is one published way to structure an agent trace. You can build a loop with explicit tool calls without copying that paper’s format, but you still owe a trace and a stop."}, {"id": "agt-03", "topic": "Agents", "q": "In a tool-using loop, which component should execute the tool?", "choices": ["The model’s weight matrices", "The host program, after it checks the request", "The embedding index", "The tokenizer"], "answer": 1, "why": "The model proposes a name and arguments. The host validates them and performs the operation. Saying the model “ran” the tool hides the only place where permission can live."}, {"id": "agt-04", "topic": "Agents", "q": "Which of these is a real stop condition?", "choices": ["The step budget or the cost budget is exhausted.", "The prose sounds confident.", "The vector dimension is an even number.", "The vocabulary contains the letter e."], "answer": 0, "why": "Budgets, repeated errors, approval gates, and a met goal are stops you can implement. Confidence is a style, not a halt."}, {"id": "agt-05", "topic": "Agents", "q": "What does the observe step put into the loop?", "choices": ["Nothing. The tool result is dropped to save tokens.", "The tool result, including errors and empty results, where the next decision can use it.", "A freshly trained set of weights", "The full vocabulary as a prompt"], "answer": 1, "why": "If the next step cannot see the failure, it will guess. Observation is how the loop stays attached to what actually happened."}, {"id": "agt-06", "topic": "Agents", "q": "What is the reflect step for?", "choices": ["Comparing the observation with the goal and choosing to continue, revise, or stop", "Embedding the whole corpus", "Merging BPE pairs", "Printing the vocabulary"], "answer": 0, "why": "Reflection is a decision about the goal, not a second copy of the tool output. It can be a short rule in code, or a model call that is itself logged."}, {"id": "agt-07", "topic": "Agents", "q": "Why does a side-effecting tool need a tighter gate than a lookup?", "choices": ["It does not. Every tool is the same permission.", "A write, a charge, a delete, or a send is harder to undo and can be repeated by a runaway loop.", "Temperature cannot be set on lookups.", "Lookups do not use schemas."], "answer": 1, "why": "Read-only mistakes waste time. Side effects change another system. Approval, allow-lists, and idempotency keys belong on the second kind."}, {"id": "agt-08", "topic": "Agents", "q": "A hardcoded recipe with no model choice between steps is best described as what?", "choices": ["Always an agent, because it has more than one step", "An ordinary program, which is often the safer design", "A tokenizer", "An embedding space"], "answer": 1, "why": "Use a model to pick actions when you cannot write the branch more cheaply and safely. A fixed pipeline does not need to be dressed up as an agent."}, {"id": "mcp-01", "topic": "Tools and MCP", "q": "What is the job of a tool schema?", "choices": ["Declare the name, purpose, and argument shape so the host can reject a bad call", "Execute the tool inside the attention layers", "Choose the sampling temperature", "Chunk documents for retrieval"], "answer": 0, "why": "The schema is a contract the host enforces. The model can still emit a bad request. Validation is how that request dies before it runs."}, {"id": "mcp-02", "topic": "Tools and MCP", "q": "Model Context Protocol messages are carried in which format?", "choices": ["JSON-RPC 2.0", "BM25 queries", "Raw logits", "PDF content streams"], "answer": 0, "why": "MCP uses JSON-RPC 2.0 as its message envelope. JSON-RPC 2.0 is its own specification. It is not an IETF RFC."}, {"id": "mcp-03", "topic": "Tools and MCP", "q": "In the Model Context Protocol, the host is which role?", "choices": ["The application that creates clients and decides what may run", "A subword piece inside the tokenizer", "A ranking metric", "The softmax temperature"], "answer": 0, "why": "The host is the product a person uses. A client inside the host holds one connection. The server offers capabilities. The host remains responsible for permission."}, {"id": "mcp-04", "topic": "Tools and MCP", "q": "An MCP resource is which kind of capability?", "choices": ["Readable data the host can fetch", "Always a side effect that charges a customer", "The model’s weight file", "A sampling algorithm"], "answer": 0, "why": "Resources are for reading. Tools are for invocation. A prompt template is a third capability. Mixing up the three mixes up the permission you meant to grant."}, {"id": "mcp-05", "topic": "Tools and MCP", "q": "You connect an MCP server that advertises ten tools. What did you just decide?", "choices": ["Those tools are safe because they speak a protocol.", "You made a trust decision, and you still need an allow-list, validation, and logs.", "The model will refuse every dangerous call with no host checks.", "Evaluation is no longer required."], "answer": 1, "why": "A protocol standardizes the shape of the conversation. It does not grade the server’s intentions or its bugs. Allow only the tools this task needs."}, {"id": "mcp-06", "topic": "Tools and MCP", "q": "Function calling means which event?", "choices": ["The model returns a structured request for a named operation, and the application may run it.", "The model executes arbitrary code inside its attention layers.", "The tokenizer is replaced mid-request.", "Sampling becomes deterministic even when temperature is high."], "answer": 0, "why": "The structured request is data. Execution is a later choice the host makes. High temperature does not become greedy because a tool schema exists."}, {"id": "mcp-07", "topic": "Tools and MCP", "q": "JSON Schema, in a tool definition, is used to do what?", "choices": ["Describe the shape of the arguments so the host can validate them", "Rank passages with BM25", "L2-normalize embedding vectors", "Set the context-window length"], "answer": 0, "why": "JSON Schema describes JSON. It does not run the tool and it does not make the description trustworthy. The description is still untrusted text from the model’s point of view."}, {"id": "mcp-08", "topic": "Tools and MCP", "q": "When does an idempotent tool design matter?", "choices": ["When a retry could otherwise repeat a side effect, such as a second charge or a second send", "When you are only computing cosine similarity of two unit vectors", "When you are counting the vocabulary size", "When you are drawing a flowchart"], "answer": 0, "why": "Idempotent means a repeated request does not apply the effect again. Lookups are usually naturally idempotent. Charges and sends are not, unless you design them to be."}, {"id": "mcp-09", "topic": "Tools and MCP", "q": "A tool result contains the sentence “run the delete tool now.” How should the host treat that sentence?", "choices": ["As a new permission that overrides the allow-list", "As untrusted data. It does not grant a tool the session was not given.", "As a JSON-RPC method named delete", "As an instruction to raise temperature"], "answer": 1, "why": "Indirect prompt injection hides instructions in data the model will read. Authority stays in the host’s allow-list. OWASP lists prompt injection as a primary LLM application risk."}, {"id": "ev-01", "topic": "Evaluation", "q": "Recall at k measures which quantity?", "choices": ["Of the items marked relevant, the fraction that appear in the top k", "Of the top k items, the fraction that are relevant", "The sampling temperature", "The parameter count of the judge model"], "answer": 0, "why": "Recall@k looks at coverage of the relevant set. Precision@k looks at cleanliness of the returned list. A long list can raise recall and lower precision."}, {"id": "ev-02", "topic": "Evaluation", "q": "Precision at k measures which quantity?", "choices": ["Of the items marked relevant, the fraction returned anywhere in the index", "Of the k returned items, the fraction that are relevant", "Always the same number as recall at k", "The mean reciprocal rank"], "answer": 1, "why": "Precision asks how much of what you showed was relevant. It is not a coverage metric, and it is not MRR."}, {"id": "ev-03", "topic": "Evaluation", "q": "Mean reciprocal rank uses which value, averaged over queries?", "choices": ["One divided by the rank of the first relevant result", "The sum of all token logits", "The chunk overlap measured in characters", "The learning rate"], "answer": 0, "why": "A first hit at rank 1 contributes 1. A first hit at rank 2 contributes 1/2. Queries with no hit contribute 0 under the usual definition."}, {"id": "ev-04", "topic": "Evaluation", "q": "What does nDCG reward?", "choices": ["Relevant items placed earlier in the ranking", "The longest documents, regardless of relevance", "Alphabetical order of titles", "The highest sampling temperature"], "answer": 0, "why": "Discounted cumulative gain gives more credit to relevant items near the top. Normalization makes queries with different numbers of relevant items comparable."}, {"id": "ev-05", "topic": "Evaluation", "q": "A golden set should be treated how?", "choices": ["Rewritten before every run so the score keeps rising", "Versioned and kept stable so a regression is visible", "Stored only inside the model’s weights", "Used as a synonym for the vocabulary"], "answer": 1, "why": "If the questions move with the prompt edits, you cannot tell a better system from an easier test. Freeze the set, then change the system."}, {"id": "ev-06", "topic": "Evaluation", "q": "When is an LLM-as-judge score something you can defend?", "choices": ["Whenever the judge model is newer than the system under test", "When you have a written rubric and you have compared the judge with human grades on a sample", "When the temperature is exactly 1", "When you skip the rubric so the judge can be creative"], "answer": 1, "why": "A judge scales reading and copies the judge’s biases, including a taste for longer answers. Calibration against people is part of the measurement, not a courtesy."}, {"id": "ev-07", "topic": "Evaluation", "q": "Which pair belongs in one report about a production change?", "choices": ["Answer quality together with latency, cost, and a regression check against the previous version", "A single demo transcript and nothing else", "Only the parameter count", "Only the color of the interface"], "answer": 0, "why": "A quality gain that doubles latency or cost is a different decision from a quality gain that does not. Report the operational numbers beside the rubric."}, {"id": "ev-08", "topic": "Evaluation", "q": "Why is exact match a weak sole metric for open-ended answers?", "choices": ["A correct paraphrase scores as a miss.", "It always understands citations.", "It is the definition of recall at k.", "It removes the need for a held-out set."], "answer": 0, "why": "Exact match fits short canonical strings, such as a chosen id or a normalized date. Prose needs a rubric that allows equivalent wording."}, {"id": "ev-09", "topic": "Evaluation", "q": "A fair held-out check uses examples that are which of these?", "choices": ["Edited repeatedly until those exact examples pass, then published as the score", "Kept out of prompt tinkering and out of the training updates you are judging", "Used as the BPE merge list", "Identical to the vocabulary file"], "answer": 1, "why": "Tuning on the reported items measures your editing. Hold examples aside, run them when you claim a result, and resist patching them one by one."}, {"id": "ev-10", "topic": "Evaluation", "q": "Prompt-injection tests for a RAG or tool system should include which cases?", "choices": ["Only a person typing into the chat box", "Hostile instructions placed in retrieved documents and in tool results, as well as in user text", "Only sweeps of the temperature setting", "Only tokenizer round trips"], "answer": 1, "why": "Indirect injection arrives in data. OWASP’s treatment of prompt injection covers that path. A test set that only types into the chat box misses it."}, {"id": "ev-11", "topic": "Evaluation", "q": "Perplexity tells you which fact?", "choices": ["How probable a token sequence was under the model", "Whether the retrieved passage supports the market-day claim", "The permission of a document", "The idempotency of a tool"], "answer": 0, "why": "Lower perplexity means the model assigned higher probability to that text. It is not a truth score, a retrieval score, or a safety score."}, {"id": "ev-12", "topic": "Evaluation", "q": "You change only the chunk overlap and recall at 5 falls. What do you have?", "choices": ["Proof that the model’s weights improved", "A regression on the retrieval metric you promised to watch", "Evidence that temperature should be raised", "A reason to delete the golden set"], "answer": 1, "why": "One-variable changes are how you attribute a regression. Keep the report next to the change. Do not average it away with an unrelated prompt edit."}];
+  var byId = {};
+  QUESTIONS.forEach(function (q) { byId[q.id] = q; });
+  var topics = ["All"];
+  QUESTIONS.forEach(function (q) {
+    if (topics.indexOf(q.topic) < 0) topics.push(q.topic);
+  });
+
+  var topicSelect = document.getElementById("topic");
+  topics.forEach(function (topic) {
+    var opt = document.createElement("option");
+    opt.value = topic;
+    opt.textContent = topic === "All" ? "All topics (" + QUESTIONS.length + ")" : topic;
+    topicSelect.appendChild(opt);
+  });
+
+  var savedOk = true;
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : { best: null, run: null };
+    } catch (e) {
+      savedOk = false;
+      return { best: null, run: null };
+    }
+  }
+  function persist(state) {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+      savedOk = true;
+      return true;
+    } catch (e) {
+      savedOk = false;
+      return false;
+    }
+  }
+  function usable(state) {
+    if (!state || !state.run || !state.run.ids) return false;
+    for (var i = 0; i < state.run.ids.length; i++) {
+      if (!byId[state.run.ids[i]]) return false;
+    }
+    return true;
+  }
+
+  var state = load();
+  if (!usable(state)) state.run = null;
+  var pick = null;
+
+  function countCorrect(run) {
+    var n = 0;
+    Object.keys(run.answers).forEach(function (id) {
+      if (run.answers[id].ok) n += 1;
+    });
+    return n;
+  }
+
+  function saveNote() {
+    var text = savedOk
+      ? "Progress is stored in localStorage on this device."
+      : "This browser did not allow localStorage. The score still works until you leave the page.";
+    ["savemsg", "savemsg2"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    });
+  }
+
+  function showBest() {
+    var el = document.getElementById("best");
+    if (!state.best) {
+      el.textContent = "No finished attempt is stored on this device yet.";
+      return;
+    }
+    var pct = Math.round(100 * state.best.correct / state.best.total);
+    el.textContent = "Best finished score on this device: " + state.best.correct + " / " + state.best.total + " (" + pct + "%).";
+  }
+
+  function setView(which) {
+    document.getElementById("start").hidden = which !== "start";
+    document.getElementById("run").hidden = which !== "run";
+    document.getElementById("end").hidden = which !== "end";
+  }
+
+  function renderStart() {
+    setView("start");
+    showBest();
+    saveNote();
+    var cont = document.getElementById("continuebtn");
+    if (state.run && state.run.ids && state.run.ids.length) {
+      cont.hidden = false;
+      var answered = Object.keys(state.run.answers).length;
+      cont.textContent = "Continue (" + answered + " / " + state.run.ids.length + " answered)";
+    } else {
+      cont.hidden = true;
+    }
+  }
+
+  function idsFor(topic) {
+    return QUESTIONS.filter(function (q) {
+      return topic === "All" || q.topic === topic;
+    }).map(function (q) { return q.id; });
+  }
+
+  function begin(topic) {
+    state.run = { topic: topic, ids: idsFor(topic), answers: {} };
+    persist(state);
+    pick = null;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    var run = state.run;
+    var cursor = 0;
+    while (cursor < run.ids.length && run.answers[run.ids[cursor]]) cursor += 1;
+    if (cursor >= run.ids.length) {
+      finish();
+      return;
+    }
+    setView("run");
+    var q = byId[run.ids[cursor]];
+    pick = null;
+    var answered = Object.keys(run.answers).length;
+    document.getElementById("progresslabel").textContent =
+      "Question " + (cursor + 1) + " of " + run.ids.length + " · " + answered + " answered";
+    document.getElementById("bar").style.width = Math.round(100 * answered / run.ids.length) + "%";
+    document.getElementById("qtopic").textContent = q.topic;
+    document.getElementById("qtext").textContent = q.q;
+    var box = document.getElementById("choices");
+    box.innerHTML = "";
+    q.choices.forEach(function (text, index) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "choice";
+      button.setAttribute("aria-checked", "false");
+      button.textContent = text;
+      button.addEventListener("click", function () { choose(index); });
+      box.appendChild(button);
+    });
+    var feedback = document.getElementById("feedback");
+    feedback.hidden = true;
+    feedback.textContent = "";
+    feedback.className = "feedback";
+    document.getElementById("checkbtn").hidden = false;
+    document.getElementById("checkbtn").disabled = false;
+    var next = document.getElementById("nextbtn");
+    next.hidden = true;
+    next.textContent = cursor + 1 === run.ids.length ? "See score" : "Next question";
+  }
+
+  function choose(index) {
+    if (document.getElementById("checkbtn").hidden) return;
+    pick = index;
+    var buttons = document.querySelectorAll("#choices .choice");
+    buttons.forEach(function (button, i) {
+      button.setAttribute("aria-checked", i === index ? "true" : "false");
+    });
+  }
+
+  function check() {
+    var run = state.run;
+    var cursor = 0;
+    while (cursor < run.ids.length && run.answers[run.ids[cursor]]) cursor += 1;
+    var q = byId[run.ids[cursor]];
+    var feedback = document.getElementById("feedback");
+    if (pick === null) {
+      feedback.hidden = false;
+      feedback.className = "feedback bad";
+      feedback.textContent = "Choose an answer, then check it.";
+      return;
+    }
+    var ok = pick === q.answer;
+    run.answers[q.id] = { pick: pick, ok: ok };
+    persist(state);
+    var buttons = document.querySelectorAll("#choices .choice");
+    buttons.forEach(function (button, i) {
+      button.disabled = true;
+      if (i === q.answer) button.classList.add("right");
+      else if (i === pick) button.classList.add("wrong");
+    });
+    feedback.hidden = false;
+    feedback.className = ok ? "feedback good" : "feedback bad";
+    feedback.textContent = (ok ? "Correct. " : "Not this one. ") + q.why;
+    document.getElementById("checkbtn").hidden = true;
+    document.getElementById("nextbtn").hidden = false;
+    var answered = Object.keys(run.answers).length;
+    document.getElementById("bar").style.width = Math.round(100 * answered / run.ids.length) + "%";
+    document.getElementById("progresslabel").textContent =
+      "Question " + (cursor + 1) + " of " + run.ids.length + " · " + answered + " answered";
+    saveNote();
+  }
+
+  function finish() {
+    var run = state.run;
+    var correct = countCorrect(run);
+    var total = run.ids.length;
+    var pct = Math.round(100 * correct / total);
+    if (run.topic === "All") {
+      var ratio = correct / total;
+      var bestRatio = state.best ? state.best.correct / state.best.total : -1;
+      if (!state.best || ratio > bestRatio || (ratio === bestRatio && correct > state.best.correct)) {
+        state.best = { correct: correct, total: total, at: new Date().toISOString() };
+      }
+    }
+    persist(state);
+    setView("end");
+    document.getElementById("scorebig").textContent = correct + " / " + total;
+    document.getElementById("scorepct").textContent = pct + "% correct on this attempt." + (run.topic === "All" ? " The best full-quiz score is stored on this device." : " This topic score is not stored as the full-quiz best.");
+    var byTopic = {};
+    run.ids.forEach(function (id) {
+      var q = byId[id];
+      if (!byTopic[q.topic]) byTopic[q.topic] = { correct: 0, total: 0 };
+      byTopic[q.topic].total += 1;
+      if (run.answers[id] && run.answers[id].ok) byTopic[q.topic].correct += 1;
+    });
+    var table = document.createElement("table");
+    var thead = document.createElement("thead");
+    var hr = document.createElement("tr");
+    ["Topic", "Correct", "Out of"].forEach(function (label) {
+      var th = document.createElement("th");
+      th.textContent = label;
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    Object.keys(byTopic).forEach(function (topic) {
+      var tr = document.createElement("tr");
+      [topic, String(byTopic[topic].correct), String(byTopic[topic].total)].forEach(function (value) {
+        var td = document.createElement("td");
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    var breakdown = document.getElementById("breakdown");
+    breakdown.innerHTML = "";
+    var heading = document.createElement("h3");
+    heading.textContent = "By topic";
+    breakdown.appendChild(heading);
+    breakdown.appendChild(table);
+
+    var missed = document.getElementById("missed");
+    missed.innerHTML = "";
+    var mh = document.createElement("h3");
+    mh.textContent = "Read these again";
+    missed.appendChild(mh);
+    var any = false;
+    run.ids.forEach(function (id) {
+      var record = run.answers[id];
+      if (record && record.ok) return;
+      any = true;
+      var q = byId[id];
+      var block = document.createElement("div");
+      block.className = "panel";
+      block.style.marginTop = "0.6rem";
+      var t = document.createElement("p");
+      t.className = "kicker";
+      t.textContent = q.topic;
+      var qq = document.createElement("p");
+      qq.textContent = q.q;
+      var ans = document.createElement("p");
+      ans.textContent = "Answer: " + q.choices[q.answer];
+      var why = document.createElement("p");
+      why.textContent = q.why;
+      block.appendChild(t);
+      block.appendChild(qq);
+      block.appendChild(ans);
+      block.appendChild(why);
+      missed.appendChild(block);
+    });
+    if (!any) {
+      var done = document.createElement("p");
+      done.textContent = "Every question in this attempt was correct.";
+      missed.appendChild(done);
+    }
+    saveNote();
+  }
+
+  document.getElementById("startbtn").addEventListener("click", function () {
+    begin(topicSelect.value);
+  });
+  document.getElementById("continuebtn").addEventListener("click", function () {
+    if (state.run) showQuestion();
+  });
+  document.getElementById("clearbtn").addEventListener("click", function () {
+    state = { best: null, run: null };
+    persist(state);
+    renderStart();
+  });
+  document.getElementById("checkbtn").addEventListener("click", check);
+  document.getElementById("nextbtn").addEventListener("click", showQuestion);
+  document.getElementById("again").addEventListener("click", function () {
+    state.run = null;
+    persist(state);
+    renderStart();
+  });
+  document.addEventListener("keydown", function (event) {
+    if (document.getElementById("run").hidden) return;
+    if (event.key >= "1" && event.key <= "4") {
+      choose(Number(event.key) - 1);
+    } else if (event.key === "Enter") {
+      if (!document.getElementById("checkbtn").hidden) check();
+      else showQuestion();
+    }
+  });
+  renderStart();
+})();
+
+</script>
+
+</main>
+<footer class="site">
+<p>AI Lab Free University · Fundamentals study guide</p>
+<p>Educational notes on widely published ideas. Not a certification, a vendor manual, or a warranty.</p>
+<p>The quiz stores progress in this browser with localStorage. These pages do not send answers anywhere.</p>
+</footer>
+</div>
+</body>
+</html>

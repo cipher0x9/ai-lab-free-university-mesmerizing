@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Glossary · AI engineering fundamentals</title>
+<meta name="description" content="Searchable glossary of AI engineering terms, from attention and BM25 to RAG, MCP, and evaluation metrics.">
+<style>
+
+:root {
+  --ink: #1b2430;
+  --muted: #3a4858;
+  --paper: #f4f0e7;
+  --card: #fffdf8;
+  --line: #e3d6c6;
+  --link: #143e70;
+  --good-bg: #e5f6ea;
+  --good-ink: #14532d;
+  --bad-bg: #fdecec;
+  --bad-ink: #7f1d1d;
+  --shadow: 0 12px 32px rgba(72, 52, 28, 0.08);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --max: 46rem;
+  --wide: 68rem;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 520px at -10% -10%, #efe4f8 0%, transparent 55%),
+    radial-gradient(900px 480px at 110% -8%, #d7f1ea 0%, transparent 52%),
+    radial-gradient(800px 420px at 50% 120%, #fde6d2 0%, transparent 50%),
+    var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+a { color: var(--link); text-underline-offset: 0.16em; }
+a:hover { color: #0c2c52; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+.skip {
+  position: absolute; left: 1rem; top: -4rem;
+  background: #143e70; color: #fff; padding: 0.6rem 0.9rem; border-radius: 8px;
+  z-index: 5;
+}
+.skip:focus { top: 0.6rem; color: #fff; }
+.wrap { width: min(var(--wide), calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; padding: 0.85rem 0 0.4rem;
+}
+.brand {
+  font-family: var(--sans); font-weight: 700; letter-spacing: 0.01em;
+  text-decoration: none; color: var(--ink); font-size: 1rem;
+}
+.brand span { color: #5b4b8a; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.top nav a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  color: var(--ink); min-height: 44px; display: inline-flex; align-items: center;
+  padding: 0.15rem 0.7rem; border-radius: 999px;
+}
+.top nav a[aria-current="page"] { background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+.ribbon { display: flex; height: 8px; border-radius: 999px; overflow: hidden; margin: 0.2rem 0 1rem; }
+.ribbon i { display: block; flex: 1; }
+.kicker {
+  font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #5c3d78; margin: 0 0 0.4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 650; }
+h1 { font-size: clamp(2rem, 5vw, 3.15rem); margin: 0 0 0.6rem; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); margin: 0 0 0.55rem; }
+h3 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+p { margin: 0.55rem 0; }
+.lede { font-size: 1.28rem; max-width: 40rem; color: var(--ink); }
+.muted { color: var(--muted); }
+.panel, .card, article.term, .qcard, .step, .sheet section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.panel { padding: 1.15rem 1.2rem 1.2rem; }
+.grid { display: grid; gap: 0.9rem; }
+.grid.links { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+a.tile {
+  display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none;
+  color: var(--ink); background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 1rem 1.05rem; min-height: 8.5rem;
+  box-shadow: var(--shadow);
+}
+a.tile:hover { border-color: #c9b8a4; }
+a.tile strong { font-size: 1.2rem; }
+a.tile span { color: var(--muted); font-size: 1rem; }
+a.tile img { width: 100%; height: 168px; object-fit: cover; object-position: top center; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+a.btn.ghost, button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+[hidden] { display: none !important; }
+.diagram { margin: 0.6rem 0 1rem; }
+.diagram svg { width: min(100%, 640px); height: auto; display: block; }
+.meta {
+  font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #5c3d78;
+}
+table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; background: #f7f1e6; }
+.narrow { max-width: var(--max); }
+.stack > * + * { margin-top: 1rem; }
+.concept { display: grid; gap: 1rem; margin: 2.2rem 0; }
+@media (min-width: 900px) {
+  .concept { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .concept figure { position: sticky; top: 0.6rem; }
+}
+.concept .body { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.15rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+figure { margin: 0; }
+figure img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-family: var(--sans); font-size: 0.92rem; margin-top: 0.4rem; }
+ol, ul { padding-left: 1.2rem; }
+li { margin: 0.28rem 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; list-style: none; }
+.toc a {
+  font-family: var(--sans); font-size: 0.95rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 0.75rem; min-height: 44px; display: inline-flex; align-items: center;
+}
+.call { border-left: 6px solid #7c6aa5; }
+.sources { font-size: 1.02rem; }
+footer.site {
+  margin: 2.5rem 0 2rem; color: var(--muted); font-size: 0.98rem;
+}
+.flow-svg { width: min(100%, 880px); height: auto; display: block; margin: 0.5rem auto; background: transparent; }
+.steps { display: grid; gap: 0.7rem; }
+.step { padding: 0.85rem 1rem; }
+.step b { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #5c3d78; }
+.searchrow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: end; }
+label.field { display: flex; flex-direction: column; gap: 0.25rem; font-family: var(--sans); font-size: 0.92rem; flex: 1; min-width: 16rem; }
+input[type="search"], select {
+  font: 1.05rem var(--serif); color: var(--ink); background: #fff;
+  border: 1px solid #cbbba8; border-radius: 12px; padding: 0.7rem 0.8rem; min-height: 44px; width: 100%;
+}
+.letters { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.4rem 0 0.2rem; }
+.letters a {
+  font-family: var(--sans); text-decoration: none; min-width: 44px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 10px;
+}
+article.term { padding: 0.9rem 1rem 1rem; margin: 0.55rem 0; }
+article.term h3 { font-size: 1.2rem; }
+.letterhead { margin: 1.4rem 0 0.3rem; font-family: var(--sans); }
+button, .btn {
+  font-family: var(--sans); font-size: 1rem; min-height: 44px;
+  border-radius: 12px; border: 1px solid #143e70; background: #143e70; color: #fff;
+  padding: 0.45rem 0.95rem; cursor: pointer;
+}
+button.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.choice {
+  display: flex; gap: 0.75rem; align-items: flex-start; text-align: left;
+  width: 100%; background: #fff; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 14px; padding: 0.8rem 0.9rem; margin: 0.4rem 0; cursor: pointer;
+}
+.choice[aria-checked="true"] { border-color: #143e70; background: #f2f6fb; }
+.choice.right { border-color: #14532d; background: var(--good-bg); }
+.choice.wrong { border-color: #7f1d1d; background: var(--bad-bg); }
+.feedback { padding: 0.85rem 1rem; border-radius: 14px; margin-top: 0.6rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-ink); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.bar { height: 10px; background: #efe6da; border-radius: 999px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: #5b4b8a; width: 0; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.scorebig { font-size: clamp(2.4rem, 6vw, 3.4rem); margin: 0; letter-spacing: -0.03em; }
+.sheet { max-width: 52rem; }
+.sheet section { padding: 0.85rem 1rem; margin: 0.7rem 0; box-shadow: none; }
+.cols { display: grid; gap: 0.7rem; }
+@media (min-width: 800px) { .cols.two { grid-template-columns: 1fr 1fr; } }
+.tiny { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); }
+.hidden { display: none !important; }
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  .top, .ribbon, .skip, .noprint, footer.site { display: none !important; }
+  .panel, .card, .sheet section, article.term, .step, a.tile { box-shadow: none; }
+  a { text-decoration: none; }
+  .sheet section, .step, article.term { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="index.html">AI Lab <span>Fundamentals</span></a>
+<nav aria-label="Guide"><a href="index.html">Home</a><a href="cards.html">Cards</a><a href="flows.html">Flows</a><a href="quiz.html">Quiz</a><a href="glossary.html" aria-current="page">Glossary</a><a href="cheatsheet.html">Cheat sheet</a></nav>
+</header>
+<div class="ribbon" aria-hidden="true"><i style="background:#3d2a6d"></i><i style="background:#6b3418"></i><i style="background:#0f4f48"></i><i style="background:#163a6b"></i><i style="background:#6d2340"></i><i style="background:#6b4a0a"></i><i style="background:#14532d"></i></div>
+<main id="content">
+
+<p class="kicker">Glossary</p>
+<h1>Terms you can search</h1>
+<p class="lede">108 short entries. Search matches the term and the definition. Nothing is sent off this page.</p>
+<div class="searchrow">
+<label class="field" for="q">Search
+<input id="q" type="search" autocomplete="off" placeholder="Try embedding, stop condition, BM25">
+</label>
+</div>
+<p id="count" class="tiny" aria-live="polite"></p>
+<nav class="letters" aria-label="Letters"><a href="#letter-A">A</a><a href="#letter-B">B</a><a href="#letter-C">C</a><a href="#letter-D">D</a><a href="#letter-E">E</a><a href="#letter-F">F</a><a href="#letter-G">G</a><a href="#letter-H">H</a><a href="#letter-I">I</a><a href="#letter-J">J</a><a href="#letter-L">L</a><a href="#letter-M">M</a><a href="#letter-N">N</a><a href="#letter-O">O</a><a href="#letter-P">P</a><a href="#letter-R">R</a><a href="#letter-S">S</a><a href="#letter-T">T</a><a href="#letter-U">U</a><a href="#letter-V">V</a><a href="#letter-W">W</a></nav>
+<p id="empty" class="panel" hidden>No term matches that search. Try a shorter word, such as token, tool, or recall.</p>
+<h2 class="letterhead" id="letter-A" data-letter="A">A</h2><article class="term" id="activation" data-letter="A" data-search="activation the value a neural-network unit emits after a function such as gelu, or a probability after softmax. people also say “activations” for the block of numbers leaving a layer. logit softmax">
+<h3>Activation</h3>
+<p>The value a neural-network unit emits after a function such as GELU, or a probability after softmax. People also say “activations” for the block of numbers leaving a layer.</p>
+<p class="tiny">See also <a href="#logit">Logit</a>, <a href="#softmax">Softmax</a></p>
+</article><article class="term" id="agent" data-letter="A" data-search="agent a control loop around a model: choose an action, carry it out, record the result, and stop under an explicit rule. a single completion with no later observation is not this loop. react stop-condition tool">
+<h3>Agent</h3>
+<p>A control loop around a model: choose an action, carry it out, record the result, and stop under an explicit rule. A single completion with no later observation is not this loop.</p>
+<p class="tiny">See also <a href="#react">ReAct</a>, <a href="#stop-condition">Stop condition</a>, <a href="#tool">Tool</a></p>
+</article><article class="term" id="ann" data-letter="A" data-search="approximate nearest neighbor (ann) a search that returns vectors close to a query without comparing the query to every stored vector. the speed comes with a recall tradeoff you should measure against an exact scan. hnsw vector-search recall-at-k">
+<h3>Approximate nearest neighbor (ANN)</h3>
+<p>A search that returns vectors close to a query without comparing the query to every stored vector. The speed comes with a recall tradeoff you should measure against an exact scan.</p>
+<p class="tiny">See also <a href="#hnsw">HNSW</a>, <a href="#vector-search">Vector search</a>, <a href="#recall-at-k">Recall at k</a></p>
+</article><article class="term" id="attention" data-letter="A" data-search="attention a transformer operation that rebuilds each token as a weighted mix of other tokens. the weights come from learned comparisons among those tokens (vaswani et al., 2017). self-attention transformer context-window">
+<h3>Attention</h3>
+<p>A transformer operation that rebuilds each token as a weighted mix of other tokens. The weights come from learned comparisons among those tokens (Vaswani et al., 2017).</p>
+<p class="tiny">See also <a href="#self-attention">Self-attention</a>, <a href="#transformer">Transformer</a>, <a href="#context-window">Context window</a></p>
+</article><h2 class="letterhead" id="letter-B" data-letter="B">B</h2><article class="term" id="beam-search" data-letter="B" data-search="beam search a decoding method that keeps several partial sequences and expands the most promising ones. chat systems more often use greedy decoding or sampling. beam search remains a standard algorithm in sequence generation. greedy-decoding sampling decoding">
+<h3>Beam search</h3>
+<p>A decoding method that keeps several partial sequences and expands the most promising ones. Chat systems more often use greedy decoding or sampling. Beam search remains a standard algorithm in sequence generation.</p>
+<p class="tiny">See also <a href="#greedy-decoding">Greedy decoding</a>, <a href="#sampling">Sampling</a>, <a href="#decoding">Decoding</a></p>
+</article><article class="term" id="bi-encoder" data-letter="B" data-search="bi-encoder an embedding layout that encodes the query and the document separately, so document vectors can be stored before the query arrives. cross-encoder embedding dense-retrieval">
+<h3>Bi-encoder</h3>
+<p>An embedding layout that encodes the query and the document separately, so document vectors can be stored before the query arrives.</p>
+<p class="tiny">See also <a href="#cross-encoder">Cross-encoder</a>, <a href="#embedding">Embedding</a>, <a href="#dense-retrieval">Dense retrieval</a></p>
+</article><article class="term" id="bm25" data-letter="B" data-search="bm25 a lexical ranking function that scores term frequency, inverse document frequency, and document length. the probabilistic account is given by robertson and zaragoza (2009). sparse-retrieval hybrid-search lexical-search">
+<h3>BM25</h3>
+<p>A lexical ranking function that scores term frequency, inverse document frequency, and document length. The probabilistic account is given by Robertson and Zaragoza (2009).</p>
+<p class="tiny">See also <a href="#sparse-retrieval">Sparse retrieval</a>, <a href="#hybrid-search">Hybrid search</a>, <a href="#lexical-search">Lexical search</a></p>
+</article><article class="term" id="bpe" data-letter="B" data-search="byte-pair encoding (bpe) a subword method that repeatedly merges the most frequent adjacent pair of symbols. sennrich, haddow, and birch (2016) introduced it for rare words. byte-level bpe, used by gpt-2 (radford et al., 2019), merges bytes so any utf-8 string can be tokenized. tokenization sentencepiece wordpiece">
+<h3>Byte-pair encoding (BPE)</h3>
+<p>A subword method that repeatedly merges the most frequent adjacent pair of symbols. Sennrich, Haddow, and Birch (2016) introduced it for rare words. Byte-level BPE, used by GPT-2 (Radford et al., 2019), merges bytes so any UTF-8 string can be tokenized.</p>
+<p class="tiny">See also <a href="#tokenization">Tokenization</a>, <a href="#sentencepiece">SentencePiece</a>, <a href="#wordpiece">WordPiece</a></p>
+</article><h2 class="letterhead" id="letter-C" data-letter="C">C</h2><article class="term" id="chunk" data-letter="C" data-search="chunk a passage cut from a larger document so it can be embedded, indexed, and returned on its own. chunk-overlap ingestion rag">
+<h3>Chunk</h3>
+<p>A passage cut from a larger document so it can be embedded, indexed, and returned on its own.</p>
+<p class="tiny">See also <a href="#chunk-overlap">Chunk overlap</a>, <a href="#ingestion">Ingestion</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><article class="term" id="chunk-overlap" data-letter="C" data-search="chunk overlap a repeated slice of text at the edges of neighboring chunks, so a sentence split by a boundary still appears whole in one chunk. overlap costs tokens. it does not make a claim true. chunk rag token-budget">
+<h3>Chunk overlap</h3>
+<p>A repeated slice of text at the edges of neighboring chunks, so a sentence split by a boundary still appears whole in one chunk. Overlap costs tokens. It does not make a claim true.</p>
+<p class="tiny">See also <a href="#chunk">Chunk</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#token-budget">Token budget</a></p>
+</article><article class="term" id="citation" data-letter="C" data-search="citation a pointer from a claim to the passage that is supposed to support it. in a rag system the pointer should identify retrieved text. a person or a grader still has to confirm the support. grounding rag hallucination">
+<h3>Citation</h3>
+<p>A pointer from a claim to the passage that is supposed to support it. In a RAG system the pointer should identify retrieved text. A person or a grader still has to confirm the support.</p>
+<p class="tiny">See also <a href="#grounding">Grounding</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#hallucination">Hallucination</a></p>
+</article><article class="term" id="completion" data-letter="C" data-search="completion the tokens a model generates for a prompt. older interfaces used this word for a single continuation. prompt decoding token">
+<h3>Completion</h3>
+<p>The tokens a model generates for a prompt. Older interfaces used this word for a single continuation.</p>
+<p class="tiny">See also <a href="#prompt">Prompt</a>, <a href="#decoding">Decoding</a>, <a href="#token">Token</a></p>
+</article><article class="term" id="context-stuffing" data-letter="C" data-search="context stuffing placing source text directly in the prompt instead of retrieving it from an index. reasonable when the sources fit and stay few. still depends on the model using that text. context-window rag lost-in-the-middle">
+<h3>Context stuffing</h3>
+<p>Placing source text directly in the prompt instead of retrieving it from an index. Reasonable when the sources fit and stay few. Still depends on the model using that text.</p>
+<p class="tiny">See also <a href="#context-window">Context window</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#lost-in-the-middle">Lost in the middle</a></p>
+</article><article class="term" id="context-window" data-letter="C" data-search="context window the token budget for one request. many apis count input tokens and generated tokens against one limit. read the model card for the accounting. the window is not the parameter count and not a long-term memory. token parameter lost-in-the-middle">
+<h3>Context window</h3>
+<p>The token budget for one request. Many APIs count input tokens and generated tokens against one limit. Read the model card for the accounting. The window is not the parameter count and not a long-term memory.</p>
+<p class="tiny">See also <a href="#token">Token</a>, <a href="#parameter">Parameter</a>, <a href="#lost-in-the-middle">Lost in the middle</a></p>
+</article><article class="term" id="cosine-similarity" data-letter="C" data-search="cosine similarity the cosine of the angle between two vectors. it ignores length. on l2-normalized vectors it ranks neighbors the same way as the dot product. dot-product euclidean-distance embedding">
+<h3>Cosine similarity</h3>
+<p>The cosine of the angle between two vectors. It ignores length. On L2-normalized vectors it ranks neighbors the same way as the dot product.</p>
+<p class="tiny">See also <a href="#dot-product">Dot product</a>, <a href="#euclidean-distance">Euclidean distance</a>, <a href="#embedding">Embedding</a></p>
+</article><article class="term" id="cross-encoder" data-letter="C" data-search="cross-encoder a model that scores a query and a passage together in one pass. a common reranker: stronger on a short list, too costly to run on a whole corpus. bi-encoder reranker rag">
+<h3>Cross-encoder</h3>
+<p>A model that scores a query and a passage together in one pass. A common reranker: stronger on a short list, too costly to run on a whole corpus.</p>
+<p class="tiny">See also <a href="#bi-encoder">Bi-encoder</a>, <a href="#reranker">Reranker</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><h2 class="letterhead" id="letter-D" data-letter="D">D</h2><article class="term" id="decoder-only" data-letter="D" data-search="decoder-only model a transformer that generates the next token from previous tokens only. many chat models use this layout. encoder-decoder encoder-only llm">
+<h3>Decoder-only model</h3>
+<p>A transformer that generates the next token from previous tokens only. Many chat models use this layout.</p>
+<p class="tiny">See also <a href="#encoder-decoder">Encoder-decoder</a>, <a href="#encoder-only">Encoder-only model</a>, <a href="#llm">Large language model (LLM)</a></p>
+</article><article class="term" id="decoding" data-letter="D" data-search="decoding the rule that turns next-token probabilities into a sequence. greedy decoding, beam search, and sampling are three families. greedy-decoding sampling temperature">
+<h3>Decoding</h3>
+<p>The rule that turns next-token probabilities into a sequence. Greedy decoding, beam search, and sampling are three families.</p>
+<p class="tiny">See also <a href="#greedy-decoding">Greedy decoding</a>, <a href="#sampling">Sampling</a>, <a href="#temperature">Temperature</a></p>
+</article><article class="term" id="dense-retrieval" data-letter="D" data-search="dense retrieval retrieval by comparing learned vectors, as in dense passage retrieval (karpukhin et al., 2020), rather than by matching terms. sparse-retrieval embedding bi-encoder">
+<h3>Dense retrieval</h3>
+<p>Retrieval by comparing learned vectors, as in Dense Passage Retrieval (Karpukhin et al., 2020), rather than by matching terms.</p>
+<p class="tiny">See also <a href="#sparse-retrieval">Sparse retrieval</a>, <a href="#embedding">Embedding</a>, <a href="#bi-encoder">Bi-encoder</a></p>
+</article><article class="term" id="deterministic-decoding" data-letter="D" data-search="deterministic decoding a decoding setup that returns the same tokens for the same inputs, such as greedy decoding with a fixed model and prompt. sampling with a random draw is not deterministic. greedy-decoding sampling temperature">
+<h3>Deterministic decoding</h3>
+<p>A decoding setup that returns the same tokens for the same inputs, such as greedy decoding with a fixed model and prompt. Sampling with a random draw is not deterministic.</p>
+<p class="tiny">See also <a href="#greedy-decoding">Greedy decoding</a>, <a href="#sampling">Sampling</a>, <a href="#temperature">Temperature</a></p>
+</article><article class="term" id="detokenization" data-letter="D" data-search="detokenization mapping tokens back to text. the round trip can change whitespace relative to the original string. tokenization token special-token">
+<h3>Detokenization</h3>
+<p>Mapping tokens back to text. The round trip can change whitespace relative to the original string.</p>
+<p class="tiny">See also <a href="#tokenization">Tokenization</a>, <a href="#token">Token</a>, <a href="#special-token">Special token</a></p>
+</article><article class="term" id="dpo" data-letter="D" data-search="direct preference optimization (dpo) a preference-tuning method that updates a language model from chosen and rejected responses without a separate reinforcement-learning loop (rafailov et al., 2023). preference-optimization rlhf instruction-tuning">
+<h3>Direct preference optimization (DPO)</h3>
+<p>A preference-tuning method that updates a language model from chosen and rejected responses without a separate reinforcement-learning loop (Rafailov et al., 2023).</p>
+<p class="tiny">See also <a href="#preference-optimization">Preference optimization</a>, <a href="#rlhf">RLHF</a>, <a href="#instruction-tuning">Instruction tuning</a></p>
+</article><article class="term" id="dot-product" data-letter="D" data-search="dot product the sum of coordinate-wise products of two vectors. if an embedding model was trained for dot-product search, query it that way. cosine-similarity embedding vector">
+<h3>Dot product</h3>
+<p>The sum of coordinate-wise products of two vectors. If an embedding model was trained for dot-product search, query it that way.</p>
+<p class="tiny">See also <a href="#cosine-similarity">Cosine similarity</a>, <a href="#embedding">Embedding</a>, <a href="#vector">Vector</a></p>
+</article><h2 class="letterhead" id="letter-E" data-letter="E">E</h2><article class="term" id="embedding" data-letter="E" data-search="embedding a vector that represents an input so a chosen notion of similarity becomes a geometric comparison. it is not a readable summary and it is not a compressed file you can decode back into the paragraph. vector bi-encoder embedding-drift">
+<h3>Embedding</h3>
+<p>A vector that represents an input so a chosen notion of similarity becomes a geometric comparison. It is not a readable summary and it is not a compressed file you can decode back into the paragraph.</p>
+<p class="tiny">See also <a href="#vector">Vector</a>, <a href="#bi-encoder">Bi-encoder</a>, <a href="#embedding-drift">Embedding drift</a></p>
+</article><article class="term" id="embedding-drift" data-letter="E" data-search="embedding drift a change in vectors for the same text after you switch or retrain the embedding model. old and new vectors are not comparable. rebuild the index. embedding index vector-search">
+<h3>Embedding drift</h3>
+<p>A change in vectors for the same text after you switch or retrain the embedding model. Old and new vectors are not comparable. Rebuild the index.</p>
+<p class="tiny">See also <a href="#embedding">Embedding</a>, <a href="#index">Index</a>, <a href="#vector-search">Vector search</a></p>
+</article><article class="term" id="encoder-decoder" data-letter="E" data-search="encoder-decoder a transformer layout with an encoder over the input and a decoder that generates the output. the original transformer and t5 use this shape. decoder-only encoder-only transformer">
+<h3>Encoder-decoder</h3>
+<p>A transformer layout with an encoder over the input and a decoder that generates the output. The original transformer and T5 use this shape.</p>
+<p class="tiny">See also <a href="#decoder-only">Decoder-only model</a>, <a href="#encoder-only">Encoder-only model</a>, <a href="#transformer">Transformer</a></p>
+</article><article class="term" id="encoder-only" data-letter="E" data-search="encoder-only model a transformer that represents a full input at once, as bert does (devlin et al., 2019). it is not, by itself, a left-to-right chat generator. decoder-only wordpiece embedding">
+<h3>Encoder-only model</h3>
+<p>A transformer that represents a full input at once, as BERT does (Devlin et al., 2019). It is not, by itself, a left-to-right chat generator.</p>
+<p class="tiny">See also <a href="#decoder-only">Decoder-only model</a>, <a href="#wordpiece">WordPiece</a>, <a href="#embedding">Embedding</a></p>
+</article><article class="term" id="euclidean-distance" data-letter="E" data-search="euclidean distance straight-line distance between two vectors. some indexes use it instead of cosine similarity. query with the metric you built for. cosine-similarity vector-search dot-product">
+<h3>Euclidean distance</h3>
+<p>Straight-line distance between two vectors. Some indexes use it instead of cosine similarity. Query with the metric you built for.</p>
+<p class="tiny">See also <a href="#cosine-similarity">Cosine similarity</a>, <a href="#vector-search">Vector search</a>, <a href="#dot-product">Dot product</a></p>
+</article><article class="term" id="evaluation" data-letter="E" data-search="evaluation a repeatable measurement of a system against a written task, a fixed example set, and a rubric. a demo transcript is not an evaluation. golden-set rubric regression-test">
+<h3>Evaluation</h3>
+<p>A repeatable measurement of a system against a written task, a fixed example set, and a rubric. A demo transcript is not an evaluation.</p>
+<p class="tiny">See also <a href="#golden-set">Golden set</a>, <a href="#rubric">Rubric</a>, <a href="#regression-test">Regression test</a></p>
+</article><article class="term" id="exact-match" data-letter="E" data-search="exact match a score that passes only when the output equals a reference string under a stated normalization. fair for short canonical answers. harsh on a correct paraphrase. rubric evaluation grounding">
+<h3>Exact match</h3>
+<p>A score that passes only when the output equals a reference string under a stated normalization. Fair for short canonical answers. Harsh on a correct paraphrase.</p>
+<p class="tiny">See also <a href="#rubric">Rubric</a>, <a href="#evaluation">Evaluation</a>, <a href="#grounding">Grounding</a></p>
+</article><h2 class="letterhead" id="letter-F" data-letter="F">F</h2><article class="term" id="fine-tuning" data-letter="F" data-search="fine-tuning continued training that updates a model’s weights on a chosen dataset. prompting does not do this. instruction-tuning pretraining parameter">
+<h3>Fine-tuning</h3>
+<p>Continued training that updates a model’s weights on a chosen dataset. Prompting does not do this.</p>
+<p class="tiny">See also <a href="#instruction-tuning">Instruction tuning</a>, <a href="#pretraining">Pretraining</a>, <a href="#parameter">Parameter</a></p>
+</article><article class="term" id="foundation-model" data-letter="F" data-search="foundation model a model trained on broad data so it can be adapted to many downstream tasks. the term was set out in the stanford report by bommasani et al. (2021). llm pretraining fine-tuning">
+<h3>Foundation model</h3>
+<p>A model trained on broad data so it can be adapted to many downstream tasks. The term was set out in the Stanford report by Bommasani et al. (2021).</p>
+<p class="tiny">See also <a href="#llm">Large language model (LLM)</a>, <a href="#pretraining">Pretraining</a>, <a href="#fine-tuning">Fine-tuning</a></p>
+</article><article class="term" id="function-calling" data-letter="F" data-search="function calling an interface where the model returns a structured request to run a named function. the application decides whether to run it. tool tool-schema json-schema">
+<h3>Function calling</h3>
+<p>An interface where the model returns a structured request to run a named function. The application decides whether to run it.</p>
+<p class="tiny">See also <a href="#tool">Tool</a>, <a href="#tool-schema">Tool schema</a>, <a href="#json-schema">JSON Schema</a></p>
+</article><h2 class="letterhead" id="letter-G" data-letter="G">G</h2><article class="term" id="golden-set" data-letter="G" data-search="golden set a curated list of inputs with accepted outputs or grading notes, kept stable so scores can be compared over time. held-out-set evaluation regression-test">
+<h3>Golden set</h3>
+<p>A curated list of inputs with accepted outputs or grading notes, kept stable so scores can be compared over time.</p>
+<p class="tiny">See also <a href="#held-out-set">Held-out set</a>, <a href="#evaluation">Evaluation</a>, <a href="#regression-test">Regression test</a></p>
+</article><article class="term" id="greedy-decoding" data-letter="G" data-search="greedy decoding choosing the single most likely next token at every step. as temperature approaches 0, sampling approaches this rule. decoding temperature deterministic-decoding">
+<h3>Greedy decoding</h3>
+<p>Choosing the single most likely next token at every step. As temperature approaches 0, sampling approaches this rule.</p>
+<p class="tiny">See also <a href="#decoding">Decoding</a>, <a href="#temperature">Temperature</a>, <a href="#deterministic-decoding">Deterministic decoding</a></p>
+</article><article class="term" id="grounding" data-letter="G" data-search="grounding requiring an answer to be supported by supplied sources, such as retrieved passages, rather than by an unsupported continuation. citation rag hallucination">
+<h3>Grounding</h3>
+<p>Requiring an answer to be supported by supplied sources, such as retrieved passages, rather than by an unsupported continuation.</p>
+<p class="tiny">See also <a href="#citation">Citation</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#hallucination">Hallucination</a></p>
+</article><article class="term" id="guardrail" data-letter="G" data-search="guardrail a check around the model that blocks, edits, or escalates an input or an output. a guardrail is a control. it is not proof the model is safe. prompt-injection human-in-the-loop refusal">
+<h3>Guardrail</h3>
+<p>A check around the model that blocks, edits, or escalates an input or an output. A guardrail is a control. It is not proof the model is safe.</p>
+<p class="tiny">See also <a href="#prompt-injection">Prompt injection</a>, <a href="#human-in-the-loop">Human-in-the-loop</a>, <a href="#refusal">Refusal</a></p>
+</article><h2 class="letterhead" id="letter-H" data-letter="H">H</h2><article class="term" id="hallucination" data-letter="H" data-search="hallucination generated content that is not supported by the sources the task supplied, or that contradicts facts the task requires. fluent grammar does not make it grounded. creative writing is a different task and needs a different rubric. grounding citation evaluation">
+<h3>Hallucination</h3>
+<p>Generated content that is not supported by the sources the task supplied, or that contradicts facts the task requires. Fluent grammar does not make it grounded. Creative writing is a different task and needs a different rubric.</p>
+<p class="tiny">See also <a href="#grounding">Grounding</a>, <a href="#citation">Citation</a>, <a href="#evaluation">Evaluation</a></p>
+</article><article class="term" id="held-out-set" data-letter="H" data-search="held-out set examples you keep out of training and out of prompt tinkering, so a final check is not graded on items you already edited toward. golden-set evaluation regression-test">
+<h3>Held-out set</h3>
+<p>Examples you keep out of training and out of prompt tinkering, so a final check is not graded on items you already edited toward.</p>
+<p class="tiny">See also <a href="#golden-set">Golden set</a>, <a href="#evaluation">Evaluation</a>, <a href="#regression-test">Regression test</a></p>
+</article><article class="term" id="hnsw" data-letter="H" data-search="hnsw hierarchical navigable small world, a graph index for approximate nearest neighbor search (malkov and yashunin). ann vector-search recall-at-k">
+<h3>HNSW</h3>
+<p>Hierarchical Navigable Small World, a graph index for approximate nearest neighbor search (Malkov and Yashunin).</p>
+<p class="tiny">See also <a href="#ann">Approximate nearest neighbor (ANN)</a>, <a href="#vector-search">Vector search</a>, <a href="#recall-at-k">Recall at k</a></p>
+</article><article class="term" id="human-in-the-loop" data-letter="H" data-search="human-in-the-loop a design where a person approves, edits, or grades a step before the system continues. especially important before a side effect. side-effect stop-condition guardrail">
+<h3>Human-in-the-loop</h3>
+<p>A design where a person approves, edits, or grades a step before the system continues. Especially important before a side effect.</p>
+<p class="tiny">See also <a href="#side-effect">Side effect</a>, <a href="#stop-condition">Stop condition</a>, <a href="#guardrail">Guardrail</a></p>
+</article><article class="term" id="hybrid-search" data-letter="H" data-search="hybrid search retrieval that combines lexical scores, such as bm25, with dense vector scores. bm25 dense-retrieval rag">
+<h3>Hybrid search</h3>
+<p>Retrieval that combines lexical scores, such as BM25, with dense vector scores.</p>
+<p class="tiny">See also <a href="#bm25">BM25</a>, <a href="#dense-retrieval">Dense retrieval</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><h2 class="letterhead" id="letter-I" data-letter="I">I</h2><article class="term" id="idempotent" data-letter="I" data-search="idempotent operation an operation that can be repeated without a further effect beyond the first success. retries of a charge, a send, or a delete need this property on purpose. a stored idempotency key is one way to build it. side-effect tool agent">
+<h3>Idempotent operation</h3>
+<p>An operation that can be repeated without a further effect beyond the first success. Retries of a charge, a send, or a delete need this property on purpose. A stored idempotency key is one way to build it.</p>
+<p class="tiny">See also <a href="#side-effect">Side effect</a>, <a href="#tool">Tool</a>, <a href="#agent">Agent</a></p>
+</article><article class="term" id="index" data-letter="I" data-search="index the stored structure used to look chunks up. it may hold vectors, term postings, metadata, and the original text. ingestion vector-search bm25">
+<h3>Index</h3>
+<p>The stored structure used to look chunks up. It may hold vectors, term postings, metadata, and the original text.</p>
+<p class="tiny">See also <a href="#ingestion">Ingestion</a>, <a href="#vector-search">Vector search</a>, <a href="#bm25">BM25</a></p>
+</article><article class="term" id="ingestion" data-letter="I" data-search="ingestion the pipeline that accepts source documents, records source and permission, and prepares them for chunking and indexing. chunk index rag">
+<h3>Ingestion</h3>
+<p>The pipeline that accepts source documents, records source and permission, and prepares them for chunking and indexing.</p>
+<p class="tiny">See also <a href="#chunk">Chunk</a>, <a href="#index">Index</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><article class="term" id="instruction-tuning" data-letter="I" data-search="instruction tuning supervised training on examples of instructions and desired responses. it updates weights so following a request becomes more likely. fine-tuning pretraining prompt">
+<h3>Instruction tuning</h3>
+<p>Supervised training on examples of instructions and desired responses. It updates weights so following a request becomes more likely.</p>
+<p class="tiny">See also <a href="#fine-tuning">Fine-tuning</a>, <a href="#pretraining">Pretraining</a>, <a href="#prompt">Prompt</a></p>
+</article><article class="term" id="inverted-file" data-letter="I" data-search="inverted file (ivf) an approximate-search layout that partitions vectors into lists and searches only some lists. the name refers to those inverted lists of vector ids. ann product-quantization vector-search">
+<h3>Inverted file (IVF)</h3>
+<p>An approximate-search layout that partitions vectors into lists and searches only some lists. The name refers to those inverted lists of vector ids.</p>
+<p class="tiny">See also <a href="#ann">Approximate nearest neighbor (ANN)</a>, <a href="#product-quantization">Product quantization</a>, <a href="#vector-search">Vector search</a></p>
+</article><h2 class="letterhead" id="letter-J" data-letter="J">J</h2><article class="term" id="json-schema" data-letter="J" data-search="json schema a vocabulary for describing the shape of json data: fields, types, and which fields are required. tool definitions use it so a host can reject a call that does not match. the schema does not run the tool. tool-schema function-calling json-rpc">
+<h3>JSON Schema</h3>
+<p>A vocabulary for describing the shape of JSON data: fields, types, and which fields are required. Tool definitions use it so a host can reject a call that does not match. The schema does not run the tool.</p>
+<p class="tiny">See also <a href="#tool-schema">Tool schema</a>, <a href="#function-calling">Function calling</a>, <a href="#json-rpc">JSON-RPC 2.0</a></p>
+</article><article class="term" id="json-rpc" data-letter="J" data-search="json-rpc 2.0 a remote procedure call format whose messages are json objects with fields such as jsonrpc, method, params, and id. specified by the json-rpc working group. it is not an ietf rfc. the model context protocol uses it as the message envelope. mcp tool mcp-server">
+<h3>JSON-RPC 2.0</h3>
+<p>A remote procedure call format whose messages are JSON objects with fields such as jsonrpc, method, params, and id. Specified by the JSON-RPC Working Group. It is not an IETF RFC. The Model Context Protocol uses it as the message envelope.</p>
+<p class="tiny">See also <a href="#mcp">Model Context Protocol (MCP)</a>, <a href="#tool">Tool</a>, <a href="#mcp-server">MCP server</a></p>
+</article><h2 class="letterhead" id="letter-L" data-letter="L">L</h2><article class="term" id="llm" data-letter="L" data-search="large language model (llm) a language model with enough capacity to attempt many tasks, commonly implemented as a transformer trained to predict tokens. transformer token foundation-model">
+<h3>Large language model (LLM)</h3>
+<p>A language model with enough capacity to attempt many tasks, commonly implemented as a transformer trained to predict tokens.</p>
+<p class="tiny">See also <a href="#transformer">Transformer</a>, <a href="#token">Token</a>, <a href="#foundation-model">Foundation model</a></p>
+</article><article class="term" id="latency" data-letter="L" data-search="latency the time from a request to a result. for a tool loop, add model time and tool time. report a distribution, such as a median, not a single happy-path sample. evaluation token-budget agent">
+<h3>Latency</h3>
+<p>The time from a request to a result. For a tool loop, add model time and tool time. Report a distribution, such as a median, not a single happy-path sample.</p>
+<p class="tiny">See also <a href="#evaluation">Evaluation</a>, <a href="#token-budget">Token budget</a>, <a href="#agent">Agent</a></p>
+</article><article class="term" id="lexical-search" data-letter="L" data-search="lexical search retrieval based on the terms actually present, as opposed to dense vectors. bm25 is the usual ranking function. bm25 sparse-retrieval hybrid-search">
+<h3>Lexical search</h3>
+<p>Retrieval based on the terms actually present, as opposed to dense vectors. BM25 is the usual ranking function.</p>
+<p class="tiny">See also <a href="#bm25">BM25</a>, <a href="#sparse-retrieval">Sparse retrieval</a>, <a href="#hybrid-search">Hybrid search</a></p>
+</article><article class="term" id="llm-as-judge" data-letter="L" data-search="llm-as-judge using a language model to score outputs against a rubric. useful at scale, and unreliable until you compare it with human grades. judges often prefer longer answers. rubric evaluation golden-set">
+<h3>LLM-as-judge</h3>
+<p>Using a language model to score outputs against a rubric. Useful at scale, and unreliable until you compare it with human grades. Judges often prefer longer answers.</p>
+<p class="tiny">See also <a href="#rubric">Rubric</a>, <a href="#evaluation">Evaluation</a>, <a href="#golden-set">Golden set</a></p>
+</article><article class="term" id="logit" data-letter="L" data-search="logit a raw score from the model for a token, before softmax turns the vector of scores into probabilities. temperature divides logits. softmax temperature decoding">
+<h3>Logit</h3>
+<p>A raw score from the model for a token, before softmax turns the vector of scores into probabilities. Temperature divides logits.</p>
+<p class="tiny">See also <a href="#softmax">Softmax</a>, <a href="#temperature">Temperature</a>, <a href="#decoding">Decoding</a></p>
+</article><article class="term" id="loop-budget" data-letter="L" data-search="loop budget a hard cap on agent steps, tool calls, tokens, time, or money. hitting the cap is a stop condition. stop-condition agent token-budget">
+<h3>Loop budget</h3>
+<p>A hard cap on agent steps, tool calls, tokens, time, or money. Hitting the cap is a stop condition.</p>
+<p class="tiny">See also <a href="#stop-condition">Stop condition</a>, <a href="#agent">Agent</a>, <a href="#token-budget">Token budget</a></p>
+</article><article class="term" id="lost-in-the-middle" data-letter="L" data-search="lost in the middle a long-context failure mode reported by liu et al. (2023): in the models they tested, relevant text in the middle of a long prompt was used less reliably than text at the ends. a finding, not a promise about every future model. context-window rag grounding">
+<h3>Lost in the middle</h3>
+<p>A long-context failure mode reported by Liu et al. (2023): in the models they tested, relevant text in the middle of a long prompt was used less reliably than text at the ends. A finding, not a promise about every future model.</p>
+<p class="tiny">See also <a href="#context-window">Context window</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#grounding">Grounding</a></p>
+</article><h2 class="letterhead" id="letter-M" data-letter="M">M</h2><article class="term" id="mcp-client" data-letter="M" data-search="mcp client the connector inside a host that maintains one session with one mcp server. mcp-host mcp-server mcp">
+<h3>MCP client</h3>
+<p>The connector inside a host that maintains one session with one MCP server.</p>
+<p class="tiny">See also <a href="#mcp-host">MCP host</a>, <a href="#mcp-server">MCP server</a>, <a href="#mcp">Model Context Protocol (MCP)</a></p>
+</article><article class="term" id="mcp-host" data-letter="M" data-search="mcp host the application a person uses. it creates mcp clients and decides which advertised tools may actually run. mcp mcp-client human-in-the-loop">
+<h3>MCP host</h3>
+<p>The application a person uses. It creates MCP clients and decides which advertised tools may actually run.</p>
+<p class="tiny">See also <a href="#mcp">Model Context Protocol (MCP)</a>, <a href="#mcp-client">MCP client</a>, <a href="#human-in-the-loop">Human-in-the-loop</a></p>
+</article><article class="term" id="mcp-prompt" data-letter="M" data-search="mcp prompt a templated message exposed by an mcp server so a host can offer it to the user or the model. it is not a tool call and it is not a resource read. mcp prompt tool">
+<h3>MCP prompt</h3>
+<p>A templated message exposed by an MCP server so a host can offer it to the user or the model. It is not a tool call and it is not a resource read.</p>
+<p class="tiny">See also <a href="#mcp">Model Context Protocol (MCP)</a>, <a href="#prompt">Prompt</a>, <a href="#tool">Tool</a></p>
+</article><article class="term" id="mcp-resource" data-letter="M" data-search="mcp resource readable data exposed by an mcp server and addressed so the host can fetch it. reading a resource is a different permission from invoking a tool. mcp tool mcp-server">
+<h3>MCP resource</h3>
+<p>Readable data exposed by an MCP server and addressed so the host can fetch it. Reading a resource is a different permission from invoking a tool.</p>
+<p class="tiny">See also <a href="#mcp">Model Context Protocol (MCP)</a>, <a href="#tool">Tool</a>, <a href="#mcp-server">MCP server</a></p>
+</article><article class="term" id="mcp-server" data-letter="M" data-search="mcp server a program that offers tools, resources, or prompts through the model context protocol. its advertisement is not an allow-list. the host still chooses. mcp tool mcp-resource">
+<h3>MCP server</h3>
+<p>A program that offers tools, resources, or prompts through the Model Context Protocol. Its advertisement is not an allow-list. The host still chooses.</p>
+<p class="tiny">See also <a href="#mcp">Model Context Protocol (MCP)</a>, <a href="#tool">Tool</a>, <a href="#mcp-resource">MCP resource</a></p>
+</article><article class="term" id="mrr" data-letter="M" data-search="mean reciprocal rank (mrr) the average, over queries, of 1 divided by the rank of the first relevant result. rank 1 contributes 1. rank 2 contributes 1/2. a miss contributes 0. ndcg precision-at-k recall-at-k">
+<h3>Mean reciprocal rank (MRR)</h3>
+<p>The average, over queries, of 1 divided by the rank of the first relevant result. Rank 1 contributes 1. Rank 2 contributes 1/2. A miss contributes 0.</p>
+<p class="tiny">See also <a href="#ndcg">nDCG</a>, <a href="#precision-at-k">Precision at k</a>, <a href="#recall-at-k">Recall at k</a></p>
+</article><article class="term" id="metadata-filter" data-letter="M" data-search="metadata filter a constraint on fields such as source, date, or permission, applied so retrieval does not return a row the query is not allowed to see. rag index ingestion">
+<h3>Metadata filter</h3>
+<p>A constraint on fields such as source, date, or permission, applied so retrieval does not return a row the query is not allowed to see.</p>
+<p class="tiny">See also <a href="#rag">Retrieval-augmented generation (RAG)</a>, <a href="#index">Index</a>, <a href="#ingestion">Ingestion</a></p>
+</article><article class="term" id="mcp" data-letter="M" data-search="model context protocol (mcp) an open protocol for connecting a host application to servers that expose tools, resources, and prompts. messages follow json-rpc 2.0. connecting a server is a trust decision. mcp-host mcp-server json-rpc">
+<h3>Model Context Protocol (MCP)</h3>
+<p>An open protocol for connecting a host application to servers that expose tools, resources, and prompts. Messages follow JSON-RPC 2.0. Connecting a server is a trust decision.</p>
+<p class="tiny">See also <a href="#mcp-host">MCP host</a>, <a href="#mcp-server">MCP server</a>, <a href="#json-rpc">JSON-RPC 2.0</a></p>
+</article><h2 class="letterhead" id="letter-N" data-letter="N">N</h2><article class="term" id="ndcg" data-letter="N" data-search="ndcg normalized discounted cumulative gain. a ranking metric that rewards relevant items and gives more credit when they appear earlier. mrr precision-at-k recall-at-k">
+<h3>nDCG</h3>
+<p>Normalized discounted cumulative gain. A ranking metric that rewards relevant items and gives more credit when they appear earlier.</p>
+<p class="tiny">See also <a href="#mrr">Mean reciprocal rank (MRR)</a>, <a href="#precision-at-k">Precision at k</a>, <a href="#recall-at-k">Recall at k</a></p>
+</article><article class="term" id="nucleus-sampling" data-letter="N" data-search="nucleus sampling (top-p) sampling from the smallest set of tokens whose probabilities sum to at least p (holtzman et al., 2020). top-k-sampling temperature sampling">
+<h3>Nucleus sampling (top-p)</h3>
+<p>Sampling from the smallest set of tokens whose probabilities sum to at least p (Holtzman et al., 2020).</p>
+<p class="tiny">See also <a href="#top-k-sampling">Top-k sampling</a>, <a href="#temperature">Temperature</a>, <a href="#sampling">Sampling</a></p>
+</article><h2 class="letterhead" id="letter-O" data-letter="O">O</h2><article class="term" id="observation" data-letter="O" data-search="observation the tool result or other feedback written back into the agent context, including errors and empty results, so the next decision can use it. agent tool stop-condition">
+<h3>Observation</h3>
+<p>The tool result or other feedback written back into the agent context, including errors and empty results, so the next decision can use it.</p>
+<p class="tiny">See also <a href="#agent">Agent</a>, <a href="#tool">Tool</a>, <a href="#stop-condition">Stop condition</a></p>
+</article><h2 class="letterhead" id="letter-P" data-letter="P">P</h2><article class="term" id="parameter" data-letter="P" data-search="parameter a learned weight stored in the model. parameter count is not the context window and not the vocabulary size. weight fine-tuning context-window">
+<h3>Parameter</h3>
+<p>A learned weight stored in the model. Parameter count is not the context window and not the vocabulary size.</p>
+<p class="tiny">See also <a href="#weight">Weight</a>, <a href="#fine-tuning">Fine-tuning</a>, <a href="#context-window">Context window</a></p>
+</article><article class="term" id="perplexity" data-letter="P" data-search="perplexity the exponentiated average negative log-likelihood of a token sequence. lower perplexity means the model assigned the text higher probability. it is not a measure of truth or of retrieval quality. logit evaluation llm">
+<h3>Perplexity</h3>
+<p>The exponentiated average negative log-likelihood of a token sequence. Lower perplexity means the model assigned the text higher probability. It is not a measure of truth or of retrieval quality.</p>
+<p class="tiny">See also <a href="#logit">Logit</a>, <a href="#evaluation">Evaluation</a>, <a href="#llm">Large language model (LLM)</a></p>
+</article><article class="term" id="precision-at-k" data-letter="P" data-search="precision at k among the k retrieved items, the fraction that are relevant. recall-at-k mrr ndcg">
+<h3>Precision at k</h3>
+<p>Among the k retrieved items, the fraction that are relevant.</p>
+<p class="tiny">See also <a href="#recall-at-k">Recall at k</a>, <a href="#mrr">Mean reciprocal rank (MRR)</a>, <a href="#ndcg">nDCG</a></p>
+</article><article class="term" id="preference-optimization" data-letter="P" data-search="preference optimization training that uses comparisons between a better response and a worse one. rlhf and dpo are two published forms. rlhf dpo instruction-tuning">
+<h3>Preference optimization</h3>
+<p>Training that uses comparisons between a better response and a worse one. RLHF and DPO are two published forms.</p>
+<p class="tiny">See also <a href="#rlhf">RLHF</a>, <a href="#dpo">Direct preference optimization (DPO)</a>, <a href="#instruction-tuning">Instruction tuning</a></p>
+</article><article class="term" id="pretraining" data-letter="P" data-search="pretraining the large first training pass, usually next-token prediction on a broad corpus, before instruction or preference tuning. instruction-tuning fine-tuning parameter">
+<h3>Pretraining</h3>
+<p>The large first training pass, usually next-token prediction on a broad corpus, before instruction or preference tuning.</p>
+<p class="tiny">See also <a href="#instruction-tuning">Instruction tuning</a>, <a href="#fine-tuning">Fine-tuning</a>, <a href="#parameter">Parameter</a></p>
+</article><article class="term" id="product-quantization" data-letter="P" data-search="product quantization a compression method that splits a vector into subvectors and replaces each with the id of a nearby centroid (jégou, douze, and schmid, 2011). ann vector-search inverted-file">
+<h3>Product quantization</h3>
+<p>A compression method that splits a vector into subvectors and replaces each with the id of a nearby centroid (Jégou, Douze, and Schmid, 2011).</p>
+<p class="tiny">See also <a href="#ann">Approximate nearest neighbor (ANN)</a>, <a href="#vector-search">Vector search</a>, <a href="#inverted-file">Inverted file (IVF)</a></p>
+</article><article class="term" id="prompt" data-letter="P" data-search="prompt the input tokens for a request: instructions, examples, and source text. a prompt does not change the model’s weights. system-prompt context-window instruction-tuning">
+<h3>Prompt</h3>
+<p>The input tokens for a request: instructions, examples, and source text. A prompt does not change the model’s weights.</p>
+<p class="tiny">See also <a href="#system-prompt">System prompt</a>, <a href="#context-window">Context window</a>, <a href="#instruction-tuning">Instruction tuning</a></p>
+</article><article class="term" id="prompt-injection" data-letter="P" data-search="prompt injection instructions hidden in data — a user message, a retrieved document, or a tool result — that try to override the behavior the application intended. the owasp top 10 for large language model applications lists it as a primary risk. guardrail tool rag">
+<h3>Prompt injection</h3>
+<p>Instructions hidden in data — a user message, a retrieved document, or a tool result — that try to override the behavior the application intended. The OWASP Top 10 for Large Language Model Applications lists it as a primary risk.</p>
+<p class="tiny">See also <a href="#guardrail">Guardrail</a>, <a href="#tool">Tool</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><h2 class="letterhead" id="letter-R" data-letter="R">R</h2><article class="term" id="react" data-letter="R" data-search="react a published agent pattern that alternates a reasoning note with an action in an environment (yao et al., 2023). agent observation tool">
+<h3>ReAct</h3>
+<p>A published agent pattern that alternates a reasoning note with an action in an environment (Yao et al., 2023).</p>
+<p class="tiny">See also <a href="#agent">Agent</a>, <a href="#observation">Observation</a>, <a href="#tool">Tool</a></p>
+</article><article class="term" id="recall-at-k" data-letter="R" data-search="recall at k among the items marked relevant for a query, the fraction that appear in the top k results. precision-at-k mrr golden-set">
+<h3>Recall at k</h3>
+<p>Among the items marked relevant for a query, the fraction that appear in the top k results.</p>
+<p class="tiny">See also <a href="#precision-at-k">Precision at k</a>, <a href="#mrr">Mean reciprocal rank (MRR)</a>, <a href="#golden-set">Golden set</a></p>
+</article><article class="term" id="refusal" data-letter="R" data-search="refusal a response that declines a request, from the model or from a policy around it. evaluate both the cases that should be refused and the benign cases that should still be answered. guardrail evaluation prompt-injection">
+<h3>Refusal</h3>
+<p>A response that declines a request, from the model or from a policy around it. Evaluate both the cases that should be refused and the benign cases that should still be answered.</p>
+<p class="tiny">See also <a href="#guardrail">Guardrail</a>, <a href="#evaluation">Evaluation</a>, <a href="#prompt-injection">Prompt injection</a></p>
+</article><article class="term" id="regression-test" data-letter="R" data-search="regression test a repeated evaluation that fails when a change lowers a metric you intended to hold steady. golden-set evaluation held-out-set">
+<h3>Regression test</h3>
+<p>A repeated evaluation that fails when a change lowers a metric you intended to hold steady.</p>
+<p class="tiny">See also <a href="#golden-set">Golden set</a>, <a href="#evaluation">Evaluation</a>, <a href="#held-out-set">Held-out set</a></p>
+</article><article class="term" id="reranker" data-letter="R" data-search="reranker a second-stage scorer that reorders a short candidate list. a cross-encoder is a common implementation. cross-encoder top-k-retrieval rag">
+<h3>Reranker</h3>
+<p>A second-stage scorer that reorders a short candidate list. A cross-encoder is a common implementation.</p>
+<p class="tiny">See also <a href="#cross-encoder">Cross-encoder</a>, <a href="#top-k-retrieval">Top-k retrieval</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><article class="term" id="rag" data-letter="R" data-search="retrieval-augmented generation (rag) a pattern that retrieves passages from a corpus and conditions the model’s answer on them (lewis et al., 2020). retrieval does not guarantee the model will follow the passages. chunk grounding citation">
+<h3>Retrieval-augmented generation (RAG)</h3>
+<p>A pattern that retrieves passages from a corpus and conditions the model’s answer on them (Lewis et al., 2020). Retrieval does not guarantee the model will follow the passages.</p>
+<p class="tiny">See also <a href="#chunk">Chunk</a>, <a href="#grounding">Grounding</a>, <a href="#citation">Citation</a></p>
+</article><article class="term" id="rlhf" data-letter="R" data-search="rlhf reinforcement learning from human feedback. the instructgpt recipe trains from human comparisons of responses and then updates the model (ouyang et al., 2022). dpo preference-optimization instruction-tuning">
+<h3>RLHF</h3>
+<p>Reinforcement learning from human feedback. The InstructGPT recipe trains from human comparisons of responses and then updates the model (Ouyang et al., 2022).</p>
+<p class="tiny">See also <a href="#dpo">Direct preference optimization (DPO)</a>, <a href="#preference-optimization">Preference optimization</a>, <a href="#instruction-tuning">Instruction tuning</a></p>
+</article><article class="term" id="rubric" data-letter="R" data-search="rubric the written criteria a grader, human or automated, uses to score an answer. a number without a rubric cannot be compared with another number. evaluation llm-as-judge exact-match">
+<h3>Rubric</h3>
+<p>The written criteria a grader, human or automated, uses to score an answer. A number without a rubric cannot be compared with another number.</p>
+<p class="tiny">See also <a href="#evaluation">Evaluation</a>, <a href="#llm-as-judge">LLM-as-judge</a>, <a href="#exact-match">Exact match</a></p>
+</article><h2 class="letterhead" id="letter-S" data-letter="S">S</h2><article class="term" id="sampling" data-letter="S" data-search="sampling drawing the next token from the model’s distribution, usually after temperature, top-k, or top-p has reshaped it. the same prompt can yield different text. temperature nucleus-sampling greedy-decoding">
+<h3>Sampling</h3>
+<p>Drawing the next token from the model’s distribution, usually after temperature, top-k, or top-p has reshaped it. The same prompt can yield different text.</p>
+<p class="tiny">See also <a href="#temperature">Temperature</a>, <a href="#nucleus-sampling">Nucleus sampling (top-p)</a>, <a href="#greedy-decoding">Greedy decoding</a></p>
+</article><article class="term" id="self-attention" data-letter="S" data-search="self-attention attention in which the queries, keys, and values all come from the same sequence. it is the core block of the transformer (vaswani et al., 2017). attention transformer decoder-only">
+<h3>Self-attention</h3>
+<p>Attention in which the queries, keys, and values all come from the same sequence. It is the core block of the transformer (Vaswani et al., 2017).</p>
+<p class="tiny">See also <a href="#attention">Attention</a>, <a href="#transformer">Transformer</a>, <a href="#decoder-only">Decoder-only model</a></p>
+</article><article class="term" id="sentencepiece" data-letter="S" data-search="sentencepiece a tokenization toolkit that learns subwords, including bpe and unigram language models, and can segment raw text without a separate word splitter (kudo and richardson, 2018). bpe tokenization wordpiece">
+<h3>SentencePiece</h3>
+<p>A tokenization toolkit that learns subwords, including BPE and unigram language models, and can segment raw text without a separate word splitter (Kudo and Richardson, 2018).</p>
+<p class="tiny">See also <a href="#bpe">Byte-pair encoding (BPE)</a>, <a href="#tokenization">Tokenization</a>, <a href="#wordpiece">WordPiece</a></p>
+</article><article class="term" id="side-effect" data-letter="S" data-search="side effect a tool result that changes something outside the conversation: writing, paying, deleting, or sending. side effects need a stricter gate than lookups. idempotent human-in-the-loop tool">
+<h3>Side effect</h3>
+<p>A tool result that changes something outside the conversation: writing, paying, deleting, or sending. Side effects need a stricter gate than lookups.</p>
+<p class="tiny">See also <a href="#idempotent">Idempotent operation</a>, <a href="#human-in-the-loop">Human-in-the-loop</a>, <a href="#tool">Tool</a></p>
+</article><article class="term" id="softmax" data-letter="S" data-search="softmax the function that turns a vector of logits into positive numbers that sum to 1, so they can be used as probabilities. logit temperature sampling">
+<h3>Softmax</h3>
+<p>The function that turns a vector of logits into positive numbers that sum to 1, so they can be used as probabilities.</p>
+<p class="tiny">See also <a href="#logit">Logit</a>, <a href="#temperature">Temperature</a>, <a href="#sampling">Sampling</a></p>
+</article><article class="term" id="sparse-retrieval" data-letter="S" data-search="sparse retrieval retrieval from term overlap and term statistics, as in bm25, rather than from dense vectors. bm25 dense-retrieval lexical-search">
+<h3>Sparse retrieval</h3>
+<p>Retrieval from term overlap and term statistics, as in BM25, rather than from dense vectors.</p>
+<p class="tiny">See also <a href="#bm25">BM25</a>, <a href="#dense-retrieval">Dense retrieval</a>, <a href="#lexical-search">Lexical search</a></p>
+</article><article class="term" id="special-token" data-letter="S" data-search="special token a vocabulary entry with a control role, such as marking a boundary or a role. it still counts toward the context window. token vocabulary tokenization">
+<h3>Special token</h3>
+<p>A vocabulary entry with a control role, such as marking a boundary or a role. It still counts toward the context window.</p>
+<p class="tiny">See also <a href="#token">Token</a>, <a href="#vocabulary">Vocabulary</a>, <a href="#tokenization">Tokenization</a></p>
+</article><article class="term" id="stop-condition" data-letter="S" data-search="stop condition the rule that ends an agent loop: the goal is met, a budget runs out, an error repeats, a person must approve, or the person cancels. loop-budget agent human-in-the-loop">
+<h3>Stop condition</h3>
+<p>The rule that ends an agent loop: the goal is met, a budget runs out, an error repeats, a person must approve, or the person cancels.</p>
+<p class="tiny">See also <a href="#loop-budget">Loop budget</a>, <a href="#agent">Agent</a>, <a href="#human-in-the-loop">Human-in-the-loop</a></p>
+</article><article class="term" id="subword" data-letter="S" data-search="subword a vocabulary piece smaller than a whole word, so a rare word can be built from known pieces instead of becoming a single unknown token. bpe wordpiece tokenization">
+<h3>Subword</h3>
+<p>A vocabulary piece smaller than a whole word, so a rare word can be built from known pieces instead of becoming a single unknown token.</p>
+<p class="tiny">See also <a href="#bpe">Byte-pair encoding (BPE)</a>, <a href="#wordpiece">WordPiece</a>, <a href="#tokenization">Tokenization</a></p>
+</article><article class="term" id="system-prompt" data-letter="S" data-search="system prompt instructions the application places ahead of the user message to set role and constraints. they are still tokens in the context window, and prompt injection can target them. prompt prompt-injection context-window">
+<h3>System prompt</h3>
+<p>Instructions the application places ahead of the user message to set role and constraints. They are still tokens in the context window, and prompt injection can target them.</p>
+<p class="tiny">See also <a href="#prompt">Prompt</a>, <a href="#prompt-injection">Prompt injection</a>, <a href="#context-window">Context window</a></p>
+</article><h2 class="letterhead" id="letter-T" data-letter="T">T</h2><article class="term" id="temperature" data-letter="T" data-search="temperature a positive divisor applied to logits before softmax. lower values sharpen the distribution toward the most likely tokens. as it approaches 0, decoding approaches a greedy choice. softmax sampling greedy-decoding">
+<h3>Temperature</h3>
+<p>A positive divisor applied to logits before softmax. Lower values sharpen the distribution toward the most likely tokens. As it approaches 0, decoding approaches a greedy choice.</p>
+<p class="tiny">See also <a href="#softmax">Softmax</a>, <a href="#sampling">Sampling</a>, <a href="#greedy-decoding">Greedy decoding</a></p>
+</article><article class="term" id="token" data-letter="T" data-search="token the integer unit a given model reads and writes. the matching string may be a word, a piece of a word, punctuation, or bytes. tokenization vocabulary context-window">
+<h3>Token</h3>
+<p>The integer unit a given model reads and writes. The matching string may be a word, a piece of a word, punctuation, or bytes.</p>
+<p class="tiny">See also <a href="#tokenization">Tokenization</a>, <a href="#vocabulary">Vocabulary</a>, <a href="#context-window">Context window</a></p>
+</article><article class="term" id="token-budget" data-letter="T" data-search="token budget the number of tokens allocated to a prompt, a retrieval pack, a completion, or a whole loop. budgets keep a request inside the context window and inside a cost cap. context-window token loop-budget">
+<h3>Token budget</h3>
+<p>The number of tokens allocated to a prompt, a retrieval pack, a completion, or a whole loop. Budgets keep a request inside the context window and inside a cost cap.</p>
+<p class="tiny">See also <a href="#context-window">Context window</a>, <a href="#token">Token</a>, <a href="#loop-budget">Loop budget</a></p>
+</article><article class="term" id="tokenization" data-letter="T" data-search="tokenization the conversion of text into tokens with one model’s vocabulary and algorithm. do it with the tokenizer that belongs to the model you will call. token bpe detokenization">
+<h3>Tokenization</h3>
+<p>The conversion of text into tokens with one model’s vocabulary and algorithm. Do it with the tokenizer that belongs to the model you will call.</p>
+<p class="tiny">See also <a href="#token">Token</a>, <a href="#bpe">Byte-pair encoding (BPE)</a>, <a href="#detokenization">Detokenization</a></p>
+</article><article class="term" id="tool" data-letter="T" data-search="tool a named operation the application can run at the model’s request, with a description and an argument schema. the model requests it. the host runs it, or refuses. tool-schema function-calling mcp">
+<h3>Tool</h3>
+<p>A named operation the application can run at the model’s request, with a description and an argument schema. The model requests it. The host runs it, or refuses.</p>
+<p class="tiny">See also <a href="#tool-schema">Tool schema</a>, <a href="#function-calling">Function calling</a>, <a href="#mcp">Model Context Protocol (MCP)</a></p>
+</article><article class="term" id="tool-schema" data-letter="T" data-search="tool schema the machine-readable declaration of a tool’s name, purpose, and arguments. the host should reject calls that do not match it, and should validate again inside the implementation. json-schema tool function-calling">
+<h3>Tool schema</h3>
+<p>The machine-readable declaration of a tool’s name, purpose, and arguments. The host should reject calls that do not match it, and should validate again inside the implementation.</p>
+<p class="tiny">See also <a href="#json-schema">JSON Schema</a>, <a href="#tool">Tool</a>, <a href="#function-calling">Function calling</a></p>
+</article><article class="term" id="top-k-retrieval" data-letter="T" data-search="top-k retrieval returning the k highest-scoring chunks for a query. a larger k raises the chance the evidence is present and also the amount of distractor text. reranker recall-at-k rag">
+<h3>Top-k retrieval</h3>
+<p>Returning the k highest-scoring chunks for a query. A larger k raises the chance the evidence is present and also the amount of distractor text.</p>
+<p class="tiny">See also <a href="#reranker">Reranker</a>, <a href="#recall-at-k">Recall at k</a>, <a href="#rag">Retrieval-augmented generation (RAG)</a></p>
+</article><article class="term" id="top-k-sampling" data-letter="T" data-search="top-k sampling restricting the next-token draw to the k most likely tokens, then sampling inside that set. nucleus-sampling sampling temperature">
+<h3>Top-k sampling</h3>
+<p>Restricting the next-token draw to the k most likely tokens, then sampling inside that set.</p>
+<p class="tiny">See also <a href="#nucleus-sampling">Nucleus sampling (top-p)</a>, <a href="#sampling">Sampling</a>, <a href="#temperature">Temperature</a></p>
+</article><article class="term" id="transformer" data-letter="T" data-search="transformer the neural architecture introduced by vaswani et al. in 2017, built from attention and position-wise feed-forward layers. most large language models use it. attention llm self-attention">
+<h3>Transformer</h3>
+<p>The neural architecture introduced by Vaswani et al. in 2017, built from attention and position-wise feed-forward layers. Most large language models use it.</p>
+<p class="tiny">See also <a href="#attention">Attention</a>, <a href="#llm">Large language model (LLM)</a>, <a href="#self-attention">Self-attention</a></p>
+</article><h2 class="letterhead" id="letter-U" data-letter="U">U</h2><article class="term" id="utf8" data-letter="U" data-search="utf-8 a byte encoding of unicode, specified in rfc 3629. byte-level tokenizers consume those bytes. strings that look the same can still differ in code points and then in tokens. tokenization bpe token">
+<h3>UTF-8</h3>
+<p>A byte encoding of Unicode, specified in RFC 3629. Byte-level tokenizers consume those bytes. Strings that look the same can still differ in code points and then in tokens.</p>
+<p class="tiny">See also <a href="#tokenization">Tokenization</a>, <a href="#bpe">Byte-pair encoding (BPE)</a>, <a href="#token">Token</a></p>
+</article><h2 class="letterhead" id="letter-V" data-letter="V">V</h2><article class="term" id="vector" data-letter="V" data-search="vector an ordered list of numbers. an embedding is a vector. comparing vectors requires an agreed metric. embedding cosine-similarity vector-search">
+<h3>Vector</h3>
+<p>An ordered list of numbers. An embedding is a vector. Comparing vectors requires an agreed metric.</p>
+<p class="tiny">See also <a href="#embedding">Embedding</a>, <a href="#cosine-similarity">Cosine similarity</a>, <a href="#vector-search">Vector search</a></p>
+</article><article class="term" id="vector-search" data-letter="V" data-search="vector search finding stored vectors close to a query vector, either by an exact scan or by an approximate index such as hnsw. ann embedding hnsw">
+<h3>Vector search</h3>
+<p>Finding stored vectors close to a query vector, either by an exact scan or by an approximate index such as HNSW.</p>
+<p class="tiny">See also <a href="#ann">Approximate nearest neighbor (ANN)</a>, <a href="#embedding">Embedding</a>, <a href="#hnsw">HNSW</a></p>
+</article><article class="term" id="vocabulary" data-letter="V" data-search="vocabulary the finite set of tokens a model can read or emit. text outside that set is built from pieces that are inside it. token special-token bpe">
+<h3>Vocabulary</h3>
+<p>The finite set of tokens a model can read or emit. Text outside that set is built from pieces that are inside it.</p>
+<p class="tiny">See also <a href="#token">Token</a>, <a href="#special-token">Special token</a>, <a href="#bpe">Byte-pair encoding (BPE)</a></p>
+</article><h2 class="letterhead" id="letter-W" data-letter="W">W</h2><article class="term" id="weight" data-letter="W" data-search="weight a numeric parameter learned during training. at inference time the weights stay fixed unless a separate training job updates them. parameter fine-tuning pretraining">
+<h3>Weight</h3>
+<p>A numeric parameter learned during training. At inference time the weights stay fixed unless a separate training job updates them.</p>
+<p class="tiny">See also <a href="#parameter">Parameter</a>, <a href="#fine-tuning">Fine-tuning</a>, <a href="#pretraining">Pretraining</a></p>
+</article><article class="term" id="wordpiece" data-letter="W" data-search="wordpiece a subword tokenization method used by bert (devlin et al., 2019). words are built from known pieces, with a marker on pieces that continue a word. bpe sentencepiece tokenization">
+<h3>WordPiece</h3>
+<p>A subword tokenization method used by BERT (Devlin et al., 2019). Words are built from known pieces, with a marker on pieces that continue a word.</p>
+<p class="tiny">See also <a href="#bpe">Byte-pair encoding (BPE)</a>, <a href="#sentencepiece">SentencePiece</a>, <a href="#tokenization">Tokenization</a></p>
+</article>
+<script>
+(function () {
+  var input = document.getElementById("q");
+  var articles = Array.prototype.slice.call(document.querySelectorAll("article.term"));
+  var heads = Array.prototype.slice.call(document.querySelectorAll("h2.letterhead"));
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    articles.forEach(function (el) {
+      var ok = !q || el.getAttribute("data-search").toLowerCase().indexOf(q) !== -1;
+      el.hidden = !ok;
+      if (ok) shown += 1;
+    });
+    heads.forEach(function (head) {
+      var letter = head.getAttribute("data-letter");
+      var any = articles.some(function (el) {
+        return el.getAttribute("data-letter") === letter && !el.hidden;
+      });
+      head.hidden = !any;
+    });
+    document.getElementById("count").textContent = shown + " of " + articles.length + " terms";
+    document.getElementById("empty").hidden = shown !== 0;
+  }
+  input.addEventListener("input", apply);
+  apply();
+})();
+</script>
+
+</main>
+<footer class="site">
+<p>AI Lab Free University · Fundamentals study guide</p>
+<p>Educational notes on widely published ideas. Not a certification, a vendor manual, or a warranty.</p>
+<p>The quiz stores progress in this browser with localStorage. These pages do not send answers anywhere.</p>
+</footer>
+</div>
+</body>
+</html>

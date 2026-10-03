@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 852" width="900" height="852" role="img">
+<title>Study card: Tools and MCP</title>
+<desc>A tool is a named operation with a schema. The Model Context Protocol is an open way for an application to reach servers that offer tools, resources, and prompts.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#fff6e4"/>
+<stop offset="1" stop-color="#f6e4b8"/>
+</linearGradient>
+</defs>
+<rect width="900" height="852" rx="40" fill="url(#bg)"/>
+<rect x="36" y="36" width="828" height="780" rx="32" fill="#fffdf8"/>
+<rect x="36" y="36" width="14" height="780" fill="#6b4a0a"/>
+<text x="72" y="92" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#6b4a0a">STUDY CARD 06 · THE BOUNDARY</text>
+<text x="72" y="150" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">Tools and MCP</text>
+<text x="72" y="220" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">The model requests. The host validates</text>
+<text x="72" y="254" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">and runs.</text>
+<circle cx="96" cy="350" r="18" fill="#6b4a0a"/><text x="96" y="356" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text>
+<text x="132" y="346" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">A tool schema names the operation and the shape</text>
+<text x="132" y="376" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">of its arguments.</text>
+<circle cx="96" cy="436" r="18" fill="#6b4a0a"/><text x="96" y="442" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text>
+<text x="132" y="432" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">JSON Schema describes that shape. It does not</text>
+<text x="132" y="462" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">execute anything.</text>
+<circle cx="96" cy="522" r="18" fill="#6b4a0a"/><text x="96" y="528" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text>
+<text x="132" y="518" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">MCP messages follow the JSON-RPC 2.0</text>
+<text x="132" y="548" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">specification.</text>
+<circle cx="96" cy="608" r="18" fill="#6b4a0a"/><text x="96" y="614" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text>
+<text x="132" y="604" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">A host uses a client to talk to a server you</text>
+<text x="132" y="634" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">chose to trust.</text>
+<circle cx="96" cy="694" r="18" fill="#6b4a0a"/><text x="96" y="700" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text>
+<text x="132" y="690" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Servers offer tools, readable resources, and</text>
+<text x="132" y="720" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">prompt templates.</text>
+<line x1="72" y1="306" x2="828" y2="306" stroke="#6b4a0a" stroke-width="2" opacity="0.45"/>
+<text x="72" y="800" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#3a4858">AI Lab Free University · Fundamentals · vendor-neutral notes</text>
+</svg>

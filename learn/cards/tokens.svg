@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 910" width="900" height="910" role="img">
+<title>Study card: Tokens and tokenization</title>
+<desc>A token is the piece a particular model reads and writes. It may be a word, part of a word, punctuation, or bytes.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#fff3ea"/>
+<stop offset="1" stop-color="#f6dcc8"/>
+</linearGradient>
+</defs>
+<rect width="900" height="910" rx="40" fill="url(#bg)"/>
+<rect x="36" y="36" width="828" height="838" rx="32" fill="#fffdf8"/>
+<rect x="36" y="36" width="14" height="838" fill="#6b3418"/>
+<text x="72" y="92" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#6b3418">STUDY CARD 02 · THE UNIT</text>
+<text x="72" y="150" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">Tokens and</text>
+<text x="72" y="208" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">tokenization</text>
+<text x="72" y="278" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">Count tokens with the tokenizer that</text>
+<text x="72" y="312" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">belongs to the model.</text>
+<circle cx="96" cy="408" r="18" fill="#6b3418"/><text x="96" y="414" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text>
+<text x="132" y="404" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">BPE merges frequent pairs of symbols (Sennrich,</text>
+<text x="132" y="434" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Haddow, and Birch, 2016).</text>
+<circle cx="96" cy="494" r="18" fill="#6b3418"/><text x="96" y="500" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text>
+<text x="132" y="490" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">WordPiece is the subword method associated with</text>
+<text x="132" y="520" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">BERT.</text>
+<circle cx="96" cy="580" r="18" fill="#6b3418"/><text x="96" y="586" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text>
+<text x="132" y="576" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">SentencePiece can learn pieces without a</text>
+<text x="132" y="606" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">separate word splitter.</text>
+<circle cx="96" cy="666" r="18" fill="#6b3418"/><text x="96" y="672" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text>
+<text x="132" y="662" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">The same sentence can split differently for two</text>
+<text x="132" y="692" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">models.</text>
+<circle cx="96" cy="752" r="18" fill="#6b3418"/><text x="96" y="758" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text>
+<text x="132" y="748" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Special tokens are real vocabulary entries and</text>
+<text x="132" y="778" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">they count.</text>
+<line x1="72" y1="364" x2="828" y2="364" stroke="#6b3418" stroke-width="2" opacity="0.45"/>
+<text x="72" y="858" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#3a4858">AI Lab Free University · Fundamentals · vendor-neutral notes</text>
+</svg>

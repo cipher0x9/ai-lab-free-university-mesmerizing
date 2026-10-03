@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 944" width="900" height="944" role="img">
+<title>Study card: Embeddings and vector search</title>
+<desc>An embedding is a vector that places an input so a chosen kind of similarity becomes a geometric comparison.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#e7f7f3"/>
+<stop offset="1" stop-color="#cfeae3"/>
+</linearGradient>
+</defs>
+<rect width="900" height="944" rx="40" fill="url(#bg)"/>
+<rect x="36" y="36" width="828" height="872" rx="32" fill="#fffdf8"/>
+<rect x="36" y="36" width="14" height="872" fill="#0f4f48"/>
+<text x="72" y="92" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" fill="#0f4f48">STUDY CARD 03 · THE MAP</text>
+<text x="72" y="150" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">Embeddings and vector</text>
+<text x="72" y="208" font-family="Palatino, Georgia, serif" font-size="48" fill="#1b2430">search</text>
+<text x="72" y="278" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">Same model, same preprocessing, same</text>
+<text x="72" y="312" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">metric, or the neighbors are</text>
+<text x="72" y="346" font-family="Palatino, Georgia, serif" font-size="24" fill="#3a4858">meaningless.</text>
+<circle cx="96" cy="442" r="18" fill="#0f4f48"/><text x="96" y="448" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">1</text>
+<text x="132" y="438" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Cosine similarity and dot product agree on</text>
+<text x="132" y="468" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">unit-length vectors.</text>
+<circle cx="96" cy="528" r="18" fill="#0f4f48"/><text x="96" y="534" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">2</text>
+<text x="132" y="524" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">A bi-encoder stores document vectors before the</text>
+<text x="132" y="554" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">query arrives.</text>
+<circle cx="96" cy="614" r="18" fill="#0f4f48"/><text x="96" y="620" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">3</text>
+<text x="132" y="610" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">HNSW is a graph index for approximate nearest</text>
+<text x="132" y="640" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">neighbors.</text>
+<circle cx="96" cy="700" r="18" fill="#0f4f48"/><text x="96" y="706" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">4</text>
+<text x="132" y="696" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Product quantization compresses vectors (Jégou,</text>
+<text x="132" y="726" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">Douze, and Schmid, 2011).</text>
+<circle cx="96" cy="786" r="18" fill="#0f4f48"/><text x="96" y="792" text-anchor="middle" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff">5</text>
+<text x="132" y="782" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">A shared dimension does not make two models’</text>
+<text x="132" y="812" font-family="Palatino, Georgia, serif" font-size="22" fill="#1b2430">spaces comparable.</text>
+<line x1="72" y1="398" x2="828" y2="398" stroke="#0f4f48" stroke-width="2" opacity="0.45"/>
+<text x="72" y="892" font-family="ui-sans-serif, Helvetica, Arial, sans-serif" font-size="16" fill="#3a4858">AI Lab Free University · Fundamentals · vendor-neutral notes</text>
+</svg>
